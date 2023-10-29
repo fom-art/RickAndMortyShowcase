@@ -1,0 +1,10 @@
+query FilterCharactersByName($character_name: String!) {
+    characters(filter: {name: $character_name} ) {
+        results {
+            id
+            name
+            status
+            image
+        }
+    }
+}

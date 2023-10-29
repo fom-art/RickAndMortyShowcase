@@ -1,0 +1,10 @@
+query Characters {
+    characters {
+        results {
+            id
+            name
+            status
+            image
+        }
+    }
+}
