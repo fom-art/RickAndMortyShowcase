@@ -1,4 +1,4 @@
-package com.example.rickyandmortyshowcase.domain.entities
+package com.example.rickyandmortyshowcase.database.remote.domain.entities
 
 data class CharacterDetailed(
     val id: String,

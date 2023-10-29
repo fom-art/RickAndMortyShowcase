@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("com.apollographql.apollo3") version "3.8.2"
+    id 'kotlin-kapt'
 }
 
 apollo {
@@ -55,10 +56,20 @@ android {
 }
 
 dependencies {
+    //ViewModel implementation
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    //Room implementation
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //Dagger implementation
+    implementation("com.google.dagger:hilt-android:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
+
     //Apollo implementation for using GraphQL
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
