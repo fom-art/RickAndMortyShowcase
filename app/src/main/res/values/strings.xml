@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Ricky and Morty Showcase</string>
+    <string name="characters">Characters</string>
+    <string name="Favourite">Favourites</string>
+    <string name="search_characters">Search characters</string>
+    <string name="no_favorites_yet">No favorites yet</string>
+    <string name="name">Name</string>
+    <string name="species">Species</string>
+    <string name="type">Type</string>
+    <string name="gender">Gender</string>
+    <string name="origin">Origin</string>
+    <string name="location">Location</string>
 </resources>

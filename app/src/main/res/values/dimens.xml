@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_size">44dp</dimen>
+    <dimen name="list_item_card_height">60dp</dimen>
+    <dimen name="list_item_favorite_icon_size">16dp</dimen>>
+    <dimen name="top_bar_icon_size">24dp</dimen>
+    <dimen name="nav_bar_icon_size">24dp</dimen>
+    <dimen name="character_detail_image_size">140dp</dimen>
+
+    <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="list_item_alt_text_top_padding">8dp</dimen>
+    <dimen name="list_item_image_padding_end">12dp</dimen>
+    <dimen name="top_bar_padding_horizontal">16dp</dimen>
+    <dimen name="search_input_padding_horizontal">8dp</dimen>
+    <dimen name="character_details_label_padding_bottom">8dp</dimen>
+    <dimen name="character_details_name_label_padding_bottom">16dp</dimen>
+    <dimen name="character_details_card_padding">12dp</dimen>
+    <dimen name="character_details_item_padding_horizontal">16dp</dimen>
+</resources>
