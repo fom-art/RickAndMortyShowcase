@@ -116,7 +116,7 @@ class RickAndMortyShowcaseViewModel @Inject constructor(
         val isShowingHomepage: Boolean = true,
     )
 
-    enum class CharactersListType() {
+    enum class CharactersListType {
         CHARACTERS, FAVORITES, FILTER
     }
 }

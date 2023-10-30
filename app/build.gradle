@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("com.apollographql.apollo3") version "3.8.2"
     id 'kotlin-kapt'
+    id("dagger.hilt.android.plugin")
 }
 
 apollo {

@@ -10,7 +10,7 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.client.
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 
-class RickAndMortyShowcaseClient(private val rickAndMortyShowcaseClient: ApolloClient) :
+class ApolloRickAndMortyShowcaseClient(private val rickAndMortyShowcaseClient: ApolloClient) :
     RickAndMortyShowcaseClient {
     override suspend fun getCharacters(): List<CharacterSimple> {
         return rickAndMortyShowcaseClient.query(CharactersQuery())
