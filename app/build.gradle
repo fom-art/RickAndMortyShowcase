@@ -57,6 +57,9 @@ android {
 }
 
 dependencies {
+    //WindowSizeClass implementation
+    implementation("androidx.compose.material3:material3-window-size-class")
+
     //ViewModel implementation
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 

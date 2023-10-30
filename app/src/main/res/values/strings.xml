@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ricky and Morty Showcase</string>
     <string name="characters">Characters</string>
-    <string name="Favourite">Favourites</string>
+    <string name="favorite">Favorite</string>
     <string name="search_characters">Search characters</string>
     <string name="no_favorites_yet">No favorites yet</string>
     <string name="name">Name</string>

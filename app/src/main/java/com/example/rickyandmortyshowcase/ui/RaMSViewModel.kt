@@ -1,7 +1,9 @@
 package com.example.rickyandmortyshowcase.ui
 
+import android.content.Intent.ShortcutIconResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
 import com.example.rickyandmortyshowcase.database.local.domain.FavoriteDao
 import com.example.rickyandmortyshowcase.database.local.domain.FavoriteState
@@ -13,13 +15,12 @@ import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetChar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RickAndMortyShowcaseViewModel @Inject constructor(
+class RaMSViewModel @Inject constructor(
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
     private val getCharactersByNameUseCase: GetCharactersByNameUseCase,
     private val getCharactersUseCase: GetCharactersUseCase,
@@ -70,10 +71,22 @@ class RickAndMortyShowcaseViewModel @Inject constructor(
         }
     }
 
-    fun exitSearch() {
+    fun enterFavorites() {
         _ramsState.update {
             it.copy(
-                currentCharactersList = CharactersListType.FILTER
+                currentCharactersList = CharactersListType.FAVORITES,
+                charactersIconResource = R.drawable.characters_unselected,
+                favoritesIconResource = R.drawable.favorites_selected
+            )
+        }
+    }
+
+    fun enterCharacters() {
+        _ramsState.update {
+            it.copy(
+                currentCharactersList = CharactersListType.FAVORITES,
+                charactersIconResource = R.drawable.characters_selected,
+                favoritesIconResource = R.drawable.favorites_unselected
             )
         }
     }
@@ -116,6 +129,8 @@ class RickAndMortyShowcaseViewModel @Inject constructor(
         val isCharacterDetailsListLoading: Boolean = false,
         val selectedCharacter: CharacterDetailed? = null,
         val isShowingHomepage: Boolean = true,
+        val charactersIconResource: Int = R.drawable.characters_selected,
+        val favoritesIconResource: Int = R.drawable.favorites_unselected
     )
 
     enum class CharactersListType {
