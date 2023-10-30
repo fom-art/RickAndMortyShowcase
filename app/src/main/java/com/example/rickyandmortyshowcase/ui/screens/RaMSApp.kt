@@ -1,23 +1,22 @@
 package com.example.rickyandmortyshowcase.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.example.rickyandmortyshowcase.R
@@ -183,6 +182,48 @@ fun RaMSAppContent(
                     navigationItemContentList = navigationItemContentList
                 )
             }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                if (contentType == RaMSContentType.LIST_AND_DETAIL) {
+                    RaMSListAndDetailContent(
+                        state = state,
+                        onSelectCharacter = onSelectCharacter,
+                        onEnterSearch = onEnterSearch,
+                        onEnterCharacters = onEnterCharacters,
+                        onAddCharacterToFavorites = onAddCharacterToFavorites,
+                        onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+                        onFilterCharacters = onFilterCharacters
+                    )
+                } else {
+                    RaMSListOnlyContent(
+                        state = state,
+                        onSelectCharacter = onSelectCharacter,
+                        onEnterSearch = onEnterSearch,
+                        onEnterCharacters = onEnterCharacters,
+                        onAddCharacterToFavorites = onAddCharacterToFavorites,
+                        onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+                        onFilterCharacters = onFilterCharacters
+                    )
+                }
+                val bottomNavigationContentDescription = stringResource(R.string.navigation_bottom)
+                AnimatedVisibility(visible = navigationType == RaMSNavigationType.BOTTOM_NAVIGATION) {
+                    BottomNavigationBar(
+                        currentCharacterList = state.currentCharactersList,
+                        onEnterCharacters = onEnterCharacters,
+                        onEnterFavorites = onEnterFavorites,
+                        navigationItemContentList = navigationItemContentList
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+fun RaMSTopBar(
+    modifier: Modifier = Modifier
+) {
 }

@@ -12,4 +12,5 @@
     <string name="location">Location</string>
     <string name="navigation_rail">Navigation Rail\n</string>
     <string name="navigation_drawer">Navigation Drawer\n</string>
+    <string name="navigation_bottom">Navigation Bottom\n</string>
 </resources>
