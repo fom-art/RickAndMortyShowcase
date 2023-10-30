@@ -28,6 +28,8 @@ class RickAndMortyShowcaseViewModel @Inject constructor(
 
     //TODO: Much likely to fail
     private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState(favoriteCharacters = FavoriteState()))
+    val state = _ramsState.asStateFlow()
+
     init {
         viewModelScope.launch {
             _ramsState.update {
