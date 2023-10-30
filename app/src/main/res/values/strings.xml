@@ -10,4 +10,6 @@
     <string name="gender">Gender</string>
     <string name="origin">Origin</string>
     <string name="location">Location</string>
+    <string name="navigation_rail">Navigation Rail\n</string>
+    <string name="navigation_drawer">Navigation Drawer\n</string>
 </resources>

@@ -51,6 +51,7 @@ class RaMSViewModel @Inject constructor(
         viewModelScope.launch {
             _ramsState.update {
                 it.copy(
+                    isShowingHomepage = false,
                     isCharacterDetailsListLoading = true
                 )
             }
@@ -66,6 +67,7 @@ class RaMSViewModel @Inject constructor(
     fun enterSearch() {
         _ramsState.update {
             it.copy(
+                isShowingHomepage = true,
                 currentCharactersList = CharactersListType.FILTER
             )
         }
@@ -74,6 +76,7 @@ class RaMSViewModel @Inject constructor(
     fun enterFavorites() {
         _ramsState.update {
             it.copy(
+                isShowingHomepage = true,
                 currentCharactersList = CharactersListType.FAVORITES,
                 charactersIconResource = R.drawable.characters_unselected,
                 favoritesIconResource = R.drawable.favorites_selected
@@ -84,6 +87,7 @@ class RaMSViewModel @Inject constructor(
     fun enterCharacters() {
         _ramsState.update {
             it.copy(
+                isShowingHomepage = true,
                 currentCharactersList = CharactersListType.FAVORITES,
                 charactersIconResource = R.drawable.characters_selected,
                 favoritesIconResource = R.drawable.favorites_unselected

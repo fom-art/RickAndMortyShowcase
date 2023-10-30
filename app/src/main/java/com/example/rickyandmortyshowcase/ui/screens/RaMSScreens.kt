@@ -8,7 +8,30 @@ import com.example.compose.RickyAndMortyShowcaseTheme
 fun CharacterScreen() {
 
 }
+@Composable
+fun CharacterDetailsScreen() {
 
+}
+
+@Composable
+fun FilterCharacterScreen() {
+
+}
+
+@Preview
+@Composable
+fun FilterCharacterScreenPreview() {
+    RickyAndMortyShowcaseTheme {
+        FilterCharacterScreen()
+    }
+}
+@Preview
+@Composable
+fun CharacterDetailsScreenPreview() {
+    RickyAndMortyShowcaseTheme {
+        CharacterDetailsScreen()
+    }
+}
 @Preview
 @Composable
 fun CharacterScreenPreview() {
