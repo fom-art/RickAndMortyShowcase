@@ -1,17 +1,26 @@
 package com.example.rickyandmortyshowcase.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
@@ -72,7 +81,30 @@ fun CharactersListItem(
         ),
         onClick = onCardClick
     ) {
-
+        Row {
+            Image(
+                painter = BitmapPainter(character.image.asImageBitmap()),
+                contentDescription = character.name,
+                modifier = Modifier
+                    .padding(
+                        dimensionResource(id = R.dimen.list_item_image_padding)
+                    )
+                    .size(dimensionResource(id = R.dimen.list_item_image_size))
+            )
+            Column {
+                Row {
+                    Text(text = character.name, style = MaterialTheme.typography.headlineMedium)
+                    Image(
+                        painter = painterResource(id = R.drawable.favorites_selected),
+                        contentDescription = stringResource(id = R.string.favorite),
+                        modifier = modifier
+                            .size(dimensionResource(id = R.dimen.list_item_favorite_icon_size))
+                            .padding(start = dimensionResource(R.dimen.list_item_favorite_icon_padding_start))
+                    )
+                }
+                Text(text = character.status, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSecondary)
+            }
+        }
     }
 }
 
