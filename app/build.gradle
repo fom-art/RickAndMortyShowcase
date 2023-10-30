@@ -57,6 +57,9 @@ android {
 }
 
 dependencies {
+    // Coil
+    implementation "io.coil-kt:coil:1.1.1"
+
     //WindowSizeClass implementation
     implementation("androidx.compose.material3:material3-window-size-class")
 
