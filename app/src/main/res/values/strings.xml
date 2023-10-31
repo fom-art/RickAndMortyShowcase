@@ -13,4 +13,7 @@
     <string name="navigation_rail">Navigation Rail\n</string>
     <string name="navigation_drawer">Navigation Drawer\n</string>
     <string name="navigation_bottom">Navigation Bottom\n</string>
+    <string name="filter">Filter\n</string>
+    <string name="nothing_to_display">nothing to display</string>
+    <string name="type_something_to_search">Type something to search\n</string>
 </resources>

@@ -127,6 +127,7 @@ class RaMSViewModel @Inject constructor(
 
     data class RickAndMortyShowcaseState(
         val characters: List<CharacterSimple> = emptyList(),
+        val filter: String = "",
         val favoriteCharacters: FavoriteState,
         val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,
         val isCharactersListLoading: Boolean = false,

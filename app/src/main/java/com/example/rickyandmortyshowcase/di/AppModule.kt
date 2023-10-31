@@ -34,17 +34,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetCharactersUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersUseCase {
+    fun provideGetCharactersUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharactersUseCase {
         return GetCharactersUseCase(rickAndMortyShowcaseClient)
     }
     @Provides
     @Singleton
-    fun provideGetCharacterDetailsUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharacterDetailsUseCase {
+    fun provideGetCharacterDetailsUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharacterDetailsUseCase {
         return GetCharacterDetailsUseCase(rickAndMortyShowcaseClient)
     }
     @Provides
     @Singleton
-    fun provideCharactersByNameUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersByNameUseCase {
+    fun provideCharactersByNameUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharactersByNameUseCase {
         return GetCharactersByNameUseCase(rickAndMortyShowcaseClient)
     }
 
