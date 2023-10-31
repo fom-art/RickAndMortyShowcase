@@ -7,21 +7,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -230,7 +233,8 @@ fun RaMSAppContent(
 }
 
 @Composable
-fun RaMSHompageTopBar(
+fun CharactersListTopBar(
+    onEnterSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -242,11 +246,41 @@ fun RaMSHompageTopBar(
             text = stringResource(id = R.string.characters),
             style = MaterialTheme.typography.headlineLarge
         )
-        Icon(
-            painter = rememberVectorPainter(Icons.Default.Search),
-            contentDescription = stringResource(
-                id = R.string.filter
+        IconButton(
+            onClick = onEnterSearch, modifier = Modifier
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = stringResource(id = R.string.search_characters)
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterCharactersTopBar(
+    onEnterCharacters: () -> Unit,
+    onSelectCharacter: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        IconButton(onClick = onEnterCharacters) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = stringResource(id = R.string.enter_characters_list)
+            )
+        }
+        TextField(
+            value = stringResource(id = R.string.search_characters),
+            onValueChange = onSelectCharacter,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = dimensionResource(R.dimen.filter_text_input_padding_start))
         )
     }
 }

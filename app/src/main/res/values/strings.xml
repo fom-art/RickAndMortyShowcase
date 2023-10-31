@@ -16,4 +16,5 @@
     <string name="filter">Filter\n</string>
     <string name="nothing_to_display">nothing to display</string>
     <string name="type_something_to_search">Type something to search\n</string>
+    <string name="enter_characters_list">Enter characters list</string>
 </resources>

@@ -115,6 +115,7 @@ fun RaMSListAndDetailContent(
 fun CharacterScreen(
     state: RaMSViewModel.RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
+    onEnterSearch: () -> Unit,
     modifier: Modifier = Modifier
 
 ) {
@@ -126,7 +127,8 @@ fun CharacterScreen(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
             ) {
                 item {
-                    RaMSHompageTopBar(
+                    CharactersListTopBar(
+                        onEnterSearch = onEnterSearch,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
@@ -158,19 +160,22 @@ fun CharacterDetailsScreen() {
 fun FilterCharacterScreen(
     state: RaMSViewModel.RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
+    onEnterCharacters: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         if (!state.isCharactersListLoading) {
             val characters = state.characters
-            if (state.filter.isNotEmpty()){
+            if (state.filter.isNotEmpty()) {
                 if (characters.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier,
                         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
                     ) {
                         item {
-                            RaMSHompageTopBar(
+                            FilterCharactersTopBar(
+                                onEnterCharacters = onEnterCharacters,
+                                onSelectCharacter = onSelectCharacter,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
@@ -186,10 +191,18 @@ fun FilterCharacterScreen(
                         }
                     }
                 } else {
-                    Text(text = stringResource(id = R.string.nothing_to_display), style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onTertiary)
+                    Text(
+                        text = stringResource(id = R.string.nothing_to_display),
+                        style = MaterialTheme.typography.displayLarge,
+                        color = MaterialTheme.colorScheme.onTertiary
+                    )
                 }
             } else {
-                Text(text = stringResource(id = R.string.type_something_to_search), style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onTertiary)
+                Text(
+                    text = stringResource(id = R.string.type_something_to_search),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.onTertiary
+                )
             }
         } else {
             CircularProgressIndicator(
