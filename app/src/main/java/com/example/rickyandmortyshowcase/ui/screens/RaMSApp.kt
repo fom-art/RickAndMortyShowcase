@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -20,8 +21,11 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,6 +34,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.example.rickyandmortyshowcase.R
+import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
+import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 import com.example.rickyandmortyshowcase.ui.utils.NavigationItemContent
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
@@ -77,8 +83,7 @@ fun RaMSApp(
             charactersListType = RaMSViewModel.CharactersListType.CHARACTERS,
             icon = ImageVector.vectorResource(id = state.charactersIconResource),
             text = stringResource(id = R.string.characters)
-        ),
-        NavigationItemContent(
+        ), NavigationItemContent(
             charactersListType = RaMSViewModel.CharactersListType.FAVORITES,
             icon = ImageVector.vectorResource(id = state.charactersIconResource),
             text = stringResource(id = R.string.favorite)
@@ -127,10 +132,8 @@ fun RaMSScreen(
                         navigationItemContentList = navigationItemContentList
                     )
                 }
-            },
-            modifier = Modifier.testTag(navigationDrawerContentDesctription)
-        )
-        {
+            }, modifier = Modifier.testTag(navigationDrawerContentDesctription)
+        ) {
             RaMSAppContent(
                 navigationType = navigationType,
                 contentType = contentType,
@@ -234,8 +237,7 @@ fun RaMSAppContent(
 
 @Composable
 fun CharactersListTopBar(
-    onEnterSearch: () -> Unit,
-    modifier: Modifier = Modifier
+    onEnterSearch: () -> Unit, modifier: Modifier = Modifier
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -282,5 +284,52 @@ fun FilterCharactersTopBar(
                 .weight(1f)
                 .padding(start = dimensionResource(R.dimen.filter_text_input_padding_start))
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CharacterDetailsTopBar(
+    onEnterCharacters: () -> Unit,
+    selectedCharacter: CharacterDetailed,
+    onAddCharacterToFavorites: (id: String) -> Unit,
+    favoriteCharacters: List<CharacterSimple>,
+    modifier: Modifier = Modifier
+) {
+    val isSelectedCharacterInFavorites =
+        favoriteCharacters.firstOrNull { it.id != selectedCharacter.id } != null
+    Row(
+        modifier = modifier, verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(
+            onClick = onEnterCharacters,
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = stringResource(id = R.string.back_to_characters)
+            )
+        }
+        Text(
+            text = selectedCharacter.name,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.weight(1f)
+        )
+        IconButton(
+            onClick = { onAddCharacterToFavorites(selectedCharacter.id) },
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+        ) {
+            Icon(
+                imageVector = if (isSelectedCharacterInFavorites)
+                    ImageVector.vectorResource(id = R.drawable.favorites_selected)
+                else ImageVector.vectorResource(id = R.drawable.favorites_unselected),
+
+                contentDescription = stringResource(id = R.string.back_to_characters)
+            )
+        }
     }
 }

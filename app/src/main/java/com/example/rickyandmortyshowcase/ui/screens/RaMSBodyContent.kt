@@ -152,6 +152,40 @@ fun CharacterScreen(
 }
 
 @Composable
+fun FavoriteCharactersScreen(
+    state: RaMSViewModel.RickAndMortyShowcaseState,
+    onSelectCharacter: (id: String) -> Unit,
+    onEnterSearch: () -> Unit,
+    modifier: Modifier = Modifier
+
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        val characters = state.characters
+        LazyColumn(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
+        ) {
+            item {
+                CharactersListTopBar(
+                    onEnterSearch = onEnterSearch,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
+                )
+            }
+            items(characters, key = { character -> character.id }) { character ->
+                CharactersListItem(
+                    character = character,
+                    selected = false,
+                    filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
+                    onCardClick = { onSelectCharacter(character.id) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
 fun CharacterDetailsScreen() {
 
 }

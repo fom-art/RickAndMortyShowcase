@@ -1,12 +1,10 @@
 package com.example.rickyandmortyshowcase.ui
 
-import android.content.Intent.ShortcutIconResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
 import com.example.rickyandmortyshowcase.database.local.domain.FavoriteDao
-import com.example.rickyandmortyshowcase.database.local.domain.FavoriteState
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
@@ -28,7 +26,7 @@ class RaMSViewModel @Inject constructor(
 ) : ViewModel() {
 
     //TODO: Much likely to fail
-    private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState(favoriteCharacters = FavoriteState()))
+    private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState())
     val state = _ramsState.asStateFlow()
 
     init {
@@ -39,12 +37,23 @@ class RaMSViewModel @Inject constructor(
                 )
             }
             _ramsState.update {
+                val charactersList = getCharactersUseCase.execute()
                 it.copy(
-                    characters = getCharactersUseCase.execute(),
+                    characters = charactersList,
+                    favoriteCharacters = getFavoriteCharactersFromId(idList = favoritesDao.getFavourites(), charactersList = charactersList),
                     isCharactersListLoading = false
                 )
             }
         }
+    }
+
+    private fun getFavoriteCharactersFromId(idList: List<String>, charactersList: List<CharacterSimple>): List<CharacterSimple> {
+        val result = mutableListOf<CharacterSimple>()
+        for (id in idList) {
+            val character = charactersList.firstOrNull() {it.id == id}
+            result.add(character!!)
+        }
+        return result
     }
 
     fun selectCharacter(id: String) {
@@ -68,7 +77,8 @@ class RaMSViewModel @Inject constructor(
         _ramsState.update {
             it.copy(
                 isShowingHomepage = true,
-                currentCharactersList = CharactersListType.FILTER
+                currentCharactersList = CharactersListType.FILTER,
+                filteredCharacters = emptyList()
             )
         }
     }
@@ -104,7 +114,7 @@ class RaMSViewModel @Inject constructor(
             }
             _ramsState.update {
                 it.copy(
-                    characters = getCharactersByNameUseCase.execute(name),
+                    filteredCharacters = getCharactersByNameUseCase.execute(name),
                     isCharactersListLoading = false
                 )
             }
@@ -127,8 +137,9 @@ class RaMSViewModel @Inject constructor(
 
     data class RickAndMortyShowcaseState(
         val characters: List<CharacterSimple> = emptyList(),
+        val favoriteCharacters: List<CharacterSimple> = emptyList(),
+        val filteredCharacters: List<CharacterSimple> = emptyList(),
         val filter: String = "",
-        val favoriteCharacters: FavoriteState,
         val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,
         val isCharactersListLoading: Boolean = false,
         val isCharacterDetailsListLoading: Boolean = false,
