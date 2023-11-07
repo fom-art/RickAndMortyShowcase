@@ -18,4 +18,5 @@
     <string name="type_something_to_search">Type something to search\n</string>
     <string name="enter_characters_list">Enter characters list</string>
     <string name="back_to_characters">Back to characters\n</string>
+    <string name="status">Status\n</string>
 </resources>

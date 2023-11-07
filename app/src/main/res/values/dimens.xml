@@ -22,4 +22,5 @@
     <dimen name="list_item_favorite_icon_padding_start">8dp</dimen>
     <dimen name="filter_text_input_padding_start">8dp</dimen>
     <dimen name="detail_topbar_back_button_padding_horizontal">24dp</dimen>
+    <dimen name="details_trait_element_padding_vertical">20dp</dimen>
 </resources>

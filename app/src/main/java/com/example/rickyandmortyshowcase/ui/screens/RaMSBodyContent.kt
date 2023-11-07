@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.rickyandmortyshowcase.R
+import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 
@@ -186,8 +188,41 @@ fun FavoriteCharactersScreen(
 }
 
 @Composable
-fun CharacterDetailsScreen() {
-
+fun CharacterDetailsScreen(
+    selectedCharacter: CharacterDetailed,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Card {
+            Column {
+                Row(modifier = Modifier) {
+                    Image(
+                        painter = BitmapPainter(selectedCharacter.image.asImageBitmap()),
+                        contentDescription = "",
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.character_detail_image_size))
+                    )
+                    Column {
+                        Text(
+                            text = stringResource(id = R.string.name),
+                            style = MaterialTheme.typography.headlineMedium,
+                            color = MaterialTheme.colorScheme.onSecondary
+                        )
+                        Text(
+                            text = selectedCharacter.name,
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    }
+                }
+                Divider()
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.status), text = selectedCharacter.status)
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.species), text = selectedCharacter.species)
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.type), text = selectedCharacter.type)
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.gender), text = selectedCharacter.gender)
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.origin), text = selectedCharacter.origin)
+                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.location), text = selectedCharacter.location)
+            }
+        }
+    }
 }
 
 @Composable
@@ -243,6 +278,25 @@ fun FilterCharacterScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+    }
+}
+
+@Composable
+fun CharacterDetailsTraitElement(
+    labelText: String,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Column (modifier = modifier.padding(vertical = dimensionResource(id = R.dimen.details_trait_element_padding_vertical))){
+        Text(
+            text = labelText,
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onSecondary
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.displayMedium
+        )
     }
 }
 
