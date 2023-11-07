@@ -164,7 +164,11 @@ fun RaMSScreen(
                 onFilterCharacters = onFilterCharacters
             )
         } else {
-            CharacterDetailsScreen()
+            if (state.selectedCharacter != null) {
+                CharacterDetailsScreen(selectedCharacter = state.selectedCharacter)
+            } else {
+                CharacterDetailsEmptyScreen()
+            }
         }
     }
 }
@@ -324,8 +328,7 @@ fun CharacterDetailsTopBar(
                 .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
         ) {
             Icon(
-                imageVector = if (isSelectedCharacterInFavorites)
-                    ImageVector.vectorResource(id = R.drawable.favorites_selected)
+                imageVector = if (isSelectedCharacterInFavorites) ImageVector.vectorResource(id = R.drawable.favorites_selected)
                 else ImageVector.vectorResource(id = R.drawable.favorites_unselected),
 
                 contentDescription = stringResource(id = R.string.back_to_characters)

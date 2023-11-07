@@ -45,6 +45,23 @@ fun RaMSListOnlyContent(
 
 }
 
+@Composable
+fun RaMSListAndDetailContent(
+    state: RaMSViewModel.RickAndMortyShowcaseState,
+    onSelectCharacter: (id: String) -> Unit,
+    onEnterSearch: () -> Unit,
+    onEnterCharacters: () -> Unit,
+    onAddCharacterToFavorites: (id: String) -> Unit,
+    onRemoveCharacterFromFavorites: (id: String) -> Unit,
+    onFilterCharacters: (name: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier) {
+
+    }
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharactersListItem(
@@ -94,22 +111,6 @@ fun CharactersListItem(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun RaMSListAndDetailContent(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
-    onSelectCharacter: (id: String) -> Unit,
-    onEnterSearch: () -> Unit,
-    onEnterCharacters: () -> Unit,
-    onAddCharacterToFavorites: (id: String) -> Unit,
-    onRemoveCharacterFromFavorites: (id: String) -> Unit,
-    onFilterCharacters: (name: String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(modifier = modifier) {
-
     }
 }
 
@@ -222,6 +223,15 @@ fun CharacterDetailsScreen(
                 CharacterDetailsTraitElement(labelText = stringResource(id = R.string.location), text = selectedCharacter.location)
             }
         }
+    }
+}
+
+@Composable
+fun CharacterDetailsEmptyScreen(
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Text(text = stringResource(id = R.string.nothing_to_display), style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onTertiary)
     }
 }
 
