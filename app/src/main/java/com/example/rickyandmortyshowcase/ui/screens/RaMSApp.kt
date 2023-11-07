@@ -21,11 +21,8 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -121,7 +118,7 @@ fun RaMSScreen(
     navigationItemContentList: List<NavigationItemContent>
 ) {
     if (navigationType == RaMSNavigationType.PERMANENT_NAVIGATION_DRAWER) {
-        val navigationDrawerContentDesctription = stringResource(id = R.string.navigation_drawer)
+        val navigationDrawerContentDescription = stringResource(id = R.string.navigation_drawer)
         PermanentNavigationDrawer(
             drawerContent = {
                 PermanentDrawerSheet(Modifier.width(dimensionResource(id = R.dimen.drawer_width))) {
@@ -132,7 +129,7 @@ fun RaMSScreen(
                         navigationItemContentList = navigationItemContentList
                     )
                 }
-            }, modifier = Modifier.testTag(navigationDrawerContentDesctription)
+            }, modifier = Modifier.testTag(navigationDrawerContentDescription)
         ) {
             RaMSAppContent(
                 navigationType = navigationType,
@@ -196,7 +193,8 @@ fun RaMSAppContent(
                     currentCharacterList = state.currentCharactersList,
                     onEnterCharacters = onEnterCharacters,
                     onEnterFavorites = onEnterFavorites,
-                    navigationItemContentList = navigationItemContentList
+                    navigationItemContentList = navigationItemContentList,
+                    modifier = Modifier.testTag(navigationRailContentDescription)
                 )
             }
             Column(
@@ -231,7 +229,8 @@ fun RaMSAppContent(
                         currentCharacterList = state.currentCharactersList,
                         onEnterCharacters = onEnterCharacters,
                         onEnterFavorites = onEnterFavorites,
-                        navigationItemContentList = navigationItemContentList
+                        navigationItemContentList = navigationItemContentList,
+                        modifier = Modifier.testTag(bottomNavigationContentDescription)
                     )
                 }
             }
@@ -265,6 +264,22 @@ fun CharactersListTopBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun FavoriteCharactersTopBar(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier, verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(id = R.string.favorites),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun FilterCharactersTopBar(
     onEnterCharacters: () -> Unit,
     onSelectCharacter: (String) -> Unit,
@@ -291,13 +306,14 @@ fun FilterCharactersTopBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailsTopBar(
     onEnterCharacters: () -> Unit,
     selectedCharacter: CharacterDetailed,
     onAddCharacterToFavorites: (id: String) -> Unit,
+    onRemoveCharacterFromFavorites: (id: String) -> Unit,
     favoriteCharacters: List<CharacterSimple>,
+    contentType: RaMSContentType,
     modifier: Modifier = Modifier
 ) {
     val isSelectedCharacterInFavorites =
@@ -305,16 +321,19 @@ fun CharacterDetailsTopBar(
     Row(
         modifier = modifier, verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            onClick = onEnterCharacters,
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.back_to_characters)
+        if (contentType == RaMSContentType.LIST_ONLY) {
+            IconButton(
+                onClick = onEnterCharacters,
+                modifier = Modifier
+                    .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                    .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
             )
+            {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back_to_characters)
+                )
+            }
         }
         Text(
             text = selectedCharacter.name,
@@ -322,7 +341,12 @@ fun CharacterDetailsTopBar(
             modifier = Modifier.weight(1f)
         )
         IconButton(
-            onClick = { onAddCharacterToFavorites(selectedCharacter.id) },
+            onClick = {
+                if (isSelectedCharacterInFavorites)
+                    onRemoveCharacterFromFavorites(selectedCharacter.id)
+                else
+                    onAddCharacterToFavorites(selectedCharacter.id)
+            },
             modifier = Modifier
                 .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
                 .background(MaterialTheme.colorScheme.surface, shape = CircleShape)

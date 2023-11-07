@@ -19,4 +19,5 @@
     <string name="enter_characters_list">Enter characters list</string>
     <string name="back_to_characters">Back to characters\n</string>
     <string name="status">Status\n</string>
+    <string name="favorites">Favorites\n</string>
 </resources>

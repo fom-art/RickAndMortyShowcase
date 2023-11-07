@@ -30,6 +30,7 @@ import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
+import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
 
 @Composable
 fun RaMSListOnlyContent(
@@ -57,7 +58,45 @@ fun RaMSListAndDetailContent(
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
+        when (state.currentCharactersList) {
+            RaMSViewModel.CharactersListType.CHARACTERS -> {
+                CharactersScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter,
+                    onEnterSearch = onEnterSearch
+                )
+            }
 
+            RaMSViewModel.CharactersListType.FILTER -> {
+                FilterCharacterScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter,
+                    onEnterCharacters = onEnterCharacters
+                )
+            }
+
+            RaMSViewModel.CharactersListType.FAVORITES -> {
+                FavoriteCharactersScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter
+                )
+            }
+        }
+        Column {
+            if (state.selectedCharacter != null) {
+                CharacterDetailsTopBar(
+                    onEnterCharacters = onEnterCharacters,
+                    selectedCharacter = state.selectedCharacter,
+                    onAddCharacterToFavorites = onAddCharacterToFavorites,
+                    onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+                    favoriteCharacters = state.favoriteCharacters,
+                    contentType = RaMSContentType.LIST_AND_DETAIL
+                )
+                CharacterDetailsScreen(selectedCharacter = state.selectedCharacter)
+            } else {
+                CharacterDetailsEmptyScreen()
+            }
+        }
     }
 }
 
@@ -115,7 +154,7 @@ fun CharactersListItem(
 }
 
 @Composable
-fun CharacterScreen(
+fun CharactersScreen(
     state: RaMSViewModel.RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
@@ -158,9 +197,7 @@ fun CharacterScreen(
 fun FavoriteCharactersScreen(
     state: RaMSViewModel.RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
-    onEnterSearch: () -> Unit,
     modifier: Modifier = Modifier
-
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         val characters = state.characters
@@ -169,12 +206,7 @@ fun FavoriteCharactersScreen(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
         ) {
             item {
-                CharactersListTopBar(
-                    onEnterSearch = onEnterSearch,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
-                )
+                FavoriteCharactersTopBar()
             }
             items(characters, key = { character -> character.id }) { character ->
                 CharactersListItem(
@@ -215,12 +247,30 @@ fun CharacterDetailsScreen(
                     }
                 }
                 Divider()
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.status), text = selectedCharacter.status)
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.species), text = selectedCharacter.species)
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.type), text = selectedCharacter.type)
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.gender), text = selectedCharacter.gender)
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.origin), text = selectedCharacter.origin)
-                CharacterDetailsTraitElement(labelText = stringResource(id = R.string.location), text = selectedCharacter.location)
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.status),
+                    text = selectedCharacter.status
+                )
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.species),
+                    text = selectedCharacter.species
+                )
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.type),
+                    text = selectedCharacter.type
+                )
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.gender),
+                    text = selectedCharacter.gender
+                )
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.origin),
+                    text = selectedCharacter.origin
+                )
+                CharacterDetailsTraitElement(
+                    labelText = stringResource(id = R.string.location),
+                    text = selectedCharacter.location
+                )
             }
         }
     }
@@ -231,7 +281,11 @@ fun CharacterDetailsEmptyScreen(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        Text(text = stringResource(id = R.string.nothing_to_display), style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onTertiary)
+        Text(
+            text = stringResource(id = R.string.nothing_to_display),
+            style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.onTertiary
+        )
     }
 }
 
@@ -297,7 +351,7 @@ fun CharacterDetailsTraitElement(
     text: String,
     modifier: Modifier = Modifier
 ) {
-    Column (modifier = modifier.padding(vertical = dimensionResource(id = R.dimen.details_trait_element_padding_vertical))){
+    Column(modifier = modifier.padding(vertical = dimensionResource(id = R.dimen.details_trait_element_padding_vertical))) {
         Text(
             text = labelText,
             style = MaterialTheme.typography.displaySmall,
