@@ -9,9 +9,11 @@ import com.example.rickyandmortyshowcase.database.remote.data.utils.toCharacterS
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.client.RickAndMortyShowcaseClient
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
+import dagger.Provides
 
-class ApolloRickAndMortyShowcaseClient(private val rickAndMortyShowcaseClient: ApolloClient) :
-    RickAndMortyShowcaseClient {
+class ApolloRickAndMortyShowcaseClient(
+    private val rickAndMortyShowcaseClient: ApolloClient
+) : RickAndMortyShowcaseClient {
     override suspend fun getCharacters(): List<CharacterSimple> {
         return rickAndMortyShowcaseClient.query(CharactersQuery())
             .execute()

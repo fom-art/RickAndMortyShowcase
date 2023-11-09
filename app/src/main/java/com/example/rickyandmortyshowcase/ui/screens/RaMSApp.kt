@@ -117,6 +117,7 @@ fun RaMSScreen(
     contentType: RaMSContentType,
     navigationItemContentList: List<NavigationItemContent>
 ) {
+    //TODO: Why is PermanentNavigationDrawer declaration is separate from RailNavigationDrawer and is different as well
     if (navigationType == RaMSNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         val navigationDrawerContentDescription = stringResource(id = R.string.navigation_drawer)
         PermanentNavigationDrawer(
@@ -146,27 +147,19 @@ fun RaMSScreen(
             )
         }
     } else {
-        if (state.isShowingHomepage) {
-            RaMSAppContent(
-                navigationType = navigationType,
-                contentType = contentType,
-                state = state,
-                navigationItemContentList = navigationItemContentList,
-                onSelectCharacter = onSelectCharacter,
-                onEnterSearch = onEnterSearch,
-                onEnterCharacters = onEnterCharacters,
-                onEnterFavorites = onEnterFavorites,
-                onAddCharacterToFavorites = onAddCharacterToFavorites,
-                onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                onFilterCharacters = onFilterCharacters
-            )
-        } else {
-            if (state.selectedCharacter != null) {
-                CharacterDetailsScreen(selectedCharacter = state.selectedCharacter)
-            } else {
-                CharacterDetailsEmptyScreen()
-            }
-        }
+        RaMSAppContent(
+            navigationType = navigationType,
+            contentType = contentType,
+            state = state,
+            navigationItemContentList = navigationItemContentList,
+            onSelectCharacter = onSelectCharacter,
+            onEnterSearch = onEnterSearch,
+            onEnterCharacters = onEnterCharacters,
+            onEnterFavorites = onEnterFavorites,
+            onAddCharacterToFavorites = onAddCharacterToFavorites,
+            onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+            onFilterCharacters = onFilterCharacters
+        )
     }
 }
 
@@ -282,7 +275,7 @@ fun FavoriteCharactersTopBar(
 @Composable
 fun FilterCharactersTopBar(
     onEnterCharacters: () -> Unit,
-    onSelectCharacter: (String) -> Unit,
+    onFilterCharacters: (name: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -298,7 +291,7 @@ fun FilterCharactersTopBar(
         }
         TextField(
             value = stringResource(id = R.string.search_characters),
-            onValueChange = onSelectCharacter,
+            onValueChange = onFilterCharacters,
             modifier = Modifier
                 .weight(1f)
                 .padding(start = dimensionResource(R.dimen.filter_text_input_padding_start))

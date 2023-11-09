@@ -16,7 +16,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.RickyAndMortyShowcaseTheme
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 import com.example.rickyandmortyshowcase.ui.screens.RaMSApp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

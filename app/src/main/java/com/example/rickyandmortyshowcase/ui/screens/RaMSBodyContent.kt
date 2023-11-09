@@ -71,6 +71,7 @@ fun RaMSListAndDetailContent(
                 FilterCharacterScreen(
                     state = state,
                     onSelectCharacter = onSelectCharacter,
+                    onFilterCharacters = onFilterCharacters,
                     onEnterCharacters = onEnterCharacters
                 )
             }
@@ -293,6 +294,7 @@ fun CharacterDetailsEmptyScreen(
 fun FilterCharacterScreen(
     state: RaMSViewModel.RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
+    onFilterCharacters: (name: String) -> Unit,
     onEnterCharacters: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -308,7 +310,7 @@ fun FilterCharacterScreen(
                         item {
                             FilterCharactersTopBar(
                                 onEnterCharacters = onEnterCharacters,
-                                onSelectCharacter = onSelectCharacter,
+                                onFilterCharacters = onFilterCharacters,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))

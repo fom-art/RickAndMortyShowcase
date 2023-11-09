@@ -28,24 +28,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRickAndMortyShowcaseClient(apolloClient: ApolloClient): com.example.rickyandmortyshowcase.database.remote.domain.entities.client.RickAndMortyShowcaseClient {
+    fun provideRickAndMortyShowcaseClient(apolloClient: ApolloClient): RickAndMortyShowcaseClient {
         return ApolloRickAndMortyShowcaseClient(apolloClient)
     }
 
     @Provides
     @Singleton
-    fun provideGetCharactersUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharactersUseCase {
-        return GetCharactersUseCase(rickAndMortyShowcaseClient)
-    }
-    @Provides
-    @Singleton
-    fun provideGetCharacterDetailsUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharacterDetailsUseCase {
+    fun provideGetCharacterDetailsUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharacterDetailsUseCase {
         return GetCharacterDetailsUseCase(rickAndMortyShowcaseClient)
     }
+
     @Provides
     @Singleton
-    fun provideCharactersByNameUseCase(rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient): GetCharactersByNameUseCase {
+    fun provideCharactersByNameUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersByNameUseCase {
         return GetCharactersByNameUseCase(rickAndMortyShowcaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetCharactersUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersUseCase {
+        return GetCharactersUseCase(rickAndMortyShowcaseClient)
     }
 
     @Provides

@@ -5,7 +5,7 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.client.
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 
 class GetCharactersUseCase(
-    private val rickAndMortyShowcaseClient: ApolloRickAndMortyShowcaseClient
+    private val rickAndMortyShowcaseClient: RickAndMortyShowcaseClient
 ) {
     suspend fun execute(): List<CharacterSimple> {
         return rickAndMortyShowcaseClient.getCharacters()

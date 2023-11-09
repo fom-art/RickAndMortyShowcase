@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
+import dagger.Provides
 
 @Dao
 interface FavoriteDao {
