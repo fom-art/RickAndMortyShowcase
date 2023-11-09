@@ -1,8 +1,9 @@
 package com.example.rickyandmortyshowcase.database.remote.data.utils
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.provider.ContactsContract.CommonDataKinds.Website.URL
+import androidx.core.net.toUri
 import com.example.CharacterQuery
 import com.example.CharactersQuery
 import com.example.FilterCharactersByNameQuery
@@ -11,33 +12,29 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.Charact
 import java.net.URL
 
 fun FilterCharactersByNameQuery.Result.toCharacterSimple(): CharacterSimple {
-    val url = URL(image)
     return CharacterSimple(
         id = id ?: "-",
         name = name ?: "-",
         status = status ?: "-",
-        image = BitmapFactory.decodeStream(url.openConnection().getInputStream()) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
-
+        imageUrl = image ?: "-"
     )
 }
 
 fun CharactersQuery.Result.toCharacterSimple(): CharacterSimple {
-    val url = URL(image)
     return CharacterSimple(
         id = id ?: "-",
         name = name ?: "-",
         status = status ?: "-",
-        image = BitmapFactory.decodeStream(url.openConnection().getInputStream()) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        imageUrl = image ?: "-"
     )
 }
 
 fun CharacterQuery.Character.toCharacterDetailed(): CharacterDetailed {
-    val url = URL(image)
     return CharacterDetailed(
         id = id ?: "-",
         name = name ?: "-",
         status = status ?: "-",
-        image = BitmapFactory.decodeStream(url.openConnection().getInputStream()) ?: Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888),
+        imageUrl = image ?: "-",
         species = species ?: "-",
         type = type ?: "-",
         gender = gender ?: "-",

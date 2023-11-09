@@ -26,6 +26,8 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
@@ -102,7 +104,7 @@ fun RaMSListAndDetailContent(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun CharactersListItem(
     character: CharacterSimple,
@@ -125,7 +127,7 @@ fun CharactersListItem(
     ) {
         Row {
             Image(
-                painter = BitmapPainter(character.image.asImageBitmap()),
+                painter = rememberImagePainter(character.imageUrl),
                 contentDescription = character.name,
                 modifier = Modifier
                     .padding(
@@ -221,6 +223,7 @@ fun FavoriteCharactersScreen(
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CharacterDetailsScreen(
     selectedCharacter: CharacterDetailed,
@@ -231,7 +234,7 @@ fun CharacterDetailsScreen(
             Column {
                 Row(modifier = Modifier) {
                     Image(
-                        painter = BitmapPainter(selectedCharacter.image.asImageBitmap()),
+                        painter = rememberImagePainter(selectedCharacter.imageUrl),
                         contentDescription = "",
                         modifier = Modifier.size(dimensionResource(id = R.dimen.character_detail_image_size))
                     )

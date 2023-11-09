@@ -37,10 +37,9 @@ class RaMSViewModel @Inject constructor(
                 )
             }
             _ramsState.update {
-                val charactersList = getCharactersUseCase.execute()
                 it.copy(
-                    characters = charactersList,
-                    favoriteCharacters = getFavoriteCharactersFromId(idList = favoritesDao.getFavourites(), charactersList = charactersList),
+                    characters = getCharactersUseCase.execute(),
+                    favoriteCharacters = getFavoriteCharactersFromId(idList = favoritesDao.getFavourites(), charactersList = getCharactersUseCase.execute()),
                     isCharactersListLoading = false
                 )
             }
