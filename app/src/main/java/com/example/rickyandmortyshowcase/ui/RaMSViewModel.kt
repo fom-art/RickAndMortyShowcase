@@ -1,6 +1,7 @@
 package com.example.rickyandmortyshowcase.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
@@ -36,20 +37,30 @@ class RaMSViewModel @Inject constructor(
                     isCharactersListLoading = true
                 )
             }
+            val idListFlow = favoritesDao.getFavourites()
+            var idList = emptyList<String>()
+            idListFlow.asLiveData().observeForever { idList = it }
             _ramsState.update {
+                val charactersList = getCharactersUseCase.execute()
                 it.copy(
-                    characters = getCharactersUseCase.execute(),
-                    favoriteCharacters = getFavoriteCharactersFromId(idList = favoritesDao.getFavourites(), charactersList = getCharactersUseCase.execute()),
+                    characters = charactersList,
+                    favoriteCharacters = getFavoriteCharactersFromId(
+                        idList = idList,
+                        charactersList = charactersList
+                    ),
                     isCharactersListLoading = false
                 )
             }
         }
     }
 
-    private fun getFavoriteCharactersFromId(idList: List<String>, charactersList: List<CharacterSimple>): List<CharacterSimple> {
+    private fun getFavoriteCharactersFromId(
+        idList: List<String>?,
+        charactersList: List<CharacterSimple>
+    ): List<CharacterSimple> {
         val result = mutableListOf<CharacterSimple>()
-        for (id in idList) {
-            val character = charactersList.firstOrNull() {it.id == id}
+        for (id in idList!!) {
+            val character = charactersList.firstOrNull() { it.id == id }
             result.add(character!!)
         }
         return result
