@@ -7,7 +7,7 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.Charact
 class GetCharacterDetailsUseCase(
     private val rickAndMortyShowcaseClient: RickAndMortyShowcaseClient
 ) {
-    suspend fun execute(id: String): CharacterDetailed? {
-        return rickAndMortyShowcaseClient.getCharacterDetails(id)
+    suspend fun execute(name: String): CharacterDetailed? {
+        return rickAndMortyShowcaseClient.getCharacterDetails(name)
     }
 }

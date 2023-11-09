@@ -15,8 +15,7 @@ class ApolloRickAndMortyShowcaseClient(
     private val rickAndMortyShowcaseClient: ApolloClient
 ) : RickAndMortyShowcaseClient {
     override suspend fun getCharacters(): List<CharacterSimple> {
-        return rickAndMortyShowcaseClient
-            .query(CharactersQuery())
+        return rickAndMortyShowcaseClient.query(CharactersQuery())
             .execute()
             .data
             ?.characters

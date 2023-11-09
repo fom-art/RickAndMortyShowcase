@@ -21,8 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,9 +41,59 @@ fun RaMSListOnlyContent(
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
     onFilterCharacters: (name: String) -> Unit,
+    contentType: RaMSContentType,
     modifier: Modifier = Modifier
 ) {
+    modifier.fillMaxSize()
+    if (state.isShowingHomepage) {
+        when (state.currentCharactersList) {
+            RaMSViewModel.CharactersListType.CHARACTERS -> {
+                CharactersScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter,
+                    onEnterSearch = onEnterSearch,
+                    modifier = modifier
+                )
+            }
 
+            RaMSViewModel.CharactersListType.FILTER -> {
+                FilterCharacterScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter,
+                    onFilterCharacters = onFilterCharacters,
+                    onEnterCharacters = onEnterCharacters,
+                    modifier = modifier
+                )
+            }
+
+            RaMSViewModel.CharactersListType.FAVORITES -> {
+                FavoriteCharactersScreen(
+                    state = state,
+                    onSelectCharacter = onSelectCharacter,
+                    modifier = modifier
+                )
+            }
+        }
+    } else {
+        if (!state.isCharacterDetailsListLoading) {
+            CharacterDetailsTopBar(
+                onEnterCharacters = onEnterCharacters,
+                selectedCharacter = state.selectedCharacter!!,
+                onAddCharacterToFavorites = onAddCharacterToFavorites,
+                onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+                favoriteCharacters = state.favoriteCharacters,
+                contentType = contentType
+            )
+            CharacterDetailsScreen(
+                selectedCharacter = state.selectedCharacter,
+                modifier = modifier
+            )
+        } else {
+            CircularProgressIndicator(
+                modifier = modifier
+            )
+        }
+    }
 }
 
 @Composable
@@ -59,13 +107,14 @@ fun RaMSListAndDetailContent(
     onFilterCharacters: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
+    Row(modifier = modifier.fillMaxSize()) {
         when (state.currentCharactersList) {
             RaMSViewModel.CharactersListType.CHARACTERS -> {
                 CharactersScreen(
                     state = state,
                     onSelectCharacter = onSelectCharacter,
-                    onEnterSearch = onEnterSearch
+                    onEnterSearch = onEnterSearch,
+                    modifier = Modifier.weight(1f)
                 )
             }
 
@@ -74,18 +123,22 @@ fun RaMSListAndDetailContent(
                     state = state,
                     onSelectCharacter = onSelectCharacter,
                     onFilterCharacters = onFilterCharacters,
-                    onEnterCharacters = onEnterCharacters
+                    onEnterCharacters = onEnterCharacters,
+                    modifier = Modifier.weight(1f)
                 )
             }
 
             RaMSViewModel.CharactersListType.FAVORITES -> {
                 FavoriteCharactersScreen(
                     state = state,
-                    onSelectCharacter = onSelectCharacter
+                    onSelectCharacter = onSelectCharacter,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
-        Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             if (state.selectedCharacter != null) {
                 CharacterDetailsTopBar(
                     onEnterCharacters = onEnterCharacters,
@@ -95,9 +148,14 @@ fun RaMSListAndDetailContent(
                     favoriteCharacters = state.favoriteCharacters,
                     contentType = RaMSContentType.LIST_AND_DETAIL
                 )
-                CharacterDetailsScreen(selectedCharacter = state.selectedCharacter)
+                CharacterDetailsScreen(
+                    selectedCharacter = state.selectedCharacter,
+                    modifier = modifier
+                )
             } else {
-                CharacterDetailsEmptyScreen()
+                CharacterDetailsEmptyScreen(
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }
@@ -165,7 +223,7 @@ fun CharactersScreen(
 
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        if (!state.isCharactersListLoading) {
+        if (!state.isHomepageLoading) {
             val characters = state.characters
             LazyColumn(
                 modifier = Modifier,
@@ -302,7 +360,7 @@ fun FilterCharacterScreen(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        if (!state.isCharactersListLoading) {
+        if (!state.isHomepageLoading) {
             val characters = state.characters
             if (state.filter.isNotEmpty()) {
                 if (characters.isNotEmpty()) {

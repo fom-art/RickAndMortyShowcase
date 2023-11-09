@@ -34,7 +34,7 @@ class RaMSViewModel @Inject constructor(
         viewModelScope.launch {
             _ramsState.update {
                 it.copy(
-                    isCharactersListLoading = true
+                    isHomepageLoading = true
                 )
             }
             val idListFlow = favoritesDao.getFavourites()
@@ -48,7 +48,7 @@ class RaMSViewModel @Inject constructor(
                         idList = idList,
                         charactersList = charactersList
                     ),
-                    isCharactersListLoading = false
+                    isHomepageLoading = false
                 )
             }
         }
@@ -75,6 +75,11 @@ class RaMSViewModel @Inject constructor(
                 )
             }
             _ramsState.update {
+                try {
+                    getCharacterDetailsUseCase.execute(id)
+                } catch (e: Exception) {
+                    e.stackTrace
+                }
                 it.copy(
                     selectedCharacter = getCharacterDetailsUseCase.execute(id),
                     isCharacterDetailsListLoading = false
@@ -119,13 +124,14 @@ class RaMSViewModel @Inject constructor(
         viewModelScope.launch {
             _ramsState.update {
                 it.copy(
-                    isCharactersListLoading = true
+                    filter = name,
+                    isHomepageLoading = true
                 )
             }
             _ramsState.update {
                 it.copy(
                     filteredCharacters = getCharactersByNameUseCase.execute(name),
-                    isCharactersListLoading = false
+                    isHomepageLoading = false
                 )
             }
         }
@@ -151,7 +157,7 @@ class RaMSViewModel @Inject constructor(
         val filteredCharacters: List<CharacterSimple> = emptyList(),
         val filter: String = "",
         val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,
-        val isCharactersListLoading: Boolean = false,
+        val isHomepageLoading: Boolean = false,
         val isCharacterDetailsListLoading: Boolean = false,
         val selectedCharacter: CharacterDetailed? = null,
         val isShowingHomepage: Boolean = true,

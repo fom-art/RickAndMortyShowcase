@@ -213,7 +213,8 @@ fun RaMSAppContent(
                         onEnterCharacters = onEnterCharacters,
                         onAddCharacterToFavorites = onAddCharacterToFavorites,
                         onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                        onFilterCharacters = onFilterCharacters
+                        onFilterCharacters = onFilterCharacters,
+                        contentType = contentType
                     )
                 }
                 val bottomNavigationContentDescription = stringResource(R.string.navigation_bottom)
