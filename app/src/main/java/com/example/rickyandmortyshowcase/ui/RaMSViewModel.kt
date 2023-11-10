@@ -12,7 +12,9 @@ import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetChar
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -37,31 +39,35 @@ class RaMSViewModel @Inject constructor(
                     isHomepageLoading = true
                 )
             }
+
             val idListFlow = favoritesDao.getFavourites()
-            var idList = emptyList<String>()
-            idListFlow.asLiveData().observeForever { idList = it }
+            val charactersList = getCharactersUseCase.execute()
             _ramsState.update {
-                val charactersList = getCharactersUseCase.execute()
                 it.copy(
                     characters = charactersList,
                     favoriteCharacters = getFavoriteCharactersFromId(
-                        idList = idList,
+                        idListFlow = idListFlow,
                         charactersList = charactersList
                     ),
                     isHomepageLoading = false
                 )
             }
+
         }
     }
 
     private fun getFavoriteCharactersFromId(
-        idList: List<String>?,
+        idListFlow: Flow<List<String>>,
         charactersList: List<CharacterSimple>
-    ): List<CharacterSimple> {
-        val result = mutableListOf<CharacterSimple>()
-        for (id in idList!!) {
-            val character = charactersList.firstOrNull() { it.id == id }
-            result.add(character!!)
+    ): Flow<List<CharacterSimple>> {
+        val result = MutableStateFlow(mutableListOf<CharacterSimple>())
+        
+        idListFlow.asLiveData().observeForever { idList ->
+            result.asLiveData().value!!.clear()
+            for (id in idList) {
+                val character = charactersList.firstOrNull() { it.id == id }
+                result.asLiveData().value!!.add(character!!)
+            }
         }
         return result
     }
@@ -113,7 +119,7 @@ class RaMSViewModel @Inject constructor(
         _ramsState.update {
             it.copy(
                 isShowingHomepage = true,
-                currentCharactersList = CharactersListType.FAVORITES,
+                currentCharactersList = CharactersListType.CHARACTERS,
                 charactersIconResource = R.drawable.characters_selected,
                 favoritesIconResource = R.drawable.favorites_unselected
             )
@@ -153,7 +159,7 @@ class RaMSViewModel @Inject constructor(
 
     data class RickAndMortyShowcaseState(
         val characters: List<CharacterSimple> = emptyList(),
-        val favoriteCharacters: List<CharacterSimple> = emptyList(),
+        val favoriteCharacters: Flow<List<CharacterSimple>> = MutableStateFlow(emptyList()),
         val filteredCharacters: List<CharacterSimple> = emptyList(),
         val filter: String = "",
         val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,

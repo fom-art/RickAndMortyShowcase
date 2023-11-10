@@ -1,12 +1,15 @@
 package com.example.rickyandmortyshowcase.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -23,13 +26,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.lifecycle.asLiveData
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
@@ -82,11 +91,10 @@ fun RaMSApp(
             text = stringResource(id = R.string.characters)
         ), NavigationItemContent(
             charactersListType = RaMSViewModel.CharactersListType.FAVORITES,
-            icon = ImageVector.vectorResource(id = state.charactersIconResource),
+            icon = ImageVector.vectorResource(id = state.favoritesIconResource),
             text = stringResource(id = R.string.favorite)
         )
     )
-
     RaMSScreen(
         state = state,
         onSelectCharacter = onSelectCharacter,
@@ -203,7 +211,8 @@ fun RaMSAppContent(
                         onEnterCharacters = onEnterCharacters,
                         onAddCharacterToFavorites = onAddCharacterToFavorites,
                         onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                        onFilterCharacters = onFilterCharacters
+                        onFilterCharacters = onFilterCharacters,
+                        modifier = modifier.weight(1f)
                     )
                 } else {
                     RaMSListOnlyContent(
@@ -214,7 +223,8 @@ fun RaMSAppContent(
                         onAddCharacterToFavorites = onAddCharacterToFavorites,
                         onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
                         onFilterCharacters = onFilterCharacters,
-                        contentType = contentType
+                        contentType = contentType,
+                        modifier = modifier.weight(1f)
                     )
                 }
                 val bottomNavigationContentDescription = stringResource(R.string.navigation_bottom)
@@ -240,6 +250,8 @@ fun CharactersListTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
     ) {
         Text(
             text = stringResource(id = R.string.characters),
@@ -262,12 +274,14 @@ fun FavoriteCharactersTopBar(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier, verticalAlignment = Alignment.CenterVertically
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = stringResource(id = R.string.favorites),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.weight(1f)
+            style = MaterialTheme.typography.headlineLarge
         )
     }
 }
@@ -283,6 +297,8 @@ fun FilterCharactersTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
     ) {
         IconButton(onClick = onEnterCharacters) {
             Icon(
@@ -302,16 +318,17 @@ fun FilterCharactersTopBar(
 
 @Composable
 fun CharacterDetailsTopBar(
+    state: RaMSViewModel.RickAndMortyShowcaseState,
     onEnterCharacters: () -> Unit,
     selectedCharacter: CharacterDetailed,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
-    favoriteCharacters: List<CharacterSimple>,
     contentType: RaMSContentType,
     modifier: Modifier = Modifier
 ) {
-    val isSelectedCharacterInFavorites =
-        favoriteCharacters.firstOrNull { it.id != selectedCharacter.id } != null
+    var isSelectedCharacterInFavorites by remember {
+        mutableStateOf(value = state.favoriteCharacters.asLiveData().value!!.firstOrNull { it.id == selectedCharacter.id } != null)
+    }
     Row(
         modifier = modifier, verticalAlignment = Alignment.CenterVertically
     ) {
@@ -323,7 +340,7 @@ fun CharacterDetailsTopBar(
                     .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
             )
             {
-                Icon(
+                Image(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = stringResource(id = R.string.back_to_characters)
                 )
@@ -336,21 +353,26 @@ fun CharacterDetailsTopBar(
         )
         IconButton(
             onClick = {
-                if (isSelectedCharacterInFavorites)
+                isSelectedCharacterInFavorites = if (isSelectedCharacterInFavorites) {
                     onRemoveCharacterFromFavorites(selectedCharacter.id)
-                else
+                    !isSelectedCharacterInFavorites
+                } else {
                     onAddCharacterToFavorites(selectedCharacter.id)
+                    !isSelectedCharacterInFavorites
+                }
             },
             modifier = Modifier
                 .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
                 .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
         ) {
-            Icon(
-                imageVector = if (isSelectedCharacterInFavorites) ImageVector.vectorResource(id = R.drawable.favorites_selected)
-                else ImageVector.vectorResource(id = R.drawable.favorites_unselected),
-
-                contentDescription = stringResource(id = R.string.back_to_characters)
-            )
+            Crossfade(targetState = isSelectedCharacterInFavorites, label = "") { targetState ->
+                Image(
+                    painter = if (targetState) painterResource(id = R.drawable.favorites_selected)
+                    else painterResource(id = R.drawable.favorites_unselected),
+                    contentDescription = if (targetState) stringResource(id = R.string.remove_from_favorites)
+                    else stringResource(id = R.string.add_to_favorites)
+                )
+            }
         }
     }
 }

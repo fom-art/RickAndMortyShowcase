@@ -7,7 +7,7 @@
     <dimen name="nav_bar_icon_size">24dp</dimen>
     <dimen name="character_detail_image_size">140dp</dimen>
 
-    <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="list_item_padding">4dp</dimen>
     <dimen name="list_item_alt_text_top_padding">8dp</dimen>
     <dimen name="list_item_image_padding">12dp</dimen>
     <dimen name="top_bar_padding_horizontal">16dp</dimen>

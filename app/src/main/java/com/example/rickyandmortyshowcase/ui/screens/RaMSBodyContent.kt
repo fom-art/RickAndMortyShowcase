@@ -1,5 +1,6 @@
 package com.example.rickyandmortyshowcase.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,11 +20,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.asLiveData
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
@@ -31,6 +38,7 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.Charact
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
+import com.example.rickyandmortyshowcase.ui.utils.RaMSNavigationType
 
 @Composable
 fun RaMSListOnlyContent(
@@ -77,11 +85,11 @@ fun RaMSListOnlyContent(
     } else {
         if (!state.isCharacterDetailsListLoading) {
             CharacterDetailsTopBar(
+                state = state,
                 onEnterCharacters = onEnterCharacters,
                 selectedCharacter = state.selectedCharacter!!,
                 onAddCharacterToFavorites = onAddCharacterToFavorites,
                 onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                favoriteCharacters = state.favoriteCharacters,
                 contentType = contentType
             )
             CharacterDetailsScreen(
@@ -141,11 +149,11 @@ fun RaMSListAndDetailContent(
         ) {
             if (state.selectedCharacter != null) {
                 CharacterDetailsTopBar(
+                    state = state,
                     onEnterCharacters = onEnterCharacters,
                     selectedCharacter = state.selectedCharacter,
                     onAddCharacterToFavorites = onAddCharacterToFavorites,
                     onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                    favoriteCharacters = state.favoriteCharacters,
                     contentType = RaMSContentType.LIST_AND_DETAIL
                 )
                 CharacterDetailsScreen(
@@ -165,14 +173,20 @@ fun RaMSListAndDetailContent(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun CharactersListItem(
+    state: RaMSViewModel.RickAndMortyShowcaseState,
     character: CharacterSimple,
     selected: Boolean,
     filterMode: Boolean,
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isCharacterInFavorites by remember {
+        mutableStateOf(value = state.favoriteCharacters.asLiveData().value!!.firstOrNull { it.id == character.id } != null)
+    }
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(id = R.dimen.list_item_padding)),
         colors = CardDefaults.cardColors(
             containerColor = if (selected && filterMode)
                 MaterialTheme.colorScheme.background
@@ -192,17 +206,20 @@ fun CharactersListItem(
                         dimensionResource(id = R.dimen.list_item_image_padding)
                     )
                     .size(dimensionResource(id = R.dimen.list_item_image_size))
+                    .clip(MaterialTheme.shapes.small)
             )
             Column {
                 Row {
                     Text(text = character.name, style = MaterialTheme.typography.headlineMedium)
-                    Image(
-                        painter = painterResource(id = R.drawable.favorites_selected),
-                        contentDescription = stringResource(id = R.string.favorite),
-                        modifier = modifier
-                            .size(dimensionResource(id = R.dimen.list_item_favorite_icon_size))
-                            .padding(start = dimensionResource(R.dimen.list_item_favorite_icon_padding_start))
-                    )
+                    AnimatedVisibility(visible = isCharacterInFavorites) {
+                        Image(
+                            painter = painterResource(id = R.drawable.favorites_selected),
+                            contentDescription = stringResource(id = R.string.favorite),
+                            modifier = modifier
+                                .size(dimensionResource(id = R.dimen.list_item_favorite_icon_size))
+                                .padding(start = dimensionResource(R.dimen.list_item_favorite_icon_padding_start))
+                        )
+                    }
                 }
                 Text(
                     text = character.status,
@@ -225,25 +242,24 @@ fun CharactersScreen(
     Box(modifier = modifier.fillMaxSize()) {
         if (!state.isHomepageLoading) {
             val characters = state.characters
-            LazyColumn(
-                modifier = Modifier,
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
-            ) {
-                item {
-                    CharactersListTopBar(
-                        onEnterSearch = onEnterSearch,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
-                    )
-                }
-                items(characters, key = { character -> character.id }) { character ->
-                    CharactersListItem(
-                        character = character,
-                        selected = false,
-                        filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                        onCardClick = { onSelectCharacter(character.id) }
-                    )
+            Column {
+                CharactersListTopBar(
+                    onEnterSearch = onEnterSearch,
+                )
+                LazyColumn(
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
+                ) {
+
+                    items(characters, key = { character -> character.id }) { character ->
+                        CharactersListItem(
+                            state = state,
+                            character = character,
+                            selected = false,
+                            filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
+                            onCardClick = { onSelectCharacter(character.id) },
+                        )
+                    }
                 }
             }
         } else {
@@ -261,7 +277,7 @@ fun FavoriteCharactersScreen(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        val characters = state.characters
+        val characters = state.favoriteCharacters.asLiveData().value!!
         LazyColumn(
             modifier = Modifier,
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
@@ -271,10 +287,11 @@ fun FavoriteCharactersScreen(
             }
             items(characters, key = { character -> character.id }) { character ->
                 CharactersListItem(
+                    state = state,
                     character = character,
                     selected = false,
                     filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                    onCardClick = { onSelectCharacter(character.id) }
+                    onCardClick = { onSelectCharacter(character.id) },
                 )
             }
         }
@@ -372,17 +389,15 @@ fun FilterCharacterScreen(
                             FilterCharactersTopBar(
                                 onEnterCharacters = onEnterCharacters,
                                 onFilterCharacters = onFilterCharacters,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
                             )
                         }
                         items(characters, key = { character -> character.id }) { character ->
                             CharactersListItem(
+                                state = state,
                                 character = character,
                                 selected = false,
                                 filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                                onCardClick = { onSelectCharacter(character.id) }
+                                onCardClick = { onSelectCharacter(character.id) },
                             )
                         }
                     }

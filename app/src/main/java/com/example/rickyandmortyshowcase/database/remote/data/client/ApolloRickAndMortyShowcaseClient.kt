@@ -1,6 +1,5 @@
 package com.example.rickyandmortyshowcase.database.remote.data.client
 
-import android.util.Log
 import com.apollographql.apollo3.ApolloClient
 import com.example.CharacterQuery
 import com.example.CharactersQuery
@@ -10,7 +9,6 @@ import com.example.rickyandmortyshowcase.database.remote.data.utils.toCharacterS
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.client.RickAndMortyShowcaseClient
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
-import dagger.Provides
 
 class ApolloRickAndMortyShowcaseClient(
     private val rickAndMortyShowcaseClient: ApolloClient

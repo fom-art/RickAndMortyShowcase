@@ -19,8 +19,10 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -120,12 +122,25 @@ fun BottomNavigationBar(
                     }
                 },
                 icon = {
-                    Icon(
-                        imageVector = navItem.icon,
-                        contentDescription = navItem.text
-                    )
-                }
-            )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Image(
+                            imageVector = navItem.icon,
+                            contentDescription = navItem.text
+                        )
+                        Text(
+                            text = navItem.text,
+                            style = MaterialTheme.typography.labelSmall,
+                            color =
+                            if (currentCharacterList == navItem.charactersListType) colorResource(
+                                id = R.color.selected_icon_color
+                            ) else colorResource(
+                                id = R.color.unselected_icon_color
+                            )
+                        )
+                    }
+                },
+
+                )
         }
     }
 }
