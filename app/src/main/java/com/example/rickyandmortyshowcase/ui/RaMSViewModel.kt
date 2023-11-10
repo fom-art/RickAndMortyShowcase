@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
 import com.example.rickyandmortyshowcase.database.local.domain.FavoriteDao
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
@@ -14,7 +13,6 @@ import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetChar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,9 +26,8 @@ class RaMSViewModel @Inject constructor(
     private val favoritesDao: FavoriteDao
 ) : ViewModel() {
 
-    //TODO: Much likely to fail
     private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState())
-    val state = _ramsState.asStateFlow()
+    var state = _ramsState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -39,36 +36,42 @@ class RaMSViewModel @Inject constructor(
                     isHomepageLoading = true
                 )
             }
-
             val idListFlow = favoritesDao.getFavourites()
-            val charactersList = getCharactersUseCase.execute()
+            val idList = MutableStateFlow(emptyList<String>())
+            idListFlow.asLiveData().observeForever { idList.value = it }
             _ramsState.update {
+                val charactersList = getCharactersUseCase.execute()
                 it.copy(
                     characters = charactersList,
-                    favoriteCharacters = getFavoriteCharactersFromId(
-                        idListFlow = idListFlow,
+                    favoriteCharacters = getFavoriteCharactersListFlowFromIdListFlow(
+                        idList = idList,
                         charactersList = charactersList
                     ),
                     isHomepageLoading = false
                 )
             }
-
         }
     }
 
-    private fun getFavoriteCharactersFromId(
-        idListFlow: Flow<List<String>>,
+    private fun getFavoriteCharactersListFlowFromIdListFlow(
+        idList: Flow<List<String>>,
         charactersList: List<CharacterSimple>
     ): Flow<List<CharacterSimple>> {
         val result = MutableStateFlow(mutableListOf<CharacterSimple>())
-        
-        idListFlow.asLiveData().observeForever { idList ->
-            result.asLiveData().value!!.clear()
-            for (id in idList) {
+
+        for (id in idList.asLiveData().value!!) {
+            val character = charactersList.firstOrNull() { it.id == id }
+            result.asLiveData().value!!.add(character!!)
+        }
+
+        idList.asLiveData().observeForever {
+            result.value.clear()
+            for (id in idList.asLiveData().value!!) {
                 val character = charactersList.firstOrNull() { it.id == id }
                 result.asLiveData().value!!.add(character!!)
             }
         }
+
         return result
     }
 
@@ -156,20 +159,6 @@ class RaMSViewModel @Inject constructor(
             favoritesDao.deleteCharacter(Favorite(id))
         }
     }
-
-    data class RickAndMortyShowcaseState(
-        val characters: List<CharacterSimple> = emptyList(),
-        val favoriteCharacters: Flow<List<CharacterSimple>> = MutableStateFlow(emptyList()),
-        val filteredCharacters: List<CharacterSimple> = emptyList(),
-        val filter: String = "",
-        val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,
-        val isHomepageLoading: Boolean = false,
-        val isCharacterDetailsListLoading: Boolean = false,
-        val selectedCharacter: CharacterDetailed? = null,
-        val isShowingHomepage: Boolean = true,
-        val charactersIconResource: Int = R.drawable.characters_selected,
-        val favoritesIconResource: Int = R.drawable.favorites_unselected
-    )
 
     enum class CharactersListType {
         CHARACTERS, FAVORITES, FILTER

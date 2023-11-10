@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,12 +36,12 @@ import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
+import com.example.rickyandmortyshowcase.ui.RickAndMortyShowcaseState
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
-import com.example.rickyandmortyshowcase.ui.utils.RaMSNavigationType
 
 @Composable
 fun RaMSListOnlyContent(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -106,7 +105,7 @@ fun RaMSListOnlyContent(
 
 @Composable
 fun RaMSListAndDetailContent(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -173,7 +172,7 @@ fun RaMSListAndDetailContent(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun CharactersListItem(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     character: CharacterSimple,
     selected: Boolean,
     filterMode: Boolean,
@@ -233,7 +232,7 @@ fun CharactersListItem(
 
 @Composable
 fun CharactersScreen(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     modifier: Modifier = Modifier
@@ -272,7 +271,7 @@ fun CharactersScreen(
 
 @Composable
 fun FavoriteCharactersScreen(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -370,7 +369,7 @@ fun CharacterDetailsEmptyScreen(
 
 @Composable
 fun FilterCharacterScreen(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onFilterCharacters: (name: String) -> Unit,
     onEnterCharacters: () -> Unit,

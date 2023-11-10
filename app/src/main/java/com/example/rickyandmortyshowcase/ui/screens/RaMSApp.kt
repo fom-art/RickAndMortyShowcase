@@ -41,15 +41,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.lifecycle.asLiveData
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
+import com.example.rickyandmortyshowcase.ui.RickAndMortyShowcaseState
 import com.example.rickyandmortyshowcase.ui.utils.NavigationItemContent
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
 import com.example.rickyandmortyshowcase.ui.utils.RaMSNavigationType
 
 @Composable
 fun RaMSApp(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     windowSize: WindowWidthSizeClass,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
@@ -113,7 +113,7 @@ fun RaMSApp(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RaMSScreen(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -175,7 +175,7 @@ fun RaMSScreen(
 fun RaMSAppContent(
     navigationType: RaMSNavigationType,
     contentType: RaMSContentType,
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     navigationItemContentList: List<NavigationItemContent>,
     modifier: Modifier = Modifier,
     onSelectCharacter: (id: String) -> Unit,
@@ -318,7 +318,7 @@ fun FilterCharactersTopBar(
 
 @Composable
 fun CharacterDetailsTopBar(
-    state: RaMSViewModel.RickAndMortyShowcaseState,
+    state: RickAndMortyShowcaseState,
     onEnterCharacters: () -> Unit,
     selectedCharacter: CharacterDetailed,
     onAddCharacterToFavorites: (id: String) -> Unit,
