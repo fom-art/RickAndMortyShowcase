@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_image_size">44dp</dimen>
+    <dimen name="list_item_card_height">60dp</dimen>
+    <dimen name="list_item_favorite_icon_size">16dp</dimen>>
+    <dimen name="top_bar_icon_size">24dp</dimen>
+    <dimen name="nav_bar_icon_size">24dp</dimen>
+    <dimen name="character_detail_image_size">140dp</dimen>
+
+    <dimen name="list_item_padding">4dp</dimen>
+    <dimen name="list_item_alt_text_top_padding">8dp</dimen>
+    <dimen name="list_item_image_padding">12dp</dimen>
+    <dimen name="top_bar_padding_horizontal">16dp</dimen>
+    <dimen name="search_input_padding_horizontal">8dp</dimen>
+    <dimen name="character_details_label_padding_bottom">8dp</dimen>
+    <dimen name="character_details_name_label_padding_bottom">16dp</dimen>
+    <dimen name="character_details_card_padding">12dp</dimen>
+    <dimen name="character_details_item_padding_horizontal">16dp</dimen>
+    <dimen name="drawer_width">240dp</dimen>
+    <dimen name="drawer_padding_content">12dp</dimen>
+    <dimen name="top_bar_padding_vertical">8dp</dimen>
+    <dimen name="list_item_favorite_icon_padding_start">8dp</dimen>
+    <dimen name="filter_text_input_padding_start">8dp</dimen>
+    <dimen name="detail_topbar_back_button_padding_horizontal">8dp</dimen>
+    <dimen name="details_trait_element_padding_vertical">20dp</dimen>
+    <dimen name="screen_body_padding_from_top_bar">4dp</dimen>
+    <dimen name="top_bar_height">64dp</dimen>
+    <dimen name="body_padding">8dp</dimen>
+    <dimen name="character_details_card_boddy_padding">16dp</dimen>
+    <dimen name="character_details_divider_vertical_padding">16dp</dimen>
+    <dimen name="character_detaild_name_section_padding_start">16dp</dimen>
+</resources>

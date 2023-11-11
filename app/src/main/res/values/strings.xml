@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Ricky and Morty Showcase</string>
+    <string name="characters">Characters</string>
+    <string name="favorite">Favorite</string>
+    <string name="search_characters">Search characters</string>
+    <string name="no_favorites_yet">No favorites yet</string>
+    <string name="name">Name</string>
+    <string name="species">Species</string>
+    <string name="type">Type</string>
+    <string name="gender">Gender</string>
+    <string name="origin">Origin</string>
+    <string name="location">Location</string>
+    <string name="navigation_rail">Navigation Rail</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="navigation_bottom">Navigation Bottom</string>
+    <string name="filter">Filter</string>
+    <string name="nothing_to_display">Nothing to display</string>
+    <string name="type_something_to_search">Type something to search</string>
+    <string name="enter_characters_list">Enter characters list</string>
+    <string name="back_to_characters">Back to characters</string>
+    <string name="status">Status</string>
+    <string name="favorites">Favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>
