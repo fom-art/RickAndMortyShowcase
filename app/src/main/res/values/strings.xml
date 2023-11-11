@@ -10,16 +10,16 @@
     <string name="gender">Gender</string>
     <string name="origin">Origin</string>
     <string name="location">Location</string>
-    <string name="navigation_rail">Navigation Rail\n</string>
-    <string name="navigation_drawer">Navigation Drawer\n</string>
-    <string name="navigation_bottom">Navigation Bottom\n</string>
-    <string name="filter">Filter\n</string>
-    <string name="nothing_to_display">nothing to display</string>
-    <string name="type_something_to_search">Type something to search\n</string>
+    <string name="navigation_rail">Navigation Rail</string>
+    <string name="navigation_drawer">Navigation Drawer</string>
+    <string name="navigation_bottom">Navigation Bottom</string>
+    <string name="filter">Filter</string>
+    <string name="nothing_to_display">Nothing to display</string>
+    <string name="type_something_to_search">Type something to search</string>
     <string name="enter_characters_list">Enter characters list</string>
-    <string name="back_to_characters">Back to characters\n</string>
-    <string name="status">Status\n</string>
-    <string name="favorites">Favorites\n</string>
-    <string name="remove_from_favorites">Remove from favorites\n</string>
-    <string name="add_to_favorites">Add to favorites\n</string>
+    <string name="back_to_characters">Back to characters</string>
+    <string name="status">Status</string>
+    <string name="favorites">Favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

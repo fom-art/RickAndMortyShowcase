@@ -1,15 +1,21 @@
 package com.example.rickyandmortyshowcase.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -26,9 +32,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -77,22 +91,19 @@ fun RaMSListOnlyContent(
                 FavoriteCharactersScreen(
                     state = state,
                     onSelectCharacter = onSelectCharacter,
+                    onEnterCharacters = onEnterCharacters,
                     modifier = modifier
                 )
             }
         }
     } else {
         if (!state.isCharacterDetailsListLoading) {
-            CharacterDetailsTopBar(
+            CharacterDetailsScreen(
                 state = state,
                 onEnterCharacters = onEnterCharacters,
-                selectedCharacter = state.selectedCharacter!!,
                 onAddCharacterToFavorites = onAddCharacterToFavorites,
                 onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                contentType = contentType
-            )
-            CharacterDetailsScreen(
-                selectedCharacter = state.selectedCharacter,
+                contentType = RaMSContentType.LIST_ONLY,
                 modifier = modifier
             )
         } else {
@@ -139,6 +150,7 @@ fun RaMSListAndDetailContent(
                 FavoriteCharactersScreen(
                     state = state,
                     onSelectCharacter = onSelectCharacter,
+                    onEnterCharacters = onEnterSearch,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -147,16 +159,12 @@ fun RaMSListAndDetailContent(
             modifier = Modifier.weight(1f)
         ) {
             if (state.selectedCharacter != null) {
-                CharacterDetailsTopBar(
+                CharacterDetailsScreen(
                     state = state,
                     onEnterCharacters = onEnterCharacters,
-                    selectedCharacter = state.selectedCharacter,
                     onAddCharacterToFavorites = onAddCharacterToFavorites,
                     onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                    contentType = RaMSContentType.LIST_AND_DETAIL
-                )
-                CharacterDetailsScreen(
-                    selectedCharacter = state.selectedCharacter,
+                    contentType = RaMSContentType.LIST_AND_DETAIL,
                     modifier = modifier
                 )
             } else {
@@ -209,7 +217,11 @@ fun CharactersListItem(
             )
             Column {
                 Row {
-                    Text(text = character.name, style = MaterialTheme.typography.headlineMedium)
+                    Text(
+                        text = character.name,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                     AnimatedVisibility(visible = isCharacterInFavorites) {
                         Image(
                             painter = painterResource(id = R.drawable.favorites_selected),
@@ -238,7 +250,10 @@ fun CharactersScreen(
     modifier: Modifier = Modifier
 
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
         if (!state.isHomepageLoading) {
             val characters = state.characters
             Column {
@@ -246,7 +261,7 @@ fun CharactersScreen(
                     onEnterSearch = onEnterSearch,
                 )
                 LazyColumn(
-                    modifier = Modifier,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding)),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
                 ) {
 
@@ -273,25 +288,32 @@ fun CharactersScreen(
 fun FavoriteCharactersScreen(
     state: RickAndMortyShowcaseState,
     onSelectCharacter: (id: String) -> Unit,
+    onEnterCharacters: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    BackHandler {
+        onEnterCharacters()
+    }
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
         val characters = state.favoriteCharacters.asLiveData().value!!
-        LazyColumn(
-            modifier = Modifier,
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
-        ) {
-            item {
-                FavoriteCharactersTopBar()
-            }
-            items(characters, key = { character -> character.id }) { character ->
-                CharactersListItem(
-                    state = state,
-                    character = character,
-                    selected = false,
-                    filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                    onCardClick = { onSelectCharacter(character.id) },
-                )
+        Column {
+            FavoriteCharactersTopBar()
+            LazyColumn(
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
+            ) {
+                items(characters, key = { character -> character.id }) { character ->
+                    CharactersListItem(
+                        state = state,
+                        character = character,
+                        selected = false,
+                        filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
+                        onCardClick = { onSelectCharacter(character.id) },
+                    )
+                }
             }
         }
     }
@@ -300,55 +322,80 @@ fun FavoriteCharactersScreen(
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CharacterDetailsScreen(
-    selectedCharacter: CharacterDetailed,
+    state: RickAndMortyShowcaseState,
+    onEnterCharacters: () -> Unit,
+    onAddCharacterToFavorites: (id: String) -> Unit,
+    onRemoveCharacterFromFavorites: (id: String) -> Unit,
+    contentType: RaMSContentType,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
-        Card {
-            Column {
-                Row(modifier = Modifier) {
-                    Image(
-                        painter = rememberImagePainter(selectedCharacter.imageUrl),
-                        contentDescription = "",
-                        modifier = Modifier.size(dimensionResource(id = R.dimen.character_detail_image_size))
-                    )
-                    Column {
-                        Text(
-                            text = stringResource(id = R.string.name),
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onSecondary
+    BackHandler {
+        onEnterCharacters()
+    }
+    Column {
+        CharacterDetailsTopBar(
+            state = state,
+            onEnterCharacters = onEnterCharacters,
+            onAddCharacterToFavorites = onAddCharacterToFavorites,
+            onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
+            contentType = contentType
+        )
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(dimensionResource(id = R.dimen.body_padding))
+        ) {
+            item {
+                Card(modifier = Modifier.padding(dimensionResource(id = R.dimen.character_details_card_padding))) {
+                    Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.character_details_card_boddy_padding))) {
+                        Row(modifier = Modifier) {
+                            Image(
+                                painter = rememberImagePainter(state.selectedCharacter!!.imageUrl),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .size(dimensionResource(id = R.dimen.character_detail_image_size))
+                                    .clip(MaterialTheme.shapes.medium)
+                            )
+                            Column(modifier = Modifier.padding(start = dimensionResource(id = R.dimen.character_detaild_name_section_padding_start))) {
+                                Text(
+                                    text = stringResource(id = R.string.name),
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = MaterialTheme.colorScheme.onSecondary
+                                )
+                                Text(
+                                    text = state.selectedCharacter.name,
+                                    style = MaterialTheme.typography.headlineLarge,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                        Divider(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.character_details_divider_vertical_padding)))
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.status),
+                            text = state.selectedCharacter!!.status
                         )
-                        Text(
-                            text = selectedCharacter.name,
-                            style = MaterialTheme.typography.headlineLarge
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.species),
+                            text = state.selectedCharacter.species
+                        )
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.type),
+                            text = state.selectedCharacter.type
+                        )
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.gender),
+                            text = state.selectedCharacter.gender
+                        )
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.origin),
+                            text = state.selectedCharacter.origin
+                        )
+                        CharacterDetailsTraitElement(
+                            labelText = stringResource(id = R.string.location),
+                            text = state.selectedCharacter.location
                         )
                     }
                 }
-                Divider()
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.status),
-                    text = selectedCharacter.status
-                )
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.species),
-                    text = selectedCharacter.species
-                )
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.type),
-                    text = selectedCharacter.type
-                )
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.gender),
-                    text = selectedCharacter.gender
-                )
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.origin),
-                    text = selectedCharacter.origin
-                )
-                CharacterDetailsTraitElement(
-                    labelText = stringResource(id = R.string.location),
-                    text = selectedCharacter.location
-                )
             }
         }
     }
@@ -358,11 +405,16 @@ fun CharacterDetailsScreen(
 fun CharacterDetailsEmptyScreen(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.body_padding))
+    ) {
         Text(
             text = stringResource(id = R.string.nothing_to_display),
             style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.onTertiary
+            color = MaterialTheme.colorScheme.onTertiary,
+            modifier = Modifier.align(Alignment.Center)
         )
     }
 }
@@ -375,52 +427,72 @@ fun FilterCharacterScreen(
     onEnterCharacters: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
-        if (!state.isHomepageLoading) {
-            val characters = state.characters
-            if (state.filter.isNotEmpty()) {
-                if (characters.isNotEmpty()) {
-                    LazyColumn(
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
-                    ) {
-                        item {
-                            FilterCharactersTopBar(
-                                onEnterCharacters = onEnterCharacters,
-                                onFilterCharacters = onFilterCharacters,
-                            )
+    BackHandler {
+        onEnterCharacters()
+    }
+    val characters = state.filteredCharacters
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        FilterCharactersTopBar(
+            state = state,
+            onEnterCharacters = onEnterCharacters,
+            onFilterCharacters = onFilterCharacters,
+        )
+        Box(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding))
+        ) {
+            if (!state.isHomepageLoading) {
+                if (state.filter.isNotEmpty()) {
+                    if (characters.isNotEmpty()) {
+                        LazyColumn(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
+                        ) {
+                            items(characters, key = { character -> character.id }) { character ->
+                                CharactersListItem(
+                                    state = state,
+                                    character = character,
+                                    selected = false,
+                                    filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
+                                    onCardClick = { onSelectCharacter(character.id) },
+                                )
+                            }
                         }
-                        items(characters, key = { character -> character.id }) { character ->
-                            CharactersListItem(
-                                state = state,
-                                character = character,
-                                selected = false,
-                                filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                                onCardClick = { onSelectCharacter(character.id) },
-                            )
-                        }
+                    } else {
+                        Text(
+                            text = stringResource(id = R.string.nothing_to_display),
+                            style = MaterialTheme.typography.displayLarge,
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            modifier = modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 } else {
                     Text(
-                        text = stringResource(id = R.string.nothing_to_display),
+                        text = stringResource(id = R.string.type_something_to_search),
                         style = MaterialTheme.typography.displayLarge,
-                        color = MaterialTheme.colorScheme.onTertiary
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        modifier = modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
                     )
                 }
             } else {
-                Text(
-                    text = stringResource(id = R.string.type_something_to_search),
-                    style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.onTertiary
+                CircularProgressIndicator(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
                 )
             }
-        } else {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
         }
     }
 }
+
 
 @Composable
 fun CharacterDetailsTraitElement(
@@ -431,15 +503,17 @@ fun CharacterDetailsTraitElement(
     Column(modifier = modifier.padding(vertical = dimensionResource(id = R.dimen.details_trait_element_padding_vertical))) {
         Text(
             text = labelText,
-            style = MaterialTheme.typography.displaySmall,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSecondary
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.displayMedium
+            style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }
+
 
 //@Preview
 //@Composable

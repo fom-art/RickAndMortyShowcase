@@ -51,7 +51,13 @@ fun NavigationDrawerContent(
                 label = {
                     Text(
                         text = navItem.text,
-                        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.drawer_padding_content))
+                        modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.drawer_padding_content)),
+                        color =
+                        if (currentCharacterList == navItem.charactersListType) colorResource(
+                            id = R.color.selected_icon_color
+                        ) else colorResource(
+                            id = R.color.unselected_icon_color
+                        )
                     )
                 },
                 selected = currentCharacterList == navItem.charactersListType,
@@ -63,7 +69,7 @@ fun NavigationDrawerContent(
                     }
                 },
                 icon = {
-                    Icon(
+                    Image(
                         imageVector = navItem.icon,
                         contentDescription = navItem.text
                     )
@@ -91,7 +97,7 @@ fun RaMSNavigationRail(
                     }
                 },
                 icon = {
-                    Icon(
+                    Image(
                         imageVector = navItem.icon,
                         contentDescription = navItem.text
                     )

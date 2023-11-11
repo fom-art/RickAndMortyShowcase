@@ -2,6 +2,7 @@ package com.example.rickyandmortyshowcase.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -24,6 +26,7 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,12 +35,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
@@ -228,7 +244,10 @@ fun RaMSAppContent(
                     )
                 }
                 val bottomNavigationContentDescription = stringResource(R.string.navigation_bottom)
-                AnimatedVisibility(visible = navigationType == RaMSNavigationType.BOTTOM_NAVIGATION) {
+                AnimatedVisibility(
+                    visible = navigationType == RaMSNavigationType.BOTTOM_NAVIGATION &&
+                            state.isShowingHomepage && state.currentCharactersList != RaMSViewModel.CharactersListType.FILTER
+                ) {
                     BottomNavigationBar(
                         currentCharacterList = state.currentCharactersList,
                         onEnterCharacters = onEnterCharacters,
@@ -246,73 +265,112 @@ fun RaMSAppContent(
 fun CharactersListTopBar(
     onEnterSearch: () -> Unit, modifier: Modifier = Modifier
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Text(
-            text = stringResource(id = R.string.characters),
-            style = MaterialTheme.typography.headlineLarge
-        )
-        IconButton(
-            onClick = onEnterSearch, modifier = Modifier
-        ) {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = stringResource(id = R.string.search_characters)
-            )
+        BlurryBottomShadeRow {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .height(dimensionResource(id = R.dimen.top_bar_height))
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.characters),
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.top_bar_padding_horizontal))
+                )
+                IconButton(
+                    onClick = onEnterSearch, modifier = Modifier
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = stringResource(id = R.string.search_characters)
+                    )
+                }
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteCharactersTopBar(
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Box(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical)),
-        verticalAlignment = Alignment.CenterVertically
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Text(
-            text = stringResource(id = R.string.favorites),
-            style = MaterialTheme.typography.headlineLarge
-        )
+        BlurryBottomShadeRow {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .height(dimensionResource(id = R.dimen.top_bar_height))
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.favorites),
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.top_bar_padding_horizontal))
+                )
+
+            }
+        }
+
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterCharactersTopBar(
+    state: RickAndMortyShowcaseState,
     onEnterCharacters: () -> Unit,
     onFilterCharacters: (name: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical))
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        IconButton(onClick = onEnterCharacters) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.enter_characters_list)
-            )
+        BlurryBottomShadeRow {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .height(dimensionResource(id = R.dimen.top_bar_height))
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+            ) {
+                IconButton(onClick = onEnterCharacters) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = stringResource(id = R.string.enter_characters_list)
+                    )
+                }
+                TextField(
+                    value = state.filter,
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.search_characters),
+                            style = MaterialTheme.typography.displayMedium,
+                            color = MaterialTheme.colorScheme.onSecondary
+                        )
+                    },
+                    onValueChange = onFilterCharacters,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = dimensionResource(R.dimen.filter_text_input_padding_start))
+                )
+            }
         }
-        TextField(
-            value = stringResource(id = R.string.search_characters),
-            onValueChange = onFilterCharacters,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = dimensionResource(R.dimen.filter_text_input_padding_start))
-        )
     }
 }
 
@@ -320,59 +378,99 @@ fun FilterCharactersTopBar(
 fun CharacterDetailsTopBar(
     state: RickAndMortyShowcaseState,
     onEnterCharacters: () -> Unit,
-    selectedCharacter: CharacterDetailed,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
     contentType: RaMSContentType,
     modifier: Modifier = Modifier
 ) {
     var isSelectedCharacterInFavorites by remember {
-        mutableStateOf(value = state.favoriteCharacters.asLiveData().value!!.firstOrNull { it.id == selectedCharacter.id } != null)
+        mutableStateOf(value = state.favoriteCharacters.asLiveData().value!!.firstOrNull
+        { it.id == state.selectedCharacter!!.id } != null)
     }
-    Row(
-        modifier = modifier, verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        if (contentType == RaMSContentType.LIST_ONLY) {
-            IconButton(
-                onClick = onEnterCharacters,
+        BlurryBottomShadeRow {
+            Row(
                 modifier = Modifier
-                    .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                    .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
-            )
-            {
-                Image(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_to_characters)
+                    .height(dimensionResource(id = R.dimen.top_bar_height))
+                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AnimatedVisibility(visible = contentType == RaMSContentType.LIST_ONLY) {
+                    IconButton(
+                        onClick = onEnterCharacters,
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                            .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+                    )
+                    {
+                        Image(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_to_characters)
+                        )
+                    }
+                }
+                Text(
+                    text = state.selectedCharacter!!.name,
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = dimensionResource(id = R.dimen.top_bar_padding_horizontal))
                 )
+                IconButton(
+                    onClick = {
+                        isSelectedCharacterInFavorites = if (isSelectedCharacterInFavorites) {
+                            onRemoveCharacterFromFavorites(state.selectedCharacter!!.id)
+                            !isSelectedCharacterInFavorites
+                        } else {
+                            onAddCharacterToFavorites(state.selectedCharacter!!.id)
+                            !isSelectedCharacterInFavorites
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                        .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+                ) {
+                    Crossfade(
+                        targetState = isSelectedCharacterInFavorites,
+                        label = ""
+                    ) { targetState ->
+                        Image(
+                            painter = if (targetState) painterResource(id = R.drawable.favorites_selected)
+                            else painterResource(id = R.drawable.favorites_unselected),
+                            contentDescription = if (targetState) stringResource(id = R.string.remove_from_favorites)
+                            else stringResource(id = R.string.add_to_favorites)
+                        )
+                    }
+                }
             }
         }
-        Text(
-            text = selectedCharacter.name,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.weight(1f)
-        )
-        IconButton(
-            onClick = {
-                isSelectedCharacterInFavorites = if (isSelectedCharacterInFavorites) {
-                    onRemoveCharacterFromFavorites(selectedCharacter.id)
-                    !isSelectedCharacterInFavorites
-                } else {
-                    onAddCharacterToFavorites(selectedCharacter.id)
-                    !isSelectedCharacterInFavorites
-                }
-            },
+    }
+}
+
+@Composable
+fun BlurryBottomShadeRow(content: @Composable (Modifier) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.Transparent)
+    ) {
+        content(Modifier.fillMaxWidth())
+        Canvas(
             modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+                .fillMaxWidth()
+                .height(3.dp) // Adjust the height as needed
+                .align(Alignment.BottomCenter)
         ) {
-            Crossfade(targetState = isSelectedCharacterInFavorites, label = "") { targetState ->
-                Image(
-                    painter = if (targetState) painterResource(id = R.drawable.favorites_selected)
-                    else painterResource(id = R.drawable.favorites_unselected),
-                    contentDescription = if (targetState) stringResource(id = R.string.remove_from_favorites)
-                    else stringResource(id = R.string.add_to_favorites)
-                )
-            }
+            drawRect(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color(0x5B000000)),
+                    startY = 0f,
+                    endY = size.height
+                ),
+            )
         }
     }
 }

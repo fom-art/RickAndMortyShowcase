@@ -36,7 +36,7 @@ fun CharacterQuery.Character.toCharacterDetailed(): CharacterDetailed {
         status = status ?: "-",
         imageUrl = image ?: "-",
         species = species ?: "-",
-        type = type ?: "-",
+        type = if (type.isNullOrBlank()) "-" else type,
         gender = gender ?: "-",
         origin = origin?.name ?: "-",
         location = location?.name ?: "-"
