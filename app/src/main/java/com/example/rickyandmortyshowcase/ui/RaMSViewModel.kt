@@ -5,7 +5,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
-import com.example.rickyandmortyshowcase.database.local.domain.FavoriteDao
+import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao
+import com.example.rickyandmortyshowcase.database.local.domain.FavoritesRepository
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
@@ -23,7 +24,7 @@ class RaMSViewModel @Inject constructor(
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
     private val getCharactersByNameUseCase: GetCharactersByNameUseCase,
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val favoritesDao: FavoriteDao
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState())
@@ -36,7 +37,7 @@ class RaMSViewModel @Inject constructor(
                     isHomepageLoading = true
                 )
             }
-            val idListFlow = favoritesDao.getFavourites()
+            val idListFlow = favoritesRepository.getFavourites()
             val idList = MutableStateFlow(emptyList<String>())
             idListFlow.asLiveData().observeForever { idList.value = it }
             _ramsState.update {
@@ -149,14 +150,14 @@ class RaMSViewModel @Inject constructor(
     //TODO: Much likely to fail
     fun addCharacterToFavorites(id: String) {
         viewModelScope.launch {
-            favoritesDao.upsertCharacter(Favorite(id))
+            favoritesRepository.upsertCharacter(Favorite(id))
         }
     }
 
     //TODO: Much likely to fail
     fun removeCharacterFromFavorites(id: String) {
         viewModelScope.launch {
-            favoritesDao.deleteCharacter(Favorite(id))
+            favoritesRepository.deleteCharacter(Favorite(id))
         }
     }
 

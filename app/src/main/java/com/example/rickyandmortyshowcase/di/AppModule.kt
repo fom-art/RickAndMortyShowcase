@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
 import com.example.rickyandmortyshowcase.database.local.data.FavoriteDatabase
-import com.example.rickyandmortyshowcase.database.local.domain.FavoriteDao
+import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao
+import com.example.rickyandmortyshowcase.database.local.domain.FavoritesOfflineRepository
+import com.example.rickyandmortyshowcase.database.local.domain.FavoritesRepository
 import com.example.rickyandmortyshowcase.database.remote.data.client.ApolloRickAndMortyShowcaseClient
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.client.RickAndMortyShowcaseClient
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
@@ -43,7 +45,15 @@ object AppModule {
     fun provideCharactersByNameUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersByNameUseCase {
         return GetCharactersByNameUseCase(rickAndMortyShowcaseClient)
     }
-
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext appContext: Context): FavoriteDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            FavoriteDatabase::class.java,
+            "Favorites"
+        ).build()
+    }
     @Provides
     @Singleton
     fun provideGetCharactersUseCase(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): GetCharactersUseCase {
@@ -56,13 +66,9 @@ object AppModule {
         return favoriteDatabase.favoriteDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): FavoriteDatabase {
-        return Room.databaseBuilder(
-            appContext,
-            FavoriteDatabase::class.java,
-            "Favorites"
-        ).build()
-    }
+  @Provides
+  @Singleton
+  fun provideFavoritesRepository(favoriteDao: FavoriteDao): FavoritesRepository {
+      return FavoritesOfflineRepository(favoriteDao)
+  }
 }

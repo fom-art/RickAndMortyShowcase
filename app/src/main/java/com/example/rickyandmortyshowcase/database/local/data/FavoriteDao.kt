@@ -1,4 +1,4 @@
-package com.example.rickyandmortyshowcase.database.local.domain
+package com.example.rickyandmortyshowcase.database.local.data
 
 import androidx.room.Dao
 import androidx.room.Delete
