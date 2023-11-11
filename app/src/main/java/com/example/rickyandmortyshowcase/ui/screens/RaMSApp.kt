@@ -403,11 +403,10 @@ fun CharacterDetailsTopBar(
                         onClick = onEnterCharacters,
                         modifier = Modifier
                             .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                            .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
                     )
                     {
                         Image(
-                            imageVector = Icons.Default.ArrowBack,
+                            painter = painterResource(id = R.drawable.back_arrow),
                             contentDescription = stringResource(id = R.string.back_to_characters)
                         )
                     }

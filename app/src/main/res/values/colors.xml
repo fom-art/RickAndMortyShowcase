@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="selected_icon_color">#0000FF</color>
     <color name="unselected_icon_color">#B3B3B3</color>
+    <color name="top_bar_icon_color">#000000</color>
 </resources>

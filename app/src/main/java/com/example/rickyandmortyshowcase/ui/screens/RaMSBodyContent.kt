@@ -357,7 +357,8 @@ fun CharacterDetailsScreen(
                 .padding(dimensionResource(id = R.dimen.body_padding))
         ) {
             item {
-                Card(modifier = Modifier.padding(dimensionResource(id = R.dimen.character_details_card_padding))) {
+                Card(modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.character_details_card_padding))) {
                     Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.character_details_card_boddy_padding))) {
                         Row(modifier = Modifier) {
                             Image(
