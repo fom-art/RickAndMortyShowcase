@@ -254,12 +254,13 @@ fun CharactersScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
-        if (!state.isHomepageLoading) {
-            val characters = state.characters
-            Column {
-                CharactersListTopBar(
-                    onEnterSearch = onEnterSearch,
-                )
+        Column {
+            CharactersListTopBar(
+                onEnterSearch = onEnterSearch,
+            )
+            if (!state.isHomepageLoading) {
+                val characters = state.characters
+
                 LazyColumn(
                     modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding)),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
@@ -275,11 +276,13 @@ fun CharactersScreen(
                         )
                     }
                 }
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                )
             }
-        } else {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
         }
     }
 }
@@ -301,19 +304,27 @@ fun FavoriteCharactersScreen(
         val characters = state.favoriteCharacters.asLiveData().value!!
         Column {
             FavoriteCharactersTopBar()
-            LazyColumn(
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
-            ) {
-                items(characters, key = { character -> character.id }) { character ->
-                    CharactersListItem(
-                        state = state,
-                        character = character,
-                        selected = false,
-                        filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
-                        onCardClick = { onSelectCharacter(character.id) },
-                    )
+            if (!state.isHomepageLoading){
+                LazyColumn(
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.body_padding)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
+                ) {
+                    items(characters, key = { character -> character.id }) { character ->
+                        CharactersListItem(
+                            state = state,
+                            character = character,
+                            selected = false,
+                            filterMode = state.currentCharactersList == RaMSViewModel.CharactersListType.FILTER,
+                            onCardClick = { onSelectCharacter(character.id) },
+                        )
+                    }
                 }
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                )
             }
         }
     }
