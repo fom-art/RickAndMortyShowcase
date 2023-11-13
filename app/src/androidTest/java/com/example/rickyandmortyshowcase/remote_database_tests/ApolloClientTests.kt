@@ -7,7 +7,6 @@ import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetChar
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersUseCase
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 import org.junit.Before
-import org.mockito.Mockito
 
 class ApolloClientTests {
     private lateinit var viewModel: ViewModel
@@ -16,17 +15,17 @@ class ApolloClientTests {
     private lateinit var getCharactersUseCase: GetCharactersUseCase
     private lateinit var favoritesRepository: FavoritesRepository
 
-    @Before
-    fun init() {
-        getCharacterDetailsUseCase = Mockito.mock(GetCharacterDetailsUseCase::class.java)
-        getCharactersByNameUseCase = Mockito.mock(GetCharactersByNameUseCase::class.java)
-        getCharactersUseCase = Mockito.mock(GetCharactersUseCase::class.java)
-        favoritesRepository = Mockito.mock(FavoritesRepository::class.java)
-        viewModel = RaMSViewModel(
-            getCharacterDetailsUseCase = getCharacterDetailsUseCase,
-            getCharactersByNameUseCase = getCharactersByNameUseCase,
-            getCharactersUseCase = getCharactersUseCase,
-            favoritesRepository = favoritesRepository
-        )
-    }
+//    @Before
+//    fun init() {
+//        getCharacterDetailsUseCase = Mockito.mock(GetCharacterDetailsUseCase::class.java)
+//        getCharactersByNameUseCase = Mockito.mock(GetCharactersByNameUseCase::class.java)
+//        getCharactersUseCase = Mockito.mock(GetCharactersUseCase::class.java)
+//        favoritesRepository = Mockito.mock(FavoritesRepository::class.java)
+//        viewModel = RaMSViewModel(
+//            getCharacterDetailsUseCase = getCharacterDetailsUseCase,
+//            getCharactersByNameUseCase = getCharactersByNameUseCase,
+//            getCharactersUseCase = getCharactersUseCase,
+//            favoritesRepository = favoritesRepository
+//        )
+//    }
 }

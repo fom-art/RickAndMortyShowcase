@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.junit.Test
 import java.io.IOException
 
 class RaMSDaoTests {
@@ -34,14 +33,30 @@ class RaMSDaoTests {
         db.close()
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"])
+    @Test
     @Throws(Exception::class)
-    fun roomClientDatabase_insertCharacter_isAddedToDatabase(id: String) = runBlocking {
-//        val id = "25062004"
+    fun roomClientDatabase_insertCharacter_isAddedToDatabase() = runBlocking {
+        val id = "25062004"
         val favorite = Favorite(id)
         favoriteDao.upsertCharacter(favorite)
         val allFavorites = favoriteDao.getFavourites().first()
         assert(allFavorites[0] == id)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun roomClientDatabase_deleteInsertedCharacter_isRemoved() = runBlocking {
+        val id = "20042506"
+
+        //Add to database
+        val favorite = Favorite(id)
+        favoriteDao.upsertCharacter(favorite)
+        val allFavoritesAfterInsert = favoriteDao.getFavourites().first()
+        assert(allFavoritesAfterInsert[0] == id)
+
+        //Remove from database
+        favoriteDao.deleteCharacter(favorite)
+        val allFavoritesAfterDelete= favoriteDao.getFavourites().first()
+        assert(allFavoritesAfterDelete.firstOrNull{it == id} == null)
     }
 }
