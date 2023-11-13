@@ -2,19 +2,15 @@ package com.example.rickyandmortyshowcase.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,30 +28,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
-import com.example.rickyandmortyshowcase.ui.RickAndMortyShowcaseState
+import com.example.rickyandmortyshowcase.ui.RaMSState
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
 
 @Composable
 fun RaMSListOnlyContent(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -116,7 +104,7 @@ fun RaMSListOnlyContent(
 
 @Composable
 fun RaMSListAndDetailContent(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -180,7 +168,7 @@ fun RaMSListAndDetailContent(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun CharactersListItem(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     character: CharacterSimple,
     selected: Boolean,
     filterMode: Boolean,
@@ -244,7 +232,7 @@ fun CharactersListItem(
 
 @Composable
 fun CharactersScreen(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     modifier: Modifier = Modifier
@@ -289,7 +277,7 @@ fun CharactersScreen(
 
 @Composable
 fun FavoriteCharactersScreen(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterCharacters: () -> Unit,
     modifier: Modifier = Modifier
@@ -333,7 +321,7 @@ fun FavoriteCharactersScreen(
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CharacterDetailsScreen(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onEnterCharacters: () -> Unit,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
@@ -433,7 +421,7 @@ fun CharacterDetailsEmptyScreen(
 
 @Composable
 fun FilterCharacterScreen(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onFilterCharacters: (name: String) -> Unit,
     onEnterCharacters: () -> Unit,

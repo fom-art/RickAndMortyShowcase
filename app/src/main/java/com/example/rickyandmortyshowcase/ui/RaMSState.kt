@@ -6,7 +6,7 @@ import com.example.rickyandmortyshowcase.database.remote.domain.entities.Charact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-data class RickAndMortyShowcaseState(
+data class RaMSState(
     val characters: List<CharacterSimple> = emptyList(),
     val favoriteCharacters: Flow<List<CharacterSimple>> = MutableStateFlow(emptyList()),
     val favoriteCharactersIdList: List<String> = emptyList(),

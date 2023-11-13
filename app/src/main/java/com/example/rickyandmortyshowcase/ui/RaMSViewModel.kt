@@ -5,8 +5,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.database.local.data.Favorite
-import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao
 import com.example.rickyandmortyshowcase.database.local.domain.FavoritesRepository
+import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
@@ -27,7 +27,7 @@ class RaMSViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
-    private val _ramsState = MutableStateFlow(RickAndMortyShowcaseState())
+    private val _ramsState = MutableStateFlow(RaMSState())
     var state = _ramsState.asStateFlow()
 
     init {
@@ -84,13 +84,8 @@ class RaMSViewModel @Inject constructor(
                 )
             }
             _ramsState.update {
-                try {
-                    getCharacterDetailsUseCase.execute(id)
-                } catch (e: Exception) {
-                    e.stackTrace
-                }
                 it.copy(
-                    selectedCharacter = getCharacterDetailsUseCase.execute(id),
+                    selectedCharacter = getCharacterDetailsFromId(id),
                     isCharacterDetailsListLoading = false
                 )
             }
@@ -160,5 +155,9 @@ class RaMSViewModel @Inject constructor(
 
     enum class CharactersListType {
         CHARACTERS, FAVORITES, FILTER
+    }
+
+    internal suspend fun getCharacterDetailsFromId(id:String): CharacterDetailed? {
+        return getCharacterDetailsUseCase.execute(id)
     }
 }

@@ -26,7 +26,6 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,37 +34,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.DrawStyle
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
-import com.example.rickyandmortyshowcase.ui.RickAndMortyShowcaseState
+import com.example.rickyandmortyshowcase.ui.RaMSState
 import com.example.rickyandmortyshowcase.ui.utils.NavigationItemContent
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType
 import com.example.rickyandmortyshowcase.ui.utils.RaMSNavigationType
 
 @Composable
 fun RaMSApp(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     windowSize: WindowWidthSizeClass,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
@@ -129,7 +117,7 @@ fun RaMSApp(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RaMSScreen(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onSelectCharacter: (id: String) -> Unit,
     onEnterSearch: () -> Unit,
     onEnterCharacters: () -> Unit,
@@ -191,7 +179,7 @@ fun RaMSScreen(
 fun RaMSAppContent(
     navigationType: RaMSNavigationType,
     contentType: RaMSContentType,
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     navigationItemContentList: List<NavigationItemContent>,
     modifier: Modifier = Modifier,
     onSelectCharacter: (id: String) -> Unit,
@@ -330,7 +318,7 @@ fun FavoriteCharactersTopBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterCharactersTopBar(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onEnterCharacters: () -> Unit,
     onFilterCharacters: (name: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -376,7 +364,7 @@ fun FilterCharactersTopBar(
 
 @Composable
 fun CharacterDetailsTopBar(
-    state: RickAndMortyShowcaseState,
+    state: RaMSState,
     onEnterCharacters: () -> Unit,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,

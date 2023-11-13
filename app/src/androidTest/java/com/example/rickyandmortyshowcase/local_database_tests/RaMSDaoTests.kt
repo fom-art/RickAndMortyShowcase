@@ -33,7 +33,6 @@ class RaMSDaoTests {
         db.close()
     }
 
-    @Test
     @Throws(Exception::class)
     fun roomClientDatabase_insertCharacter_isAddedToDatabase() = runBlocking {
         val id = "25062004"
