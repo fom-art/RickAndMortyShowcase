@@ -72,7 +72,6 @@ class RaMSViewModel @Inject constructor(
                 result.asLiveData().value!!.add(character!!)
             }
         }
-
         return result
     }
 
@@ -147,14 +146,12 @@ class RaMSViewModel @Inject constructor(
         }
     }
 
-    //TODO: Much likely to fail
     fun addCharacterToFavorites(id: String) {
         viewModelScope.launch {
             favoritesRepository.upsertCharacter(Favorite(id))
         }
     }
 
-    //TODO: Much likely to fail
     fun removeCharacterFromFavorites(id: String) {
         viewModelScope.launch {
             favoritesRepository.deleteCharacter(Favorite(id))
