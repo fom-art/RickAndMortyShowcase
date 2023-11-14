@@ -430,7 +430,6 @@ fun FilterCharacterScreen(
     BackHandler {
         onEnterCharacters()
     }
-    val characters = state.filteredCharacters
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -445,12 +444,12 @@ fun FilterCharacterScreen(
         ) {
             if (!state.isHomepageLoading) {
                 if (state.filter.isNotEmpty()) {
-                    if (characters.isNotEmpty()) {
+                    if (state.filteredCharacters.isNotEmpty()) {
                         LazyColumn(
                             modifier = Modifier,
                             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_item_padding))
                         ) {
-                            items(characters, key = { character -> character.id }) { character ->
+                            items(state.filteredCharacters, key = { character -> character.id }) { character ->
                                 CharactersListItem(
                                     state = state,
                                     character = character,

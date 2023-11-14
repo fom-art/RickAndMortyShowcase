@@ -12,11 +12,15 @@ import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetChar
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
 import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +33,7 @@ class RaMSViewModel @Inject constructor(
 
     private val _ramsState = MutableStateFlow(RaMSState())
     var state = _ramsState.asStateFlow()
+    private var filterCharactersJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -125,18 +130,38 @@ class RaMSViewModel @Inject constructor(
     }
 
     fun filterCharacters(name: String) {
-        viewModelScope.launch {
-            _ramsState.update {
-                it.copy(
-                    filter = name,
-                    isHomepageLoading = true
-                )
-            }
-            _ramsState.update {
-                it.copy(
-                    filteredCharacters = getCharactersByNameUseCase.execute(name),
-                    isHomepageLoading = false
-                )
+        // Cancel the previous job if it exists
+        filterCharactersJob?.cancel()
+
+        // Create a new job for the current call
+        filterCharactersJob = viewModelScope.launch {
+            try {
+                _ramsState.update {
+                    it.copy(
+                        filter = name,
+                        isHomepageLoading = true
+                    )
+                }
+
+                // Simulate some asynchronous work with delay
+                delay(1000)
+
+                val filteredCharacters = withTimeout(5000) {
+                    getCharactersByNameUseCase.execute(name)
+                }
+
+                _ramsState.update {
+                    it.copy(
+                        filteredCharacters = filteredCharacters,
+                        isHomepageLoading = false
+                    )
+                }
+            } catch (e: TimeoutCancellationException) {
+                _ramsState.update {
+                    it.copy(
+                        isHomepageLoading = false,
+                    )
+                }
             }
         }
     }
