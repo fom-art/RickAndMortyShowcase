@@ -1,10 +1,10 @@
-package com.example.rickyandmortyshowcase.data.remote.data.utils
+package com.example.rickyandmortyshowcase.data.network
 
 import com.example.CharacterQuery
 import com.example.CharactersQuery
 import com.example.FilterCharactersByNameQuery
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 
 fun FilterCharactersByNameQuery.Result.toCharacterSimple(): CharacterSimple {
     return CharacterSimple(

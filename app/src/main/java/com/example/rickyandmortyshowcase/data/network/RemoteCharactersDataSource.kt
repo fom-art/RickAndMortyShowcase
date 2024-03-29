@@ -1,8 +1,7 @@
-package com.example.rickyandmortyshowcase.data
+package com.example.rickyandmortyshowcase.data.network
 
-import com.example.rickyandmortyshowcase.data.client.RickAndMortyShowcaseClient
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 
 class RemoteCharactersDataSource (private val rickAndMortyShowcaseClient: RickAndMortyShowcaseClient){
     suspend fun getCharacters(): List<CharacterSimple> {

@@ -1,8 +1,8 @@
 package com.example.rickyandmortyshowcase.ui
 
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

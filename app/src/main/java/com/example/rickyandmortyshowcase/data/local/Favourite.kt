@@ -1,10 +1,10 @@
-package com.example.rickyandmortyshowcase.data.local.data
+package com.example.rickyandmortyshowcase.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Favorite(
+data class Favourite(
     @PrimaryKey
     val id: String
 )

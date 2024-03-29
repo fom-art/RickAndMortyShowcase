@@ -36,7 +36,7 @@ import androidx.lifecycle.asLiveData
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 import com.example.rickyandmortyshowcase.ui.RaMSViewModel
 import com.example.rickyandmortyshowcase.ui.RaMSState
 import com.example.rickyandmortyshowcase.ui.utils.RaMSContentType

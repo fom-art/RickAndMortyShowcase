@@ -1,4 +1,4 @@
-package com.example.rickyandmortyshowcase.data.model
+package com.example.rickyandmortyshowcase.domain
 
 import android.graphics.Bitmap
 import java.net.URL

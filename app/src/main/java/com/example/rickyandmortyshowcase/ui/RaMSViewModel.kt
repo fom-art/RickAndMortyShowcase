@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.data.FavoritesRepository
-import com.example.rickyandmortyshowcase.data.local.data.Favorite
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.DeleteCharacterFromFavouritesUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharacterDetailsUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharactersByNameUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharactersUseCase
+import com.example.rickyandmortyshowcase.domain.GetFavouritesUseCase
+import com.example.rickyandmortyshowcase.domain.UpsertCharacterToFavouritesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,9 @@ class RaMSViewModel @Inject constructor(
     private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
     private val getCharactersByNameUseCase: GetCharactersByNameUseCase,
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val favoritesRepository: FavoritesRepository
+    private val getFavouritesUseCase: GetFavouritesUseCase,
+    private val upsertCharacterToFavouritesUseCase: UpsertCharacterToFavouritesUseCase,
+    private val deleteCharacterFromFavouritesUseCase: DeleteCharacterFromFavouritesUseCase
 ) : ViewModel() {
 
     private val _ramsState = MutableStateFlow(RaMSState())
@@ -37,7 +40,7 @@ class RaMSViewModel @Inject constructor(
                     isHomepageLoading = true
                 )
             }
-            val idListFlow = favoritesRepository.getFavourites()
+            val idListFlow = getFavouritesUseCase()
             val idList = MutableStateFlow(emptyList<String>())
             idListFlow.asLiveData().observeForever { idList.value = it }
             _ramsState.update {
@@ -143,13 +146,13 @@ class RaMSViewModel @Inject constructor(
 
     fun addCharacterToFavorites(id: String) {
         viewModelScope.launch {
-            favoritesRepository.upsertCharacter(Favorite(id))
+            upsertCharacterToFavouritesUseCase(id)
         }
     }
 
     fun removeCharacterFromFavorites(id: String) {
         viewModelScope.launch {
-            favoritesRepository.deleteCharacter(Favorite(id))
+            deleteCharacterFromFavouritesUseCase(id)
         }
     }
 

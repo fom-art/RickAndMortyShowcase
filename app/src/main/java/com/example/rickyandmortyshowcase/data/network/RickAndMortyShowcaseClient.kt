@@ -1,7 +1,7 @@
-package com.example.rickyandmortyshowcase.data.client
+package com.example.rickyandmortyshowcase.data.network
 
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 
 interface RickAndMortyShowcaseClient {
     suspend fun getCharacters(): List<CharacterSimple>

@@ -4,18 +4,17 @@ import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
 import com.example.rickyandmortyshowcase.data.CharactersRepository
-import com.example.rickyandmortyshowcase.data.FavoritesRepository
-import com.example.rickyandmortyshowcase.data.LocalFavouritesDataSource
-import com.example.rickyandmortyshowcase.data.RemoteCharactersDataSource
-import com.example.rickyandmortyshowcase.data.local.data.FavoriteDatabase
-import com.example.rickyandmortyshowcase.data.local.data.FavoriteDao
-import com.example.rickyandmortyshowcase.data.local.domain.FavoritesOfflineRepository
-import com.example.rickyandmortyshowcase.data.remote.data.client.ApolloRickAndMortyShowcaseClient
-import com.example.rickyandmortyshowcase.data.client.RickAndMortyShowcaseClient
+import com.example.rickyandmortyshowcase.data.network.RemoteCharactersDataSource
+import com.example.rickyandmortyshowcase.data.local.FavoriteDatabase
+import com.example.rickyandmortyshowcase.data.local.FavoritesDao
+import com.example.rickyandmortyshowcase.data.network.ApolloRickAndMortyShowcaseClient
+import com.example.rickyandmortyshowcase.data.network.RickAndMortyShowcaseClient
+import com.example.rickyandmortyshowcase.domain.DeleteCharacterFromFavouritesUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharacterDetailsUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharactersByNameUseCase
 import com.example.rickyandmortyshowcase.domain.GetCharactersUseCase
 import com.example.rickyandmortyshowcase.domain.GetFavouritesUseCase
+import com.example.rickyandmortyshowcase.domain.UpsertCharacterToFavouritesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +24,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object CharactersModule {
     @Provides
     @Singleton
     fun provideApolloClient(): ApolloClient {
@@ -40,36 +39,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRemoteCharactersDataSource(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): RemoteCharactersDataSource {
-        return RemoteCharactersDataSource(rickAndMortyShowcaseClient)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCharactersRepository(remoteCharactersDataSource: RemoteCharactersDataSource): CharactersRepository {
-        return CharactersRepository(remoteCharactersDataSource)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetCharacterDetailsUseCase(charactersRepository: CharactersRepository): GetCharacterDetailsUseCase {
-        return GetCharacterDetailsUseCase(charactersRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCharactersByNameUseCase(charactersRepository: CharactersRepository): GetCharactersByNameUseCase {
-        return GetCharactersByNameUseCase(charactersRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetCharactersUseCase(charactersRepository: CharactersRepository): GetCharactersUseCase {
-        return GetCharactersUseCase(charactersRepository)
-    }
-
-    @Provides
-    @Singleton
     fun provideAppDatabase(@ApplicationContext appContext: Context): FavoriteDatabase {
         return Room.databaseBuilder(
             appContext,
@@ -80,25 +49,49 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFavoriteDao(favoriteDatabase: FavoriteDatabase): FavoriteDao {
+    fun provideRemoteCharactersDataSource(rickAndMortyShowcaseClient: RickAndMortyShowcaseClient): RemoteCharactersDataSource {
+        return RemoteCharactersDataSource(rickAndMortyShowcaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteDao(favoriteDatabase: FavoriteDatabase): FavoritesDao {
         return favoriteDatabase.favoriteDao()
     }
 
     @Provides
     @Singleton
-    fun provideLocalFavouritesDataSource(favoriteDao: FavoriteDao): LocalFavouritesDataSource {
-        return LocalFavouritesDataSource(favoriteDao)
+    fun provideCharactersRepository(remoteCharactersDataSource: RemoteCharactersDataSource, favouritesDao: FavoritesDao): CharactersRepository {
+        return CharactersRepository(remoteCharactersDataSource, favouritesDao)
     }
 
     @Provides
-    @Singleton
-    fun provideFavoritesRepository(localFavouritesDataSource: LocalFavouritesDataSource): FavoritesRepository {
-        return FavoritesRepository(localFavouritesDataSource)
+    fun provideGetCharacterDetailsUseCase(charactersRepository: CharactersRepository): GetCharacterDetailsUseCase {
+        return GetCharacterDetailsUseCase(charactersRepository)
     }
 
     @Provides
-    @Singleton
-    fun provideGetFavouritesUseCase(favoritesRepository: FavoritesRepository): GetFavouritesUseCase {
-        return GetFavouritesUseCase(favoritesRepository)
+    fun provideCharactersByNameUseCase(charactersRepository: CharactersRepository): GetCharactersByNameUseCase {
+        return GetCharactersByNameUseCase(charactersRepository)
+    }
+
+    @Provides
+    fun provideGetCharactersUseCase(charactersRepository: CharactersRepository): GetCharactersUseCase {
+        return GetCharactersUseCase(charactersRepository)
+    }
+
+    @Provides
+    fun provideGetFavouritesUseCase(charactersRepository: CharactersRepository): GetFavouritesUseCase {
+        return GetFavouritesUseCase(charactersRepository)
+    }
+
+    @Provides
+    fun provideDeleteCharacterFromFavouritesUseCase(charactersRepository: CharactersRepository): DeleteCharacterFromFavouritesUseCase {
+        return DeleteCharacterFromFavouritesUseCase(charactersRepository)
+    }
+
+    @Provides
+    fun provideUpsertCharacterToFavouritesUseCase(charactersRepository: CharactersRepository): UpsertCharacterToFavouritesUseCase {
+        return UpsertCharacterToFavouritesUseCase(charactersRepository)
     }
 }

@@ -1,14 +1,11 @@
-package com.example.rickyandmortyshowcase.data.remote.data.client
+package com.example.rickyandmortyshowcase.data.network
 
 import com.apollographql.apollo3.ApolloClient
 import com.example.CharacterQuery
 import com.example.CharactersQuery
 import com.example.FilterCharactersByNameQuery
-import com.example.rickyandmortyshowcase.data.remote.data.utils.toCharacterDetailed
-import com.example.rickyandmortyshowcase.data.remote.data.utils.toCharacterSimple
-import com.example.rickyandmortyshowcase.data.client.RickAndMortyShowcaseClient
-import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
-import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.CharacterDetailed
+import com.example.rickyandmortyshowcase.domain.CharacterSimple
 
 class ApolloRickAndMortyShowcaseClient(
     private val rickAndMortyShowcaseClient: ApolloClient
