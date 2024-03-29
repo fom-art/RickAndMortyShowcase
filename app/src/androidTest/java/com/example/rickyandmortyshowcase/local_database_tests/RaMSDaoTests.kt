@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.rickyandmortyshowcase.data.local.data.Favorite
 import com.example.rickyandmortyshowcase.data.local.data.FavoriteDao
-import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao_Impl
 import com.example.rickyandmortyshowcase.data.local.data.FavoriteDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -24,7 +23,7 @@ class RaMSDaoTests {
         db = Room.inMemoryDatabaseBuilder(context, FavoriteDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        favoriteDao = FavoriteDao_Impl(db)
+//        favoriteDao = FavoriteDao_Impl(db)
     }
 
     @After

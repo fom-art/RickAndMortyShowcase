@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
+import com.example.rickyandmortyshowcase.data.FavoritesRepository
 import com.example.rickyandmortyshowcase.data.local.data.Favorite
-import com.example.rickyandmortyshowcase.data.local.domain.FavoritesRepository
 import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
 import com.example.rickyandmortyshowcase.data.model.CharacterSimple
 import com.example.rickyandmortyshowcase.domain.GetCharacterDetailsUseCase
