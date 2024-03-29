@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.database.local.data.Favorite
-import com.example.rickyandmortyshowcase.database.local.domain.FavoritesRepository
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterDetailed
-import com.example.rickyandmortyshowcase.database.remote.domain.entities.CharacterSimple
-import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharacterDetailsUseCase
-import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersByNameUseCase
-import com.example.rickyandmortyshowcase.database.remote.domain.usecases.GetCharactersUseCase
+import com.example.rickyandmortyshowcase.data.local.data.Favorite
+import com.example.rickyandmortyshowcase.data.local.domain.FavoritesRepository
+import com.example.rickyandmortyshowcase.data.model.CharacterDetailed
+import com.example.rickyandmortyshowcase.data.model.CharacterSimple
+import com.example.rickyandmortyshowcase.domain.GetCharacterDetailsUseCase
+import com.example.rickyandmortyshowcase.domain.GetCharactersByNameUseCase
+import com.example.rickyandmortyshowcase.domain.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +41,7 @@ class RaMSViewModel @Inject constructor(
             val idList = MutableStateFlow(emptyList<String>())
             idListFlow.asLiveData().observeForever { idList.value = it }
             _ramsState.update {
-                val charactersList = getCharactersUseCase.execute()
+                val charactersList = getCharactersUseCase()
                 it.copy(
                     characters = charactersList,
                     favoriteCharacters = getFavoriteCharactersListFlowFromIdListFlow(
@@ -134,7 +134,7 @@ class RaMSViewModel @Inject constructor(
             }
             _ramsState.update {
                 it.copy(
-                    filteredCharacters = getCharactersByNameUseCase.execute(name),
+                    filteredCharacters = getCharactersByNameUseCase(name),
                     isHomepageLoading = false
                 )
             }
@@ -158,6 +158,6 @@ class RaMSViewModel @Inject constructor(
     }
 
     internal suspend fun getCharacterDetailsFromId(id:String): CharacterDetailed? {
-        return getCharacterDetailsUseCase.execute(id)
+        return getCharacterDetailsUseCase(id)
     }
 }

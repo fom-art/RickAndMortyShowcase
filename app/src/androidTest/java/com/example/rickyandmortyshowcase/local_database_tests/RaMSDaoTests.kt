@@ -3,10 +3,10 @@ package com.example.rickyandmortyshowcase.local_database_tests
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.rickyandmortyshowcase.database.local.data.Favorite
-import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao
+import com.example.rickyandmortyshowcase.data.local.data.Favorite
+import com.example.rickyandmortyshowcase.data.local.data.FavoriteDao
 import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao_Impl
-import com.example.rickyandmortyshowcase.database.local.data.FavoriteDatabase
+import com.example.rickyandmortyshowcase.data.local.data.FavoriteDatabase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After

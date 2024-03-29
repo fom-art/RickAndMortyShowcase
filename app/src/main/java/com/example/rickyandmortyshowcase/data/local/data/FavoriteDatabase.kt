@@ -1,4 +1,4 @@
-package com.example.rickyandmortyshowcase.database.local.data
+package com.example.rickyandmortyshowcase.data.local.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

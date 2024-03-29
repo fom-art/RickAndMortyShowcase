@@ -1,10 +1,10 @@
-package com.example.rickyandmortyshowcase.database.local.data
+package com.example.rickyandmortyshowcase.data.local.data
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.rickyandmortyshowcase.database.local.data.Favorite
+import com.example.rickyandmortyshowcase.data.local.data.Favorite
 import dagger.Provides
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

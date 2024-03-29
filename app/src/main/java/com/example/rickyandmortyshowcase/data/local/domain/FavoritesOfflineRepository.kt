@@ -1,7 +1,7 @@
-package com.example.rickyandmortyshowcase.database.local.domain
+package com.example.rickyandmortyshowcase.data.local.domain
 
-import com.example.rickyandmortyshowcase.database.local.data.Favorite
-import com.example.rickyandmortyshowcase.database.local.data.FavoriteDao
+import com.example.rickyandmortyshowcase.data.local.data.Favorite
+import com.example.rickyandmortyshowcase.data.local.data.FavoriteDao
 import kotlinx.coroutines.flow.Flow
 
 class FavoritesOfflineRepository(private val favoriteDao: FavoriteDao): FavoritesRepository {
