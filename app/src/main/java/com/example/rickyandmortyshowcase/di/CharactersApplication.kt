@@ -1,4 +1,4 @@
-package com.example.rickyandmortyshowcase.characters.ui
+package com.example.rickyandmortyshowcase.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

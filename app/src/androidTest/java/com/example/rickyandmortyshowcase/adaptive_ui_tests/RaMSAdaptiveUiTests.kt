@@ -5,7 +5,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
-import com.example.rickyandmortyshowcase.characters.ui.CharactersScreen
+import com.example.rickyandmortyshowcase.characters.ui.CharactersMainScreen
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class RaMSAdaptiveUiTests {
     fun compactDevice_verifyUsingBottom() {
         //Set up compact window
         composeTestRule.setContent {
-            CharactersScreen(
+            CharactersMainScreen(
                 state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Compact,
                 onSelectCharacter = {},
@@ -36,7 +36,7 @@ class RaMSAdaptiveUiTests {
     fun mediumDevice_verifyUsingNavigationRail() {
         //Set up compact window
         composeTestRule.setContent {
-            CharactersScreen(
+            CharactersMainScreen(
                 state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Medium,
                 onSelectCharacter = {},
@@ -55,7 +55,7 @@ class RaMSAdaptiveUiTests {
     fun expandedDevice_verifyUsingNavigationDrawer() {
         //Set up compact window
         composeTestRule.setContent {
-            CharactersScreen(
+            CharactersMainScreen(
                 state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Expanded,
                 onSelectCharacter = {},

@@ -152,11 +152,7 @@ class CharactersViewModel @Inject constructor(
         }
     }
 
-    enum class CharactersListType {
-        CHARACTERS, FAVORITES, FILTER
-    }
-
-    internal suspend fun getCharacterDetailsFromId(id: String): CharacterDetailed? {
+    private suspend fun getCharacterDetailsFromId(id: String): CharacterDetailed? {
         return getCharacterDetailsUseCase(id)
     }
 }

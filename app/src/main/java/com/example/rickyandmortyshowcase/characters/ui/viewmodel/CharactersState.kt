@@ -10,7 +10,7 @@ data class CharactersState(
     val favoriteCharactersIdList: List<String> = emptyList(),
     val filteredCharacters: List<CharacterSimple> = emptyList(),
     val filter: String = "",
-    val currentCharactersList: CharactersViewModel.CharactersListType = CharactersViewModel.CharactersListType.CHARACTERS,
+    val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,
     val isHomepageLoading: Boolean = false,
     val isCharacterDetailsListLoading: Boolean = false,
     val selectedCharacter: CharacterDetailed? = null,
