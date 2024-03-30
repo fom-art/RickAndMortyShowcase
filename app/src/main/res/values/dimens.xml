@@ -24,7 +24,7 @@
     <dimen name="detail_topbar_back_button_padding_horizontal">8dp</dimen>
     <dimen name="details_trait_element_padding_vertical">20dp</dimen>
     <dimen name="screen_body_padding_from_top_bar">4dp</dimen>
-    <dimen name="top_bar_height">64dp</dimen>
+    <dimen name="top_bar_height">68dp</dimen>
     <dimen name="body_padding">8dp</dimen>
     <dimen name="character_details_card_boddy_padding">16dp</dimen>
     <dimen name="character_details_divider_vertical_padding">16dp</dimen>

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.RickyAndMortyShowcaseTheme
-import com.example.rickyandmortyshowcase.ui.RaMSViewModel
-import com.example.rickyandmortyshowcase.ui.screens.RaMSApp
+import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersViewModel
+import com.example.rickyandmortyshowcase.characters.ui.CharactersMainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,10 +26,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             RickyAndMortyShowcaseTheme {
                 Surface {
-                    val viewModel = hiltViewModel<RaMSViewModel>()
+                    val viewModel = hiltViewModel<CharactersViewModel>()
                     val state by viewModel.state.collectAsState()
                     val windowSize = calculateWindowSizeClass(activity = this)
-                    RaMSApp(
+                    CharactersMainScreen(
                         state = state,
                         windowSize = windowSize.widthSizeClass,
                         onSelectCharacter = viewModel::selectCharacter,

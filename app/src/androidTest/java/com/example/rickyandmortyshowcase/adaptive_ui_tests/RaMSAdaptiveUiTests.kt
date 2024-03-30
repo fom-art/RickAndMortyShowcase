@@ -2,12 +2,10 @@ package com.example.rickyandmortyshowcase.adaptive_ui_tests
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import com.example.rickyandmortyshowcase.ui.RaMSState
-import com.example.rickyandmortyshowcase.ui.screens.RaMSApp
+import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
+import com.example.rickyandmortyshowcase.characters.ui.CharactersMainScreen
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,8 +17,8 @@ class RaMSAdaptiveUiTests {
     fun compactDevice_verifyUsingBottom() {
         //Set up compact window
         composeTestRule.setContent {
-            RaMSApp(
-                state = RaMSState(),
+            CharactersMainScreen(
+                state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Compact,
                 onSelectCharacter = {},
                 onEnterSearch = {},
@@ -38,8 +36,8 @@ class RaMSAdaptiveUiTests {
     fun mediumDevice_verifyUsingNavigationRail() {
         //Set up compact window
         composeTestRule.setContent {
-            RaMSApp(
-                state = RaMSState(),
+            CharactersMainScreen(
+                state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Medium,
                 onSelectCharacter = {},
                 onEnterSearch = {},
@@ -57,8 +55,8 @@ class RaMSAdaptiveUiTests {
     fun expandedDevice_verifyUsingNavigationDrawer() {
         //Set up compact window
         composeTestRule.setContent {
-            RaMSApp(
-                state = RaMSState(),
+            CharactersMainScreen(
+                state = CharactersState(),
                 windowSize = WindowWidthSizeClass.Expanded,
                 onSelectCharacter = {},
                 onEnterSearch = {},
