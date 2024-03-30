@@ -12,7 +12,6 @@ import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
 import com.example.rickyandmortyshowcase.core.ui.BottomNavigationBar
 import com.example.rickyandmortyshowcase.core.ui.NavigationDrawerContent
-import com.example.rickyandmortyshowcase.core.ui.NavigationType
 import com.example.rickyandmortyshowcase.core.ui.NavigationItemContent
 import com.example.rickyandmortyshowcase.core.ui.NavigationRail
 
@@ -44,7 +43,6 @@ fun CompactScreen(
             onAddCharacterToFavorites = onAddCharacterToFavorites,
             onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
             onFilterCharacters = onFilterCharacters,
-//            modifier = modifier.weight(1f)
         )
     }
 }
@@ -77,7 +75,6 @@ fun MediumScreen(
             onAddCharacterToFavorites = onAddCharacterToFavorites,
             onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
             onFilterCharacters = onFilterCharacters,
-//            modifier = modifier.weight(1f)
         )
     }
 }
@@ -94,8 +91,6 @@ fun ExpandedScreen(
     onFilterCharacters: (name: String) -> Unit,
     navigationItemContentList: List<NavigationItemContent>
 ) {
-    val navigationType = NavigationType.PERMANENT_NAVIGATION_DRAWER
-    val charactersScreenContentDisplayType = CharactersScreenContentDisplayType.LIST_AND_DETAIL
     val navigationDrawerContentDescription = stringResource(id = R.string.navigation_drawer)
     PermanentNavigationDrawer(
         drawerContent = {
@@ -117,7 +112,6 @@ fun ExpandedScreen(
             onAddCharacterToFavorites = onAddCharacterToFavorites,
             onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
             onFilterCharacters = onFilterCharacters,
-//            modifier = Modifier.weight(1f)
         )
     }
 }

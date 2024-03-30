@@ -1,5 +1,7 @@
 package com.example.rickyandmortyshowcase.characters.ui.layouts
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,11 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,11 +26,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
 import com.example.rickyandmortyshowcase.characters.domain.CharacterSimple
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersListType
@@ -86,59 +97,59 @@ fun CharactersListItem(
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-//    val isCharacterInFavorites by remember {
-//        mutableStateOf(value = state.favoriteCharacters.asLiveData().value!!.firstOrNull { it.id == character.id } != null)
-//    }
-//    Card(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .padding(dimensionResource(id = R.dimen.list_item_padding)),
-//        colors = CardDefaults.cardColors(
-//            containerColor = if (selected && filterMode)
-//                MaterialTheme.colorScheme.background
-//            else if (selected)
-//                MaterialTheme.colorScheme.primaryContainer
-//            else
-//                MaterialTheme.colorScheme.tertiaryContainer
-//        ),
-//        onClick = onCardClick
-//    ) {
-//        Row {
-//            Image(
-//                painter = rememberImagePainter(character.imageUrl),
-//                contentDescription = character.name,
-//                modifier = Modifier
-//                    .padding(
-//                        dimensionResource(id = R.dimen.list_item_image_padding)
-//                    )
-//                    .size(dimensionResource(id = R.dimen.list_item_image_size))
-//                    .clip(MaterialTheme.shapes.small)
-//            )
-//            Column {
-//                Row {
-//                    Text(
-//                        text = character.name,
-//                        style = MaterialTheme.typography.headlineMedium,
-//                        color = MaterialTheme.colorScheme.onPrimary
-//                    )
-//                    AnimatedVisibility(visible = isCharacterInFavorites) {
-//                        Image(
-//                            painter = painterResource(id = R.drawable.favorites_selected),
-//                            contentDescription = stringResource(id = R.string.favorite),
-//                            modifier = modifier
-//                                .size(dimensionResource(id = R.dimen.list_item_favorite_icon_size))
-//                                .padding(start = dimensionResource(R.dimen.list_item_favorite_icon_padding_start))
-//                        )
-//                    }
-//                }
-//                Text(
-//                    text = character.status,
-//                    style = MaterialTheme.typography.bodySmall,
-//                    color = MaterialTheme.colorScheme.onSecondary
-//                )
-//            }
-//        }
-//    }
+    val isCharacterInFavorites by remember {
+        mutableStateOf(state.favoriteCharacters.firstOrNull {it.id == character.id} != null)
+    }
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(dimensionResource(id = R.dimen.list_item_padding)),
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected && filterMode)
+                MaterialTheme.colorScheme.background
+            else if (selected)
+                MaterialTheme.colorScheme.primaryContainer
+            else
+                MaterialTheme.colorScheme.tertiaryContainer
+        ),
+        onClick = onCardClick
+    ) {
+        Row {
+            Image(
+                painter = rememberImagePainter(character.imageUrl),
+                contentDescription = character.name,
+                modifier = Modifier
+                    .padding(
+                        dimensionResource(id = R.dimen.list_item_image_padding)
+                    )
+                    .size(dimensionResource(id = R.dimen.list_item_image_size))
+                    .clip(MaterialTheme.shapes.small)
+            )
+            Column {
+                Row {
+                    Text(
+                        text = character.name,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    AnimatedVisibility(visible = isCharacterInFavorites) {
+                        Image(
+                            painter = painterResource(id = R.drawable.favorites_selected),
+                            contentDescription = stringResource(id = R.string.favorite),
+                            modifier = modifier
+                                .size(dimensionResource(id = R.dimen.list_item_favorite_icon_size))
+                                .padding(start = dimensionResource(R.dimen.list_item_favorite_icon_padding_start))
+                        )
+                    }
+                }
+                Text(
+                    text = character.status,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+        }
+    }
 }
 
 @Composable

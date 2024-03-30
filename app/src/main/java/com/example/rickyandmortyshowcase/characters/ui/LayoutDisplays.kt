@@ -13,7 +13,6 @@ import com.example.rickyandmortyshowcase.characters.ui.layouts.FavoriteCharacter
 import com.example.rickyandmortyshowcase.characters.ui.layouts.FilterCharacterLayout
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersListType
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
-import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersViewModel
 
 @Composable
 fun CharactersOneLayoutDisplay(
@@ -26,7 +25,6 @@ fun CharactersOneLayoutDisplay(
     onFilterCharacters: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    modifier.fillMaxSize()
     if (state.isShowingHomepage) {
         when (state.currentCharactersList) {
             CharactersListType.CHARACTERS -> {
@@ -64,7 +62,7 @@ fun CharactersOneLayoutDisplay(
                 onEnterCharacters = onEnterCharacters,
                 onAddCharacterToFavorites = onAddCharacterToFavorites,
                 onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                charactersScreenContentDisplayType = CharactersScreenContentDisplayType.LIST_ONLY,
+                charactersContentDisplayType = CharactersContentDisplayType.LIST_ONLY,
                 modifier = modifier
             )
         } else {
@@ -125,7 +123,7 @@ fun CharactersTwoLayoutsDisplay(
                     onEnterCharacters = onEnterCharacters,
                     onAddCharacterToFavorites = onAddCharacterToFavorites,
                     onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-                    charactersScreenContentDisplayType = CharactersScreenContentDisplayType.LIST_AND_DETAIL,
+                    charactersContentDisplayType = CharactersContentDisplayType.LIST_AND_DETAIL,
                     modifier = modifier
                 )
             } else {

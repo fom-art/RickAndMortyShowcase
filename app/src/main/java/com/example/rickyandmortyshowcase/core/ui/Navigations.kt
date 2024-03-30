@@ -2,6 +2,7 @@ package com.example.rickyandmortyshowcase.core.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -114,7 +115,8 @@ fun BottomNavigationBar(
     content: @Composable () -> Unit
 ) {
     Column {
-        content()
+        Box(modifier = Modifier.weight(1f))
+        { content() }
         NavigationBar(modifier = modifier) {
             for (navItem in navigationItemContentList) {
                 NavigationBarItem(

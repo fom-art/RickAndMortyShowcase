@@ -1,29 +1,40 @@
 package com.example.rickyandmortyshowcase.characters.ui.layouts
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickyandmortyshowcase.R
-import com.example.rickyandmortyshowcase.characters.ui.CharactersScreenContentDisplayType
+import com.example.rickyandmortyshowcase.characters.ui.CharactersContentDisplayType
 import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
+import com.example.rickyandmortyshowcase.core.ui.BlurryBottomShadeRow
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -32,7 +43,7 @@ fun CharacterDetailsLayout(
     onEnterCharacters: () -> Unit,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
-    charactersScreenContentDisplayType: CharactersScreenContentDisplayType,
+    charactersContentDisplayType: CharactersContentDisplayType,
     modifier: Modifier = Modifier
 ) {
     BackHandler {
@@ -44,7 +55,7 @@ fun CharacterDetailsLayout(
             onEnterCharacters = onEnterCharacters,
             onAddCharacterToFavorites = onAddCharacterToFavorites,
             onRemoveCharacterFromFavorites = onRemoveCharacterFromFavorites,
-            charactersScreenContentDisplayType = charactersScreenContentDisplayType
+            charactersContentDisplayType = charactersContentDisplayType
         )
         LazyColumn(
             modifier = modifier
@@ -152,72 +163,68 @@ fun CharacterDetailsTopBar(
     onEnterCharacters: () -> Unit,
     onAddCharacterToFavorites: (id: String) -> Unit,
     onRemoveCharacterFromFavorites: (id: String) -> Unit,
-    charactersScreenContentDisplayType: CharactersScreenContentDisplayType,
+    charactersContentDisplayType: CharactersContentDisplayType,
     modifier: Modifier = Modifier
 ) {
-//    var isSelectedCharacterInFavorites by remember {
-//        mutableStateOf(
-//            value = state.favoriteCharacters().any { it.id == state.selectedCharacter?.id }
-//        )
-//    }
-//    Box(
-//        modifier = modifier
-//            .background(MaterialTheme.colorScheme.secondaryContainer)
-//    ) {
-//        BlurryBottomShadeRow {
-//            Row(
-//                modifier = Modifier
-//                    .height(dimensionResource(id = R.dimen.top_bar_height))
-//                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical)),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                AnimatedVisibility(visible = contentType == RaMSContentType.LIST_ONLY) {
-//                    IconButton(
-//                        onClick = onEnterCharacters,
-//                        modifier = Modifier
-//                            .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-//                    )
-//                    {
-//                        Image(
-//                            painter = painterResource(id = R.drawable.back_arrow),
-//                            contentDescription = stringResource(id = R.string.back_to_characters)
-//                        )
-//                    }
-//                }
-//                Text(
-//                    text = state.selectedCharacter!!.name,
-//                    style = MaterialTheme.typography.headlineLarge,
-//                    modifier = Modifier
-//                        .weight(1f)
-//                        .padding(start = dimensionResource(id = R.dimen.top_bar_padding_horizontal))
-//                )
-//                IconButton(
-//                    onClick = {
-//                        isSelectedCharacterInFavorites = if (isSelectedCharacterInFavorites) {
-//                            onRemoveCharacterFromFavorites(state.selectedCharacter!!.id)
-//                            !isSelectedCharacterInFavorites
-//                        } else {
-//                            onAddCharacterToFavorites(state.selectedCharacter!!.id)
-//                            !isSelectedCharacterInFavorites
-//                        }
-//                    },
-//                    modifier = Modifier
-//                        .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-//                        .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
-//                ) {
-//                    Crossfade(
-//                        targetState = isSelectedCharacterInFavorites,
-//                        label = ""
-//                    ) { targetState ->
-//                        Image(
-//                            painter = if (targetState) painterResource(id = R.drawable.favorites_selected)
-//                            else painterResource(id = R.drawable.favorites_unselected),
-//                            contentDescription = if (targetState) stringResource(id = R.string.remove_from_favorites)
-//                            else stringResource(id = R.string.add_to_favorites)
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
+    val isSelectedCharacterInFavorites by remember {
+        mutableStateOf(state.favoriteCharacters.firstOrNull {it.id == state.selectedCharacter!!.id} != null)
+    }
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+    ) {
+        BlurryBottomShadeRow {
+            Row(
+                modifier = Modifier
+                    .height(dimensionResource(id = R.dimen.top_bar_height))
+                    .padding(dimensionResource(id = R.dimen.top_bar_padding_vertical)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AnimatedVisibility(visible = charactersContentDisplayType == CharactersContentDisplayType.LIST_ONLY) {
+                    IconButton(
+                        onClick = onEnterCharacters,
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                    )
+                    {
+                        Image(
+                            painter = painterResource(id = R.drawable.back_arrow),
+                            contentDescription = stringResource(id = R.string.back_to_characters)
+                        )
+                    }
+                }
+                Text(
+                    text = state.selectedCharacter!!.name,
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = dimensionResource(id = R.dimen.top_bar_padding_horizontal))
+                )
+                IconButton(
+                    onClick = {
+                        if (isSelectedCharacterInFavorites) {
+                            onRemoveCharacterFromFavorites(state.selectedCharacter.id)
+                        } else {
+                            onAddCharacterToFavorites(state.selectedCharacter.id)
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                        .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+                ) {
+                    Crossfade(
+                        targetState = isSelectedCharacterInFavorites,
+                        label = ""
+                    ) { targetState ->
+                        Image(
+                            painter = if (targetState) painterResource(id = R.drawable.favorites_selected)
+                            else painterResource(id = R.drawable.favorites_unselected),
+                            contentDescription = if (targetState) stringResource(id = R.string.remove_from_favorites)
+                            else stringResource(id = R.string.add_to_favorites)
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
