@@ -87,6 +87,7 @@ fun CharactersListLayout(
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class)
 @Composable
 fun CharactersListItem(
@@ -97,9 +98,8 @@ fun CharactersListItem(
     onCardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isCharacterInFavorites by remember {
-        mutableStateOf(state.favoriteCharacters.firstOrNull {it.id == character.id} != null)
-    }
+    val isCharacterInFavorites =
+        state.favoriteCharacters.firstOrNull { it.id == character.id } != null
     Card(
         modifier = modifier
             .fillMaxWidth()

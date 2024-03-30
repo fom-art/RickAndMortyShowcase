@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,8 +64,10 @@ fun CharacterDetailsLayout(
                 .padding(dimensionResource(id = R.dimen.body_padding))
         ) {
             item {
-                Card(modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.character_details_card_padding))) {
+                Card(
+                    modifier = Modifier
+                        .padding(dimensionResource(id = R.dimen.character_details_card_padding))
+                ) {
                     Column(modifier = Modifier.padding(dimensionResource(id = R.dimen.character_details_card_boddy_padding))) {
                         Row(modifier = Modifier) {
                             Image(
@@ -166,9 +169,8 @@ fun CharacterDetailsTopBar(
     charactersContentDisplayType: CharactersContentDisplayType,
     modifier: Modifier = Modifier
 ) {
-    val isSelectedCharacterInFavorites by remember {
-        mutableStateOf(state.favoriteCharacters.firstOrNull {it.id == state.selectedCharacter!!.id} != null)
-    }
+    val isSelectedCharacterInFavorites =
+        state.favoriteCharacters.firstOrNull { it.id == state.selectedCharacter!!.id } != null
     Box(
         modifier = modifier
             .background(MaterialTheme.colorScheme.secondaryContainer)

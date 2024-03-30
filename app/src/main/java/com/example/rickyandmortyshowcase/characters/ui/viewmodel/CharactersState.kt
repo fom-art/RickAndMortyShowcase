@@ -7,7 +7,6 @@ import com.example.rickyandmortyshowcase.characters.domain.CharacterSimple
 data class CharactersState(
     val characters: List<CharacterSimple> = emptyList(),
     val favoriteCharacters: List<CharacterSimple> = emptyList(),
-    val favoriteCharactersIdList: List<String> = emptyList(),
     val filteredCharacters: List<CharacterSimple> = emptyList(),
     val filter: String = "",
     val currentCharactersList: CharactersListType = CharactersListType.CHARACTERS,

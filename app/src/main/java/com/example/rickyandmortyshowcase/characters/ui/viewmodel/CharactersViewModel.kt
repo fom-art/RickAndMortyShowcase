@@ -15,6 +15,7 @@ import com.example.rickyandmortyshowcase.characters.domain.UpsertCharacterToFavo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -143,12 +144,14 @@ class CharactersViewModel @Inject constructor(
     fun addCharacterToFavorites(id: String) {
         viewModelScope.launch {
             upsertCharacterToFavouritesUseCase(id)
+            _ramsState.update { it.copy(favoriteCharacters = getFavoriteCharactersListFromIdList(getFavouritesUseCase().first(), it.characters)) }
         }
     }
 
     fun removeCharacterFromFavorites(id: String) {
         viewModelScope.launch {
             deleteCharacterFromFavouritesUseCase(id)
+            _ramsState.update { it.copy(favoriteCharacters = getFavoriteCharactersListFromIdList(getFavouritesUseCase().first(), it.characters)) }
         }
     }
 
