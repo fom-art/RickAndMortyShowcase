@@ -136,13 +136,13 @@ fun FilterCharactersTopBar(
                 }
                 TextField(
                     value = state.filter,
-                    label = {
-                        Text(
-                            text = stringResource(id = R.string.search_characters),
-                            style = MaterialTheme.typography.displayMedium,
-                            color = MaterialTheme.colorScheme.onSecondary
-                        )
-                    },
+                    placeholder = { Text(
+                        text = stringResource(id = R.string.search_characters),
+                        style = MaterialTheme.typography.displayMedium,
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        modifier = Modifier.weight(1f)
+                    )},
+                    singleLine = true,
                     onValueChange = onFilterCharacters,
                     modifier = Modifier
                         .weight(1f)
