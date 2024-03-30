@@ -25,4 +25,4 @@ This project is my implementation of [test task given by Ackee](https://github.c
 - Application is written following MVVM architecture.
 - View of application id made with Jetpack Compose.
 - Project has some few trivial tests.
-
+- Project architecture layering is done following MAD principles.
