@@ -1,0 +1,147 @@
+[versions]
+app-version-code = "1"
+app-version-name = "1.0.0"
+
+android-compile = "35"
+android-min = "24"
+android-target = "35"
+
+jdk = "17"
+java-target = "17"
+java-toolchain = "23"
+
+agp = "8.9.2"
+android-compileSdk = "35"
+android-minSdk = "28"
+android-targetSdk = "35"
+java-jdk = "21"
+androidxComposeCompiler = "1.5.12"
+androidxComposeBom = "2025.04.00"
+androidx-activityCompose = "1.10.1"
+androidx-core-ktx = "1.16.0"
+androidx-lifecycle = "2.8.4"
+compose-multiplatform = "1.8.0"
+junit = "4.13.2"
+kotlin = "2.1.20"
+ktor = "3.1.2"
+logback = "1.5.16"
+androidTools = "31.9.1"
+coilCompose = "2.7.0"
+junitparams = "1.1.1"
+kotlinComposeCompilerPlugin = "2.0.0"
+kotlinComposeCompilerPluginEmbeddable = "2.1.10"
+kotlinxCoroutinesTest = "1.10.1"
+desugar = "2.1.5"
+kotlinxSerializationJson = "1.8.0"
+logging = "1.3"
+ksp = "2.1.10-1.0.31"
+cameraCamera2 = "1.4.2"
+mockitoCore = "5.0.0"
+mockitoKotlin = "4.0.0"
+moduleGraph = "2.5.0"
+koinComposeMultiplatform = "4.0.0"
+napier = "2.7.1"
+navigationCompose = "2.8.0-alpha10"
+okio = "3.10.2"
+slf4jSimple = "2.0.3"
+gradle-doctor = "0.10.0"
+uiToolingPreview = "1.7.7"
+dependency-analysis = "2.13.0"
+kotlinx-coroutines = "1.10.1"
+moko = "0.19.1"
+kotlinStdlib = "2.1.20"
+runner = "1.5.2"
+core = "1.5.0"
+junitVersion = "1.1.5"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+junitparams = { module = "pl.pragmatists:JUnitParams", version.ref = "junitparams" }
+kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin", version.ref = "kotlinComposeCompilerPlugin" }
+kotlin-compose-compiler-plugin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable", version.ref = "kotlinComposeCompilerPluginEmbeddable" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+logging = { module = "org.lighthousegames:logging", version.ref = "logging" }
+
+# Moko
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
+
+# Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinComposeMultiplatform" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinComposeMultiplatform" }
+
+# Kotlin
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+
+# Dependencies of the included build-logic
+android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+gradledoctor-plugin = { group = "com.osacky.doctor", name = "doctor-plugin", version.ref = "gradle-doctor" }
+dependency-analysis-gradlePlugin = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependency-analysis" }
+
+# Camera Layout
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCamera2" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCamera2" }
+
+# Ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+# Other
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+permissions-camera = { module = "dev.icerock.moko:permissions-camera", version.ref = "moko" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
+
+# Plugins defined by build logic
+build-logic-application = { id = "build.logic.plugin.application" }
+build-logic-camera = { id = "build.logic.plugin.camera" }
+build-logic-feature = { id = "build.logic.plugin.feature" }
+build-logic-kotlin-multiplatform = { id = "build.logic.plugin.kotlin_multiplatform" }
+build-logic-koin = { id = "build.logic.plugin.koin" }
+build-logic-ktor = { id = "build.logic.plugin.ktor" }
+build-logic-library-compose = { id = "build.logic.plugin.library_compose" }
+build-logic-library = { id = "build.logic.plugin.library" }
+build-logic-root = { id = "build.logic.plugin.root" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
