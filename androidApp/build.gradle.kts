@@ -12,8 +12,8 @@ android {
 }
 
 dependencies {
-//    implementation(projects.shared.app)
-//    implementation(projects.shared.core.data)
+    implementation(projects.shared.app)
+    implementation(projects.shared.core.data)
 
     //Koin
     api(libs.koin.core)

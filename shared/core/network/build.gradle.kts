@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.build.logic.library)
     alias(libs.plugins.build.logic.kotlin.multiplatform)
     alias(libs.plugins.build.logic.ktor)
+    alias(libs.plugins.apollo)
+    alias(libs.plugins.build.logic.apollo)
 }
 
 kotlin {
@@ -16,6 +18,12 @@ kotlin {
             //Logger
             implementation(libs.napier)
         }
+    }
+}
+
+apollo {
+    service("service") {
+        packageName.set("com.fomart.rms.core.network.graphql")
     }
 }
 

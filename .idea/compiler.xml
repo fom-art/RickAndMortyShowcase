@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="RickAndMortyShowcase.shared.core.utils" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.catalog.browse.all" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.catalog.browse.favorites" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.characters.catalog" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.characters.details" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.search" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -34,6 +34,10 @@ tasks {
 
 gradlePlugin {
     plugins {
+        register("apollo") {
+            id = "build.logic.plugin.apollo"
+            implementationClass = "plugin.ApolloPlugin"
+        }
         register("application") {
             id = "build.logic.plugin.application"
             implementationClass = "plugin.ApplicationPlugin"

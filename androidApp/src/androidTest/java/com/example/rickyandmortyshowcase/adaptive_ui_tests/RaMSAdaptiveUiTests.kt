@@ -4,8 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.example.rickyandmortyshowcase.characters.ui.viewmodel.CharactersState
-import com.example.rickyandmortyshowcase.characters.ui.CharactersMainScreen
+import com.fomart.rms.characters.ui.viewmodel.CharactersState
+import com.fomart.rms.characters.ui.CharactersMainScreen
 import org.junit.Rule
 import org.junit.Test
 

@@ -51,7 +51,7 @@ class KotlinMultiplatformPlugin : Plugin<Project> {
                 binaries.withType<Framework> {
                     export(project(":shared:core:designsystem"))
                     export(project(":shared:core:data"))
-                    export(project(":shared:core:utils"))
+                    export(project(":shared:core:model"))
                 }
             }
         }

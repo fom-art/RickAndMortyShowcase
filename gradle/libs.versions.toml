@@ -10,7 +10,7 @@ jdk = "17"
 java-target = "17"
 java-toolchain = "23"
 
-agp = "8.9.2"
+agp = "8.10.0"
 android-compileSdk = "35"
 android-minSdk = "28"
 android-targetSdk = "35"
@@ -26,7 +26,8 @@ kotlin = "2.1.20"
 ktor = "3.1.2"
 logback = "1.5.16"
 androidTools = "31.9.1"
-coilCompose = "2.7.0"
+apollo = "4.2.0"
+coilCompose = "3.1.0"
 junitparams = "1.1.1"
 kotlinComposeCompilerPlugin = "2.0.0"
 kotlinComposeCompilerPluginEmbeddable = "2.1.10"
@@ -66,7 +67,7 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 junitparams = { module = "pl.pragmatists:JUnitParams", version.ref = "junitparams" }
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin", version.ref = "kotlinComposeCompilerPlugin" }
 kotlin-compose-compiler-plugin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable", version.ref = "kotlinComposeCompilerPluginEmbeddable" }
@@ -108,6 +109,10 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
+# Apollo
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
+apollo-normalized-cache = { module = "com.apollographql.apollo:apollo-normalized-cache", version.ref = "apollo" }
+
 # Other
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
@@ -133,6 +138,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 
 # Plugins defined by build logic
 build-logic-application = { id = "build.logic.plugin.application" }
@@ -144,4 +151,4 @@ build-logic-ktor = { id = "build.logic.plugin.ktor" }
 build-logic-library-compose = { id = "build.logic.plugin.library_compose" }
 build-logic-library = { id = "build.logic.plugin.library" }
 build-logic-root = { id = "build.logic.plugin.root" }
-android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+build-logic-apollo = { id = "build.logic.plugin.apollo" }

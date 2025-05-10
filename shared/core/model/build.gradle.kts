@@ -8,7 +8,6 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(projects.shared.core.utils)
             implementation(libs.androidx.core.ktx)
 
             implementation(compose.runtime)

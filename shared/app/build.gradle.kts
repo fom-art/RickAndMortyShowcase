@@ -39,12 +39,10 @@ kotlin {
             api(projects.shared.core.data)
             api(projects.shared.core.designsystem)
             api(projects.shared.core.model)
-            api(projects.shared.core.utils)
 
             //Feature project dependencies
-            implementation(projects.shared.feature.characters.catalog)
-            implementation(projects.shared.feature.characters.details)
-            implementation(projects.shared.feature.search)
+            implementation(projects.shared.feature.catalog.root)
+            implementation(projects.shared.feature.characterDetails)
         }
     }
 }
