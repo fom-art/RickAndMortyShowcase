@@ -1,58 +1,64 @@
 package com.fomart.rms.core.network.data
 
-import com.apollographql.apollo3.ApolloClient
-import com.example.CharacterQuery
-import com.example.CharactersQuery
-import com.example.FilterCharactersByNameQuery
-import com.fomart.rms.characters.domain.CharacterDetailed
-import com.fomart.rms.characters.domain.CharacterSimple
+import com.apollographql.apollo.ApolloClient
+import com.fomart.rms.core.model.Character
+import com.fomart.rms.core.model.CharacterPreview
 import com.fomart.rms.core.network.domain.RickAndMortyShowcaseClient
+import com.fomart.rms.core.network.graphql.CharacterQuery
+import com.fomart.rms.core.network.graphql.CharactersByIdsQuery
+import com.fomart.rms.core.network.graphql.CharactersQuery
+import com.fomart.rms.core.network.graphql.FilterCharactersByNameQuery
+import com.fomart.rms.core.network.model.PagedCharactersResult
+import com.fomart.rms.core.network.utils.toCharacter
+import com.fomart.rms.core.network.utils.toCharacterPreview
 
 class ApolloRickAndMortyShowcaseClient(
-    private val rickAndMortyShowcaseClient: ApolloClient
+    private val apolloClient: ApolloClient
 ) : RickAndMortyShowcaseClient {
-    override suspend fun getCharacters(): List<CharacterSimple> {
-        var result = emptyList<CharacterSimple>()
-        val pagesAmount = rickAndMortyShowcaseClient.query(CharactersQuery(1))
-            .execute().data!!.characters!!.info!!.pages ?: 0
-        var currentPage = 1
-        while (currentPage in 1..pagesAmount) {
-            result = result + (rickAndMortyShowcaseClient
-                .query(CharactersQuery(currentPage))
-                .execute()
-                .data
-                ?.characters
-                ?.results
-                ?.map { it!!.toCharacterSimple() }
-                ?: emptyList())
-            currentPage++
-        }
-        return result
+
+    override suspend fun getCharactersPage(page: Int): PagedCharactersResult {
+        val response = apolloClient.query(CharactersQuery(page)).execute()
+        val characters = response.data?.characters?.results?.mapNotNull {
+            it?.toCharacterPreview()
+        } ?: emptyList()
+
+        val totalPages = response.data?.characters?.info?.pages ?: 0
+
+        return PagedCharactersResult(
+            characters = characters,
+            currentPage = page,
+            totalPages = totalPages
+        )
     }
 
-    override suspend fun getCharacterDetails(id: String): CharacterDetailed? {
-        return rickAndMortyShowcaseClient.query(CharacterQuery(id))
+    override suspend fun getCharacterDetails(id: String): Character? {
+        return apolloClient.query(CharacterQuery(id))
             .execute()
             .data
             ?.character
-            ?.toCharacterDetailed()
+            ?.toCharacter()
     }
 
-    override suspend fun getCharactersByName(name: String): List<CharacterSimple> {
-        var result = emptyList<CharacterSimple>()
-        val pagesAmount = rickAndMortyShowcaseClient.query(FilterCharactersByNameQuery(page = 1, character_name = name))
-            .execute().data!!.characters!!.info!!.pages ?: 0
-        var currentPage = 1
-        while (currentPage in 1..pagesAmount) {
-            result = result + (rickAndMortyShowcaseClient.query(FilterCharactersByNameQuery(character_name = name, page = currentPage))
-                .execute()
-                .data
-                ?.characters
-                ?.results
-                ?.map { it!!.toCharacterSimple() }
-                ?: emptyList())
-            currentPage++
-        }
-        return result
+
+    override suspend fun getCharactersByIds(ids: List<String>): List<CharacterPreview> {
+        val response = apolloClient.query(CharactersByIdsQuery(ids)).execute()
+        return response.data?.charactersByIds?.mapNotNull {
+            it?.toCharacterPreview()
+        } ?: emptyList()
+    }
+
+    override suspend fun getCharactersByName(name: String, page: Int): PagedCharactersResult {
+        val response = apolloClient.query(FilterCharactersByNameQuery(name, page)).execute()
+        val characters = response.data?.characters?.results?.mapNotNull {
+            it?.toCharacterPreview()
+        } ?: emptyList()
+
+        val totalPages = response.data?.characters?.info?.pages ?: 0
+
+        return PagedCharactersResult(
+            characters = characters,
+            currentPage = page,
+            totalPages = totalPages
+        )
     }
 }
