@@ -8,7 +8,7 @@ import com.fomart.rms.core.network.graphql.CharacterQuery
 import com.fomart.rms.core.network.graphql.CharactersByIdsQuery
 import com.fomart.rms.core.network.graphql.CharactersQuery
 import com.fomart.rms.core.network.graphql.FilterCharactersByNameQuery
-import com.fomart.rms.core.network.model.PagedCharactersResult
+import com.fomart.rms.core.model.PagedCharactersResult
 import com.fomart.rms.core.network.utils.toCharacter
 import com.fomart.rms.core.network.utils.toCharacterPreview
 

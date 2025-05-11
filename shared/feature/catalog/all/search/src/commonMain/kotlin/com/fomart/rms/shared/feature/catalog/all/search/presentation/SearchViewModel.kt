@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.fomart.rms.core.data.domain.repository.CharactersRepository
 import com.fomart.rms.core.model.domain.Result
 import com.fomart.rms.core.model.domain.error.Error
-import com.fomart.rms.core.network.model.PagedCharactersResult
+import com.fomart.rms.core.model.PagedCharactersResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

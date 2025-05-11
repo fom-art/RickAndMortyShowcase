@@ -1,6 +1,4 @@
-package com.fomart.rms.core.network.model
-
-import com.fomart.rms.core.model.CharacterPreview
+package com.fomart.rms.core.model
 
 data class PagedCharactersResult(
     val charactersPreviews: List<CharacterPreview>,

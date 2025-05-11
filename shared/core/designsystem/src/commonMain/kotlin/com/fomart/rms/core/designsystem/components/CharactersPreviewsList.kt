@@ -1,22 +1,43 @@
-package com.fomart.rms.core.designsystem.components
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.fomart.rms.core.designsystem.components.CharacterPreviewItem
 import com.fomart.rms.core.model.CharacterPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun CharactersPreviewsList(
     modifier: Modifier = Modifier,
     charactersPreviews: List<CharacterPreview>,
     searchMode: Boolean = false,
-    selectedCharacter: CharacterPreview,
+    selectedCharacter: CharacterPreview?,
     onSelectCharacter: (CharacterPreview) -> Unit,
+    canLoadMode: Boolean,
+    loadMore: () -> Unit,
 ) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(listState, charactersPreviews.size) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+            .map { it == charactersPreviews.lastIndex }
+            .distinctUntilChanged()
+            .collectLatest { isAtEnd ->
+                if (isAtEnd && canLoadMode) {
+                    loadMore()
+                }
+            }
+    }
+
     LazyColumn(
+        state = listState,
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -30,5 +51,3 @@ fun CharactersPreviewsList(
         }
     }
 }
-
-

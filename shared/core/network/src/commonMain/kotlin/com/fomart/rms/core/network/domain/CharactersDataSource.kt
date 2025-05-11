@@ -2,7 +2,7 @@ package com.fomart.rms.core.network.domain
 
 import com.fomart.rms.core.model.Character
 import com.fomart.rms.core.model.CharacterPreview
-import com.fomart.rms.core.network.model.PagedCharactersResult
+import com.fomart.rms.core.model.PagedCharactersResult
 
 interface CharactersDataSource {
     suspend fun getCharactersPage(page: Int): PagedCharactersResult

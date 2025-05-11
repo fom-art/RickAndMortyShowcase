@@ -2,6 +2,8 @@ package com.fomart.rms.core.designsystem.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.fomart.rms.core.model.CharacterPreview
 import org.jetbrains.compose.resources.stringResource
 import rickandmortyshowcase.shared.core.designsystem.generated.resources.Res
+import rickandmortyshowcase.shared.core.designsystem.generated.resources.favorite
 
 
 @Composable
@@ -45,14 +51,26 @@ fun CharacterPreviewItem(
         onClick = onCardClick
     ) {
         Row {
-            AsyncImage(
-                model = character.imageUrl,
-                contentDescription = character.name,
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(16.dp)
-                    .clip(MaterialTheme.shapes.small)
-            )
+            val isInPreview = LocalInspectionMode.current
+            if (isInPreview) {
+                Box(
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .size(16.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(Color.Black)
+                )
+            } else {
+                AsyncImage(
+                    model = character.imageUrl,
+                    contentDescription = character.name,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .size(16.dp)
+                        .clip(MaterialTheme.shapes.small)
+                )
+            }
+
             Column {
                 Row {
                     Text(
@@ -78,9 +96,4 @@ fun CharacterPreviewItem(
             }
         }
     }
-}
-
-@Composable
-fun AsyncImage(model: String, contentDescription: String, modifier: Modifier) {
-    TODO("Not yet implemented")
 }
