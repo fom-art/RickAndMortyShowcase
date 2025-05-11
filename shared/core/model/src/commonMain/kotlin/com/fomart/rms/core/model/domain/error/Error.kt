@@ -1,3 +1,5 @@
-package com.fomart.mafiamaster.core.utils.domain.error
+package com.fomart.rms.core.model.domain.error
 
-interface Error
+open class Error {
+    data class Unexpected(val exception: Exception): Error()
+}

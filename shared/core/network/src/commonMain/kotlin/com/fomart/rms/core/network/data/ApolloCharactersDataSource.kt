@@ -3,7 +3,7 @@ package com.fomart.rms.core.network.data
 import com.apollographql.apollo.ApolloClient
 import com.fomart.rms.core.model.Character
 import com.fomart.rms.core.model.CharacterPreview
-import com.fomart.rms.core.network.domain.RickAndMortyShowcaseClient
+import com.fomart.rms.core.network.domain.CharactersDataSource
 import com.fomart.rms.core.network.graphql.CharacterQuery
 import com.fomart.rms.core.network.graphql.CharactersByIdsQuery
 import com.fomart.rms.core.network.graphql.CharactersQuery
@@ -12,9 +12,9 @@ import com.fomart.rms.core.network.model.PagedCharactersResult
 import com.fomart.rms.core.network.utils.toCharacter
 import com.fomart.rms.core.network.utils.toCharacterPreview
 
-class ApolloRickAndMortyShowcaseClient(
+class ApolloCharactersDataSource(
     private val apolloClient: ApolloClient
-) : RickAndMortyShowcaseClient {
+) : CharactersDataSource {
 
     override suspend fun getCharactersPage(page: Int): PagedCharactersResult {
         val response = apolloClient.query(CharactersQuery(page)).execute()

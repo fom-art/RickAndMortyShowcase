@@ -1,10 +1,10 @@
-package com.fomart.mafiamaster.core.utils.domain
+package com.fomart.rms.core.model.domain
 
-import com.fomart.mafiamaster.core.utils.domain.error.Error
+import com.fomart.rms.core.model.domain.error.Error
 
 sealed interface Result<out D, out E: Error> {
     data class Success<out D>(val data: D): Result<D, Nothing>
-    data class Error<out E: com.fomart.mafiamaster.core.utils.domain.error.Error>(val error: E):
+    data class Error<out E: com.fomart.rms.core.model.domain.error.Error>(val error: E):
         Result<Nothing, E>
 }
 
