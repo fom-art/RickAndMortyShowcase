@@ -3,8 +3,11 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
       <module name="RickAndMortyShowcase.shared.core.utils" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.catalog.browse" target="11" />
       <module name="RickAndMortyShowcase.shared.feature.catalog.browse.all" target="11" />
       <module name="RickAndMortyShowcase.shared.feature.catalog.browse.favorites" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.catalog.root" target="11" />
+      <module name="RickAndMortyShowcase.shared.feature.catalog.search" target="11" />
       <module name="RickAndMortyShowcase.shared.feature.characters.catalog" target="11" />
       <module name="RickAndMortyShowcase.shared.feature.characters.details" target="11" />
       <module name="RickAndMortyShowcase.shared.feature.search" target="11" />

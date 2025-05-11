@@ -35,9 +35,11 @@
             <option value="$PROJECT_DIR$/shared/core/network" />
             <option value="$PROJECT_DIR$/shared/feature" />
             <option value="$PROJECT_DIR$/shared/feature/catalog" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/browse" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/root" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/search" />
+            <option value="$PROJECT_DIR$/shared/feature/catalog/all" />
+            <option value="$PROJECT_DIR$/shared/feature/catalog/all/browse" />
+            <option value="$PROJECT_DIR$/shared/feature/catalog/all/root" />
+            <option value="$PROJECT_DIR$/shared/feature/catalog/all/search" />
+            <option value="$PROJECT_DIR$/shared/feature/catalog/favorite" />
             <option value="$PROJECT_DIR$/shared/feature/character-details" />
           </set>
         </option>

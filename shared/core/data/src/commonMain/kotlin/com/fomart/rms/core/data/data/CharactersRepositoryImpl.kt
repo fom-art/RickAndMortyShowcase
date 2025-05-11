@@ -1,19 +1,22 @@
 package com.fomart.rms.core.data.data
 
-import com.fomart.rms.core.model.domain.Result
-import com.fomart.rms.core.model.domain.error.Error
+import com.fomart.rms.core.data.domain.ApiError
 import com.fomart.rms.core.data.domain.repository.CharactersRepository
 import com.fomart.rms.core.database.domain.FavoritesDao
 import com.fomart.rms.core.model.Character
 import com.fomart.rms.core.model.CharacterPreview
 import com.fomart.rms.core.model.domain.EmptyResult
-import com.fomart.rms.core.data.domain.ApiError
+import com.fomart.rms.core.model.domain.Result
+import com.fomart.rms.core.model.domain.error.Error
 import com.fomart.rms.core.network.domain.CharactersDataSource
 import com.fomart.rms.core.network.model.PagedCharactersResult
 import io.ktor.client.network.sockets.SocketTimeoutException
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
 
@@ -21,14 +24,14 @@ class CharactersRepositoryImpl(
     private val charactersDataSource: CharactersDataSource,
     private val favoritesDao: FavoritesDao
 ) : CharactersRepository {
-    override suspend fun loadCharactersPreviewsPage(page: Int): Result<PagedCharactersResult, Error> =
-        withContext(Dispatchers.IO) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun loadCharactersPreviewsPage(page: Int): Flow<Result<PagedCharactersResult, Error>> =
+        favoritesDao.getFavourites().mapLatest { favorites ->
             try {
-                val favorites = favoritesDao.getFavourites().first().toSet()
                 val result = charactersDataSource.getCharactersPage(page)
                 val updatedCharacters =
-                    result.characters.map { it.copy(favorite = favorites.contains(it.id)) }
-                Result.Success(result.copy(characters = updatedCharacters))
+                    result.charactersPreviews.map { it.copy(favorite = favorites.contains(it.id)) }
+                Result.Success(result.copy(charactersPreviews = updatedCharacters))
             } catch (e: SocketTimeoutException) {
                 Result.Error(ApiError.Timeout())
             } catch (e: IOException) {
@@ -36,31 +39,35 @@ class CharactersRepositoryImpl(
             } catch (e: Exception) {
                 Result.Error(Error.Unexpected(e))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
-    override suspend fun loadCharactersPreviewsPageByName(
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun loadCharactersPreviewsPageByName(
         name: String,
         page: Int
-    ): Result<PagedCharactersResult, Error> = withContext(Dispatchers.IO) {
-        try {
-            val favorites = favoritesDao.getFavourites().first().toSet()
-            val result = charactersDataSource.getCharactersByName(name, page)
-            val updatedCharacters =
-                result.characters.map { it.copy(favorite = favorites.contains(it.id)) }
-            Result.Success(result.copy(characters = updatedCharacters))
-        } catch (e: SocketTimeoutException) {
-            Result.Error(ApiError.Timeout())
-        } catch (e: IOException) {
-            Result.Error(ApiError.Network(e))
-        } catch (e: Exception) {
-            Result.Error(Error.Unexpected(e))
-        }
-    }
-
-    override suspend fun getCharacterById(id: String): Result<Character, Error> =
-        withContext(Dispatchers.IO) {
+    ): Flow<Result<PagedCharactersResult, Error>> =
+        favoritesDao.getFavourites().mapLatest { favorites ->
             try {
-                val favorites = favoritesDao.getFavourites().first().toSet()
+                val result = charactersDataSource.getCharactersByName(name, page)
+                val updatedCharacters = result.charactersPreviews.map {
+                    it.copy(favorite = favorites.contains(it.id))
+                }
+                Result.Success(result.copy(charactersPreviews = updatedCharacters))
+            } catch (e: SocketTimeoutException) {
+                Result.Error(ApiError.Timeout())
+            } catch (e: IOException) {
+                Result.Error(ApiError.Network(e))
+            } catch (e: Exception) {
+                Result.Error(Error.Unexpected(e))
+            }
+        }.flowOn(Dispatchers.IO)
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getCharacterById(id: String): Flow<Result<Character, Error>> =
+        favoritesDao.getFavourites().mapLatest { favorites ->
+            try {
                 val character = charactersDataSource.getCharacterDetails(id)
                 character?.let {
                     val isFavorite = favorites.contains(it.id)
@@ -74,12 +81,13 @@ class CharactersRepositoryImpl(
             } catch (e: Exception) {
                 Result.Error(Error.Unexpected(e))
             }
-        }
+        }.flowOn(Dispatchers.IO)
 
-    override suspend fun getFavoriteCharactersPreviews(): Result<List<CharacterPreview>, Error> =
-        withContext(Dispatchers.IO) {
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getFavoriteCharactersPreviews(): Flow<Result<List<CharacterPreview>, Error>> =
+        favoritesDao.getFavourites().mapLatest { favoriteIds ->
             try {
-                val favoriteIds = favoritesDao.getFavourites().first()
                 val characters = charactersDataSource.getCharactersByIds(favoriteIds)
                 val updatedCharacters = characters.map { it.copy(favorite = true) }
                 Result.Success(updatedCharacters)
@@ -90,7 +98,8 @@ class CharactersRepositoryImpl(
             } catch (e: Exception) {
                 Result.Error(Error.Unexpected(e))
             }
-        }
+        }.flowOn(Dispatchers.IO)
+
 
     override suspend fun upsertCharacterToFavouritesById(id: String): EmptyResult<Error> =
         withContext(Dispatchers.IO) {

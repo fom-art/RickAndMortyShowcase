@@ -25,7 +25,7 @@ class ApolloCharactersDataSource(
         val totalPages = response.data?.characters?.info?.pages ?: 0
 
         return PagedCharactersResult(
-            characters = characters,
+            charactersPreviews = characters,
             currentPage = page,
             totalPages = totalPages
         )
@@ -56,7 +56,7 @@ class ApolloCharactersDataSource(
         val totalPages = response.data?.characters?.info?.pages ?: 0
 
         return PagedCharactersResult(
-            characters = characters,
+            charactersPreviews = characters,
             currentPage = page,
             totalPages = totalPages
         )

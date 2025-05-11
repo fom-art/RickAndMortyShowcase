@@ -41,7 +41,8 @@ kotlin {
             api(projects.shared.core.model)
 
             //Feature project dependencies
-            implementation(projects.shared.feature.catalog.root)
+            implementation(projects.shared.feature.catalog.all.root)
+            implementation(projects.shared.feature.catalog.favorite)
             implementation(projects.shared.feature.characterDetails)
         }
     }

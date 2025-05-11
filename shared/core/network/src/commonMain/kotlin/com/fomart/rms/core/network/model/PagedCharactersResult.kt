@@ -3,7 +3,7 @@ package com.fomart.rms.core.network.model
 import com.fomart.rms.core.model.CharacterPreview
 
 data class PagedCharactersResult(
-    val characters: List<CharacterPreview>,
+    val charactersPreviews: List<CharacterPreview>,
     val currentPage: Int,
     val totalPages: Int
 )
