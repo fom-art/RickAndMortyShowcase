@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.module.graph) apply true
+    alias(libs.plugins.sqldelight) apply false
 
     alias(libs.plugins.build.logic.root)
     alias(libs.plugins.android.kotlin.multiplatform.library) apply false

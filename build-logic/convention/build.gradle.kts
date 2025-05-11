@@ -70,5 +70,9 @@ gradlePlugin {
             id = "build.logic.plugin.root"
             implementationClass = "plugin.RootPlugin"
         }
+        register("sqlDelight") {
+            id = "build.logic.plugin.sqldelight"
+            implementationClass = "plugin.SqlDelightPlugin"
+        }
     }
 }

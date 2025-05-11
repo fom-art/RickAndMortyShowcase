@@ -1,0 +1,13 @@
+CREATE TABLE favourite (
+    id TEXT NOT NULL PRIMARY KEY
+);
+
+insertFavourite:
+INSERT OR REPLACE INTO favourite(id)
+VALUES (?);
+
+deleteFavourite:
+DELETE FROM favourite WHERE id = ?;
+
+selectAllFavourites:
+SELECT id FROM favourite;

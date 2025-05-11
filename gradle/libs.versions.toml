@@ -20,7 +20,7 @@ androidxComposeBom = "2025.04.00"
 androidx-activityCompose = "1.10.1"
 androidx-core-ktx = "1.16.0"
 androidx-lifecycle = "2.8.4"
-compose-multiplatform = "1.8.0"
+compose-multiplatform = "1.7.3"
 junit = "4.13.2"
 kotlin = "2.1.20"
 ktor = "3.1.2"
@@ -44,9 +44,9 @@ koinComposeMultiplatform = "4.0.0"
 napier = "2.7.1"
 navigationCompose = "2.8.0-alpha10"
 okio = "3.10.2"
+sqldelight = "2.0.0"
 slf4jSimple = "2.0.3"
 gradle-doctor = "0.10.0"
-uiToolingPreview = "1.7.7"
 dependency-analysis = "2.13.0"
 kotlinx-coroutines = "1.10.1"
 moko = "0.19.1"
@@ -113,6 +113,12 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 apollo-normalized-cache = { module = "com.apollographql.apollo:apollo-normalized-cache", version.ref = "apollo" }
 
+#SQLDelight
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+
 # Other
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
@@ -124,7 +130,6 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -140,6 +145,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 # Plugins defined by build logic
 build-logic-application = { id = "build.logic.plugin.application" }
@@ -152,3 +158,4 @@ build-logic-library-compose = { id = "build.logic.plugin.library_compose" }
 build-logic-library = { id = "build.logic.plugin.library" }
 build-logic-root = { id = "build.logic.plugin.root" }
 build-logic-apollo = { id = "build.logic.plugin.apollo" }
+build-logic-sqldelight = { id = "build.logic.plugin.sqldelight" }

@@ -8,6 +8,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.shared.core.model)
+            implementation(projects.shared.core.network)
+            implementation(projects.shared.core.database)
 
             //Koin
             api(libs.koin.core)
