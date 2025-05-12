@@ -1,6 +1,6 @@
 package com.fomart.rms
 
-import com.fomart.mafiamaster.presentation.RmsApp
+import com.fomart.mafiamaster.ui.RmsApp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

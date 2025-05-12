@@ -12,7 +12,7 @@ import com.fomart.rms.shared.feature.character_details.navigation.navigateToChar
 import com.fomart.rms.shared.feature.favorites.navigation.favoritesScreen
 
 @Composable
-fun MafiaMasterNavHost(
+fun RmsNavHost(
     modifier: Modifier = Modifier,
     appState: AppStateStore,
     onShowSnackbar: suspend (String, String?) -> Boolean,
