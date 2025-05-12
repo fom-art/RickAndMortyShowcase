@@ -1,7 +1,6 @@
 package browse.presentation
 
 import CharactersPreviewsList
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun BrowsePreview() {
-    var charactersPreviews by remember { mutableStateOf(generateCharacterPreviews(1)) }
+    var charactersPreviews by remember { mutableStateOf(generateCharacterPreviews(16)) }
     var selectedCharacter by remember { mutableStateOf<CharacterPreview?>(null) }
     val scope = rememberCoroutineScope()
 
@@ -38,7 +37,7 @@ fun BrowsePreview() {
                     scope.launch {
                         delay(500) // simulate network delay
                         charactersPreviews = charactersPreviews + generateCharacterPreviews(
-                            count = 10, // load 10 at once instead of 1
+                            count = 16,
                             startIndex = charactersPreviews.size
                         )
                     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import org.jetbrains.compose.resources.stringResource
@@ -15,14 +16,14 @@ fun CharacterDetailsRoute(
     modifier: Modifier = Modifier,
     viewModel: CharacterDetailsViewModel
 ) {
-    viewModel.character?.let { character ->
+    val character = viewModel.character.collectAsState().value
+
+    if (character != null) {
         CharacterDetailsScreen(
             modifier = modifier,
             character = character
         )
-    }
-
-    if (viewModel.character == null) {
+    } else {
         Text(
             modifier = Modifier.fillMaxSize(),
             text = stringResource(Res.string.no_character_details),

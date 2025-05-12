@@ -26,15 +26,20 @@ fun CharactersPreviewsList(
     val listState = rememberLazyListState()
 
     LaunchedEffect(listState, charactersPreviews.size) {
-        snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
-            .map { it == charactersPreviews.lastIndex }
+        snapshotFlow { listState.layoutInfo }
+            .map { layoutInfo ->
+                val totalItems = layoutInfo.totalItemsCount
+                val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+                lastVisibleIndex >= (totalItems * 0.8).toInt()
+            }
             .distinctUntilChanged()
-            .collectLatest { isAtEnd ->
-                if (isAtEnd && canLoadMode) {
+            .collectLatest { isAtEightyPercent ->
+                if (isAtEightyPercent && canLoadMode) {
                     loadMore()
                 }
             }
     }
+
 
     LazyColumn(
         state = listState,

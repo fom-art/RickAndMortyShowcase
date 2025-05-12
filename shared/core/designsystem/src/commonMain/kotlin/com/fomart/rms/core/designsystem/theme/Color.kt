@@ -1,7 +1,7 @@
-package com.example.compose
+package com.fomart.rms.core.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF6750A4)
+val md_theme_light_primary = Color(0xFF0000FF)
 val md_theme_light_onPrimary = Color(0xFF000000)
 //Navigation Background Color
 val md_theme_light_primaryContainer = Color(0xFFFFFFFF)
