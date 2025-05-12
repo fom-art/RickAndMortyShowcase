@@ -33,14 +33,12 @@
             <option value="$PROJECT_DIR$/shared/core/designsystem" />
             <option value="$PROJECT_DIR$/shared/core/model" />
             <option value="$PROJECT_DIR$/shared/core/network" />
+            <option value="$PROJECT_DIR$/shared/core/utils" />
             <option value="$PROJECT_DIR$/shared/feature" />
             <option value="$PROJECT_DIR$/shared/feature/catalog" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/all" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/all/browse" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/all/root" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/all/search" />
-            <option value="$PROJECT_DIR$/shared/feature/catalog/favorite" />
             <option value="$PROJECT_DIR$/shared/feature/character-details" />
+            <option value="$PROJECT_DIR$/shared/feature/favorites" />
+            <option value="$PROJECT_DIR$/shared/feature/search" />
           </set>
         </option>
       </GradleProjectSettings>

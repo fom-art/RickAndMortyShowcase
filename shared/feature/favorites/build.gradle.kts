@@ -18,11 +18,9 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.materialIconsExtended)
-
-            implementation(libs.coil.compose)
         }
     }
 }
 android {
-    namespace = "com.fomart.rms.shared.feature.character_details"
+    namespace = "com.fomart.rms.shared.feature.favorites"
 }

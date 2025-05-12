@@ -10,6 +10,7 @@ internal fun Project.configureFeature(
         implementation(project(":shared:core:data"))
         implementation(project(":shared:core:designsystem"))
         implementation(project(":shared:core:model"))
+        implementation(project(":shared:core:utils"))
     }
 }
 

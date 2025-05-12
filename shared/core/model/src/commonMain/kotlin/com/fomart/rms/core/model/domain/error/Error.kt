@@ -1,5 +1,6 @@
 package com.fomart.rms.core.model.domain.error
 
 open class Error {
-    data class Unexpected(val exception: Exception): Error()
+    data class UnexpectedException(val exception: Exception): Error()
+    data object Unexpected: Error()
 }

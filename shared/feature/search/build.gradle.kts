@@ -24,5 +24,5 @@ kotlin {
     }
 }
 android {
-    namespace = "com.fomart.rms.shared.feature.character_details"
+    namespace = "com.fomart.rms.shared.feature.catalog.all.search"
 }

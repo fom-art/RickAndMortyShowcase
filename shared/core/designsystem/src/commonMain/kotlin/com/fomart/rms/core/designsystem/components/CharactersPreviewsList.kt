@@ -18,10 +18,10 @@ fun CharactersPreviewsList(
     modifier: Modifier = Modifier,
     charactersPreviews: List<CharacterPreview>,
     searchMode: Boolean = false,
-    selectedCharacter: CharacterPreview?,
+    selectedCharacter: CharacterPreview? = null,
     onSelectCharacter: (CharacterPreview) -> Unit,
-    canLoadMode: Boolean,
-    loadMore: () -> Unit,
+    canLoadMode: Boolean = false,
+    loadMore: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 

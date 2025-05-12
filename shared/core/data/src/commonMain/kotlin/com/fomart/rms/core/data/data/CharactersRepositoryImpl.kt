@@ -37,7 +37,7 @@ class CharactersRepositoryImpl(
             } catch (e: IOException) {
                 Result.Error(ApiError.Network(e))
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -59,7 +59,7 @@ class CharactersRepositoryImpl(
             } catch (e: IOException) {
                 Result.Error(ApiError.Network(e))
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -79,7 +79,7 @@ class CharactersRepositoryImpl(
             } catch (e: IOException) {
                 Result.Error(ApiError.Network(e))
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -96,7 +96,7 @@ class CharactersRepositoryImpl(
             } catch (e: IOException) {
                 Result.Error(ApiError.Network(e))
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -107,7 +107,7 @@ class CharactersRepositoryImpl(
                 favoritesDao.upsertCharacterId(id)
                 Result.Success(Unit)
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }
 
@@ -117,7 +117,7 @@ class CharactersRepositoryImpl(
                 favoritesDao.deleteCharacterId(id)
                 Result.Success(Unit)
             } catch (e: Exception) {
-                Result.Error(Error.Unexpected(e))
+                Result.Error(Error.UnexpectedException(e))
             }
         }
 }
