@@ -14,7 +14,7 @@ fun NavController.navigateToSearch(
     navOptions: NavOptions? = null
 ) = navigate(SearchScreen, navOptions)
 
-fun NavGraphBuilder.favoritesScreen(
+fun NavGraphBuilder.searchScreen(
     navigateToCharacterDetails: (String) -> Unit,
     navigateBack: () -> Unit
 ) {

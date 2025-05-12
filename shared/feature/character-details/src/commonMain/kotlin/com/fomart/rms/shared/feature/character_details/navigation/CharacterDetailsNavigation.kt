@@ -18,7 +18,7 @@ fun NavController.navigateToCharacterDetails(
     navOptions: NavOptions? = null
 ) = navigate(CharacterDetailsScreen(id), navOptions)
 
-fun NavGraphBuilder.gameSetupScreen() {
+fun NavGraphBuilder.characterDetailsScreen() {
     composable<CharacterDetailsScreen> {
         val args = it.toRoute<CharacterDetailsScreen>()
         CharacterDetailsRoute(
