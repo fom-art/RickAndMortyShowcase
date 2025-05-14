@@ -1,4 +1,4 @@
-package com.fomart.rms.shared.feature.catalog.all.browse.favorites
+package com.fomart.rms.shared.feature.favorites.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

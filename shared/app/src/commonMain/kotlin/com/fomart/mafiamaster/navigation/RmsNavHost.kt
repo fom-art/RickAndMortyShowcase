@@ -4,6 +4,7 @@ import AppStateStore
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.fomart.rms.shared.feature.catalog.all.search.navigation.navigateToSearch
 import com.fomart.rms.shared.feature.catalog.all.search.navigation.searchScreen
 import com.fomart.rms.shared.feature.catalog.navigation.CatalogScreen
 import com.fomart.rms.shared.feature.catalog.navigation.catalogScreen
@@ -25,9 +26,10 @@ fun RmsNavHost(
         startDestination = CatalogScreen,
     ) {
         catalogScreen(
-            navigateToCharacterDetails = navController::navigateToCharacterDetails
+            navigateToCharacterDetails = navController::navigateToCharacterDetails,
+            navigateToSearch = navController::navigateToSearch
         )
-        characterDetailsScreen()
+        characterDetailsScreen(navigateBack = navController::navigateUp)
         favoritesScreen(
             navigateToCharacterDetails = navController::navigateToCharacterDetails
         )

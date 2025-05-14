@@ -16,14 +16,12 @@ sealed class TopLevelDestination(
     val selectedIcon: UiImageVector,
     val unselectedIcon: UiImageVector,
     val iconUiText: UiText,
-    val graphRoute: KClass<*>,
     val screenRoute: KClass<*>,
 ) {
     object Characters : TopLevelDestination(
         selectedIcon = UiImageVector.ImageVectorResourceId(Res.drawable.ic_characters),
         unselectedIcon = UiImageVector.ImageVectorResourceId(Res.drawable.ic_characters),
         iconUiText = UiText.StringResourceId(Res.string.characters),
-        graphRoute = CatalogScreen::class,
         screenRoute = CatalogScreen::class,
     )
 
@@ -31,11 +29,10 @@ sealed class TopLevelDestination(
         selectedIcon = UiImageVector.DynamicImageVector(Icons.Default.Star),
         unselectedIcon = UiImageVector.DynamicImageVector(Icons.Filled.Star),
         iconUiText = UiText.StringResourceId(Res.string.favorite),
-        graphRoute = FavoritesScreen::class,
         screenRoute = FavoritesScreen::class,
     )
 
     companion object {
-        val values = listOf(Characters, Favorites)
+        val entries = listOf(Characters, Favorites)
     }
 }

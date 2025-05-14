@@ -16,10 +16,12 @@ fun NavController.navigateToCatalog(
 
 fun NavGraphBuilder.catalogScreen(
     navigateToCharacterDetails: (String) -> Unit,
+    navigateToSearch: () -> Unit,
 ) {
     composable<CatalogScreen> {
         CatalogRoute(
-            navigateToCharacterDetails = navigateToCharacterDetails
+            navigateToCharacterDetails = navigateToCharacterDetails,
+            navigateToSearch = navigateToSearch
         )
     }
 }

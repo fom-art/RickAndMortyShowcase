@@ -1,6 +1,6 @@
 package com.fomart.rms.shared.feature.favorites.di
 
-import com.fomart.rms.shared.feature.catalog.all.browse.favorites.FavoritesViewModel
+import com.fomart.rms.shared.feature.favorites.presentation.FavoritesViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 

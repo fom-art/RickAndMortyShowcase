@@ -27,7 +27,7 @@ ktor = "3.1.2"
 logback = "1.5.16"
 androidTools = "31.9.1"
 apollo = "4.2.0"
-coilCompose = "3.1.0"
+coil = "3.1.0"
 junitparams = "1.1.1"
 kotlinComposeCompilerPlugin = "2.0.0"
 kotlinComposeCompilerPluginEmbeddable = "2.1.10"
@@ -68,7 +68,10 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 
-coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+# Coil
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
 junitparams = { module = "pl.pragmatists:JUnitParams", version.ref = "junitparams" }
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin", version.ref = "kotlinComposeCompilerPlugin" }
 kotlin-compose-compiler-plugin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable", version.ref = "kotlinComposeCompilerPluginEmbeddable" }

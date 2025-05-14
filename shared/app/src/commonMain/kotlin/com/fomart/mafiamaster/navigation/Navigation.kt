@@ -65,10 +65,10 @@ fun RmsNavigationSuiteScaffold(
                 ).run(navigationSuiteItems)
             },
             layoutType = layoutType,
-            containerColor = Color.Transparent,
+            containerColor = RmsNavigationDefaults.navigationContainerColor(),
             navigationSuiteColors = NavigationSuiteDefaults.colors(
                 navigationBarContentColor = RmsNavigationDefaults.navigationContentColor(),
-                navigationRailContainerColor = Color.Transparent,
+                navigationRailContainerColor = RmsNavigationDefaults.navigationContainerColor(),
             ),
         ) {
             content()
@@ -107,6 +107,9 @@ class RmsNavigationSuiteScope internal constructor(
 object RmsNavigationDefaults {
     @Composable
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
+
+    @Composable
+    fun navigationContainerColor() = MaterialTheme.colorScheme.surfaceVariant
 
     @Composable
     fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer

@@ -15,13 +15,20 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import com.fomart.mafiamaster.navigation.RmsNavHost
 import com.fomart.mafiamaster.navigation.RmsNavigationSuiteScaffold
+import com.fomart.rms.core.data.util.NetworkMonitor
+import com.fomart.rms.core.designsystem.components.LoadingOverlay
 import io.github.aakira.napier.Napier
+import org.koin.compose.koinInject
+import rememberApplicationState
 
 @Composable
 fun RmsApp(
     modifier: Modifier = Modifier,
-    appState: AppStateStore,
+    networkMonitor: NetworkMonitor = koinInject(),
 ) {
+    val appState = rememberApplicationState(
+        networkMonitor = networkMonitor
+    )
     val currentDestination = appState.currentTopLevelDestination
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -61,7 +68,7 @@ fun RmsApp(
                 )
             }
         },
-        showNavigationBar = true,
+        showNavigationBar = appState.showNavigationBar,
     ) {
         RmsNavHost(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
@@ -74,5 +81,9 @@ fun RmsApp(
                 ) == ActionPerformed
             }
         )
+
+        if (appState.isLoading) {
+            LoadingOverlay()
+        }
     }
 }

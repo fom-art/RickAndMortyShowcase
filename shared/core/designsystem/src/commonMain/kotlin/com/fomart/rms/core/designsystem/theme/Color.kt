@@ -43,7 +43,7 @@ val md_theme_dark_primary = Color(0xFFD0BCFF)
 val md_theme_dark_onPrimary = Color(0xFFFFFFFF)
 //Navigation Background Color
 val md_theme_dark_primaryContainer = Color(0xFF2E2E2F)
-val md_theme_dark_onPrimaryContainer = Color(0xFFEADDFF)
+val md_theme_dark_onPrimaryContainer = Color(0xFF9595FE)
 val md_theme_dark_secondary = Color(0xFF2E2E2F)
 val md_theme_dark_onSecondary = Color(0xFF666666)
 //Top Bar
@@ -67,8 +67,8 @@ val md_theme_dark_surface = Color(0xFF1C1B1F)
 val md_theme_dark_onSurface = Color(0xFFE6E1E5)
 //Cards Background is meant to be there,but i switched it to tertiaryContainer
 //textInput
-val md_theme_dark_surfaceVariant = Color(0xFF181819)
-val md_theme_dark_onSurfaceVariant = Color(0xFF2F2E2F)
+val md_theme_dark_surfaceVariant = Color(0xFF2E2E2F)
+val md_theme_dark_onSurfaceVariant = Color(0xFF5D5D5E)
 val md_theme_dark_inverseSurface = Color(0xFFE6E1E5)
 //Color of drawer navigation bar
 val md_theme_dark_inverseOnSurface = Color(0xFF1C1B1F)

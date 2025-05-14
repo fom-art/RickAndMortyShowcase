@@ -88,9 +88,13 @@ class CharactersRepositoryImpl(
     override fun getFavoriteCharactersPreviews(): Flow<Result<List<CharacterPreview>, Error>> =
         favoritesDao.getFavourites().mapLatest { favoriteIds ->
             try {
-                val characters = charactersDataSource.getCharactersByIds(favoriteIds)
-                val updatedCharacters = characters.map { it.copy(favorite = true) }
-                Result.Success(updatedCharacters)
+                if (favoriteIds.isNotEmpty()) {
+                    val characters = charactersDataSource.getCharactersByIds(favoriteIds)
+                    val updatedCharacters = characters.map { it.copy(favorite = true) }
+                    Result.Success(updatedCharacters)
+                } else {
+                    Result.Success(emptyList())
+                }
             } catch (e: SocketTimeoutException) {
                 Result.Error(ApiError.Timeout())
             } catch (e: IOException) {

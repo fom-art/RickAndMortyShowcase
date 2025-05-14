@@ -18,14 +18,14 @@ fun NavController.navigateToCharacterDetails(
     navOptions: NavOptions? = null
 ) = navigate(CharacterDetailsScreen(id), navOptions)
 
-fun NavGraphBuilder.characterDetailsScreen() {
+fun NavGraphBuilder.characterDetailsScreen(
+    navigateBack: () -> Unit,
+) {
     composable<CharacterDetailsScreen> {
         val args = it.toRoute<CharacterDetailsScreen>()
         CharacterDetailsRoute(
-            viewModel = CharacterDetailsViewModel(
-                charactersRepository = koinInject(),
-                characterId = args.id
-            )
+            navigateBack = navigateBack,
+            characterId = args.id
         )
     }
 }
