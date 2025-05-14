@@ -2,12 +2,14 @@
 
 # Description
 ---
-This project is my implementation of [test task given by Ackee](https://github.com/AckeeCZ/android-task-rick-and-morty). 
-# Clients
+Project, displaying work with [The Rick and Morty API](https://rickandmortyapi.com/).} 
+# Tech stack
 --- 
 - **Apollo** client for writing GraphQL queries and reading their repsonses.
-- **Room** for storing some data on device's database.
- - **Dagger Hilt** for dependency injection.
+- **SQLDelight** for storing some data on device's database.
+ - **Koin** for dependency injection.
+ - **Kotlin Multiplatform** for dependency injection.
+ - **Compose Multiplatform** for dependency injection.
 # Design
 ---
 - Supports dark and light mode.
@@ -19,10 +21,3 @@ This project is my implementation of [test task given by Ackee](https://github.c
 ![image](https://github.com/anfo-code/RickAndMortyShowcase/assets/91686964/13c2303a-51f7-4973-90e8-20077710b309)
 #### Expanded width
 ![image](https://github.com/anfo-code/RickAndMortyShowcase/assets/91686964/c8d04144-6b1a-4e05-9d08-666c3acebe57)
-
-# Other
---- 
-- Application is written following MVVM architecture.
-- View of application id made with Jetpack Compose.
-- Project has some few trivial tests.
-- Project architecture layering is done following MAD principles.

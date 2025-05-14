@@ -1,4 +1,4 @@
-package com.fomart.mafiamaster.ui
+package com.fomart.mafiamaster.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star

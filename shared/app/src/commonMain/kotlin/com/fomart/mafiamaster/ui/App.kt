@@ -1,7 +1,10 @@
 package com.fomart.mafiamaster.ui
 
-import AppStateStore
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
@@ -22,7 +25,7 @@ import org.koin.compose.koinInject
 import rememberApplicationState
 
 @Composable
-fun RmsApp(
+fun App(
     modifier: Modifier = Modifier,
     networkMonitor: NetworkMonitor = koinInject(),
 ) {
@@ -31,6 +34,8 @@ fun RmsApp(
     )
     val currentDestination = appState.currentTopLevelDestination
     val snackbarHostState = remember { SnackbarHostState() }
+
+    Napier.d { "Current destination: $currentDestination" }
 
     RmsNavigationSuiteScaffold(
         modifier = modifier,
@@ -71,7 +76,8 @@ fun RmsApp(
         showNavigationBar = appState.showNavigationBar,
     ) {
         RmsNavHost(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background),
             appState = appState,
             onShowSnackbar = { message, action ->
                 snackbarHostState.showSnackbar(

@@ -23,7 +23,19 @@ class CatalogViewModel(
         viewModelScope.launch {
             loadPage(1)
         }
+
+        viewModelScope.launch {
+            charactersRepository.getFavoriteCharactersPreviews().collect { result ->
+                if (result is Result.Success) {
+                    val favoriteIds = result.data.map { it.id }.toSet()
+                    _catalogState.update {
+                        it.copy(favoriteCharacterIds = favoriteIds)
+                    }
+                }
+            }
+        }
     }
+
 
     fun loadNextPage() {
         val state = _catalogState.value
@@ -55,7 +67,7 @@ class CatalogViewModel(
             val currentPreviews = it.charactersPreviews
             val updatedPreviews = currentPreviews + pagedCharactersResult.charactersPreviews
             it.copy(
-                charactersPreviews = updatedPreviews,
+                charactersPreviewsRaw = updatedPreviews,
                 lastPageLoaded = pagedCharactersResult.currentPage,
                 totalPages = pagedCharactersResult.totalPages
             )

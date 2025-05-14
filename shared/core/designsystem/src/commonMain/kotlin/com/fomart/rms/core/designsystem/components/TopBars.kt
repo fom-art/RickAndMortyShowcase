@@ -39,7 +39,7 @@ fun DefaultTopBar(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Medium
                 )
             },
             navigationIcon = {

@@ -13,7 +13,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.fomart.mafiamaster.ui.TopLevelDestination
+import com.fomart.mafiamaster.navigation.rememberShowNavigationBar
+import com.fomart.mafiamaster.navigation.TopLevelDestination
 import com.fomart.rms.core.data.util.NetworkMonitor
 import com.fomart.rms.shared.feature.catalog.navigation.navigateToCatalog
 import com.fomart.rms.shared.feature.favorites.navigation.navigateToFavorites
@@ -60,8 +61,9 @@ class AppStateStore(
                 currentDestination?.hasRoute(route = topLevelDestination.screenRoute) ?: false
             }
         }
-    val showNavigationBar
-        @Composable get() = currentTopLevelDestination != null
+    val showNavigationBar: Boolean
+    @Composable get() = rememberShowNavigationBar(currentTopLevelDestination)
+
 
     init {
         coroutineScope.launch {
@@ -92,8 +94,8 @@ class AppStateStore(
             }
 
             when (topLevelDestination) {
+                is TopLevelDestination.Favorites -> navController.navigateToFavorites(topLevelNavOptions)
                 is TopLevelDestination.Characters -> navController.navigateToCatalog(topLevelNavOptions)
-                TopLevelDestination.Favorites -> navController.navigateToFavorites(topLevelNavOptions)
             }
         }
     }

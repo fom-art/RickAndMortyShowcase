@@ -18,6 +18,8 @@ fun NavGraphBuilder.favoritesScreen(
     navigateToCharacterDetails: (String) -> Unit
 ) {
     composable<FavoritesScreen> {
-        FavoritesRoute(navigateToCharacterDetails = navigateToCharacterDetails)
+        FavoritesRoute(
+            navigateToCharacterDetails = navigateToCharacterDetails,
+        )
     }
 }

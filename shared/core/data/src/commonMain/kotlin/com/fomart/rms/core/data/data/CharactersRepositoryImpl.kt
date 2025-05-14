@@ -105,6 +105,7 @@ class CharactersRepositoryImpl(
         }.flowOn(Dispatchers.IO)
 
 
+
     override suspend fun upsertCharacterToFavouritesById(id: String): EmptyResult<Error> =
         withContext(Dispatchers.IO) {
             try {

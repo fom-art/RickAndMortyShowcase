@@ -5,7 +5,7 @@ val md_theme_light_primary = Color(0xFF0000FF)
 val md_theme_light_onPrimary = Color(0xFF000000)
 //Navigation Background Color
 val md_theme_light_primaryContainer = Color(0xFFFFFFFF)
-val md_theme_light_onPrimaryContainer = Color(0xFF21005D)
+val md_theme_light_onPrimaryContainer = Color(0xFF0000FF)
 val md_theme_light_secondary = Color(0xFF625B71)
 val md_theme_light_onSecondary = Color(0xFF666666)
 //Top Bar
@@ -28,7 +28,7 @@ val md_theme_light_onSurface = Color(0xFF1C1B1F)
 //textInput
 val md_theme_light_surfaceVariant = Color(0xFFFFFFFF)
 //Line under textInput
-val md_theme_light_onSurfaceVariant = Color(0xFFE0E0E0)
+val md_theme_light_onSurfaceVariant = Color(0xFFB3B3B3)
 val md_theme_light_inverseSurface = Color(0xFF313033)
 val md_theme_light_inverseOnSurface = Color(0xFFFFFFFF)
 val md_theme_light_inversePrimary = Color(0xFFD0BCFF)
